@@ -1,0 +1,10 @@
+.notice {
+    margin: 1rem 0;
+    background: #FEF2CD;
+    border: 1px solid #FEEEBB;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    color: #D19504;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    text-align: center;
+}

@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: #FAE3C6;
+}
+
+#tournaments {
+    width: 35rem;
+    max-width: 90%;
+    margin: 3rem auto;
+}
+
+#tournaments-form {
+    width: 40rem;
+    max-width: 90%;
+    margin: 3rem auto;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: white;
+}
