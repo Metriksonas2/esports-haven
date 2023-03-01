@@ -1,5 +1,5 @@
 import React from 'react';
-import {InertiaLink, usePage} from "@inertiajs/inertia-react";
+import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 
 import route from "@/Services/route";
 import ModalButton from "@/Components/UI/Modal/ModalButton";

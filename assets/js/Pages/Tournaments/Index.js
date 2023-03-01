@@ -6,8 +6,10 @@ import TextField from "@/Components/UI/TextField/TextField";
 import TournamentsList from "@/Components/Tournaments/TournamentsList/TournamentsList";
 import Notice from "@/Components/UI/Notice/Notice";
 import axios from "axios";
+import Navbar from "@/Components/Navbar/Navbar";
 
 const Index = () => {
+    const isLoggedIn = usePage().props.isLoggedIn;
     const [tournaments, setTournaments] = useState(usePage().props.tournaments);
 
     useEffect(() => {
@@ -55,6 +57,9 @@ const Index = () => {
 
     return (
         <div>
+            <nav>
+                <Navbar isLoggedIn={isLoggedIn} />
+            </nav>
             <section id='tournaments-form'>
                 <TextField onCreation={onTournamentCreationHandler}/>
             </section>
