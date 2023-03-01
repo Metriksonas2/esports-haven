@@ -36,7 +36,7 @@ class Tournament
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    public function __construct(?\DateTimeInterface $createdAt)
+    public function __construct()
     {
         $this->createdAt = new \DateTime();
     }
