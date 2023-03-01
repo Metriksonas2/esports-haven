@@ -1,21 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('form') }}
+{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+    {#    {% for flash_error in app.flashes('verify_email_error') %}#}
+    {#        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>#}
+    {#    {% endfor %}#}
 
-    <h1>Register</h1>
+    <div class="flex items-center justify-center min-h-screen p-6 bg-indigo-900">
+        <div class="w-full max-w-lg">
+            <div class="block w-full max-w-lg text-center fill-current">
+                <h1 class="text-3xl font-bold text-[#00df9a]">
+                    <a href="{{ path('app_index') }}">
+                        eSports Haven
+                    </a>
+                </h1>
+            </div>
+            <form method="post" class="mt-8 overflow-hidden bg-white rounded-lg shadow-xl">
+                <div class="px-10 py-12">
+                    <h1 class="text-3xl font-bold text-center">Join us!</h1>
+                    <div class="w-24 mx-auto mt-6 border-b-2"></div>
+                    {% if error %}
+                        <div class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+                            <span class="block sm:inline font-bold">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                        </div>
+                    {% endif %}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                    <div class="mt-10 flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full md:w-1/2 px-3 md:mb-0">
+                            <label class="form-label" for="first-name">
+                                First name
+                            </label>
+                            <input name="registration_form[firstName]" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:ring-indigo-400 focus:border-indigo-400" id="id='registration_form_firstName'" type="text" placeholder="Jane">
+                        </div>
+                        <div class="w-full md:w-1/2 px-3">
+                            <label class="form-label" for="first-name">
+                                Last name
+                            </label>
+                            <input name="registration_form[lastName]" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:ring-indigo-400 focus:border-indigo-400" id='registration_form_lastName' type="text" placeholder="Doe">
+                        </div>
+                    </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                    <div class='mt-10'>
+                        <label class="form-label" htmlFor='username'>
+                            Username
+                        </label>
+                        <input id='registration_form_username' class="form-input" name='registration_form[username]' type="text" autocomplete="username" required autofocus/>
+                        <p class="text-gray-600 text-xs italic">Be creative!</p>
+                    </div>
+                    <div class='mt-10'>
+                        <label class="form-label" htmlFor='email'>
+                            Email
+                        </label>
+                        <input id='registration_form_email' class="form-input" name='registration_form[email]' type="email" autocomplete="email" required autofocus/>
+                    </div>
+                    <div class='mt-10'>
+                        <label class="form-label" htmlFor='password'>
+                            Password
+                        </label>
+                        <input id='registration_form_plainPassword' class="form-input" name='registration_form[plainPassword]' type="password"/>
+                        <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
+                    </div>
+                    {{ form_row(registrationForm._token) }}
+                </div>
+                <div class="flex items-center justify-between px-10 py-4 bg-gray-100 border-t border-gray-200">
+                    <a class="hover:underline" tabIndex="-1" href="{{ path('app_login') }}">
+                        Have an account? Sign in!
+                    </a>
+                    <button class="bg-indigo-900 hover:bg-[#2D82B7] text-white font-bold py-2 px-4 rounded">
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
