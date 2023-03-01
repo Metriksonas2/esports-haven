@@ -89,12 +89,13 @@ Encore
     // .configureCssLoader(options => {
     //     options.modules = true;
     // })
-    // .enablePostCssLoader()
+    .enablePostCssLoader()
     .enableReactPreset()
     .addAliases({
         '@': path.resolve('assets/js')
     })
     .addEntry('app', './assets/js/app.js')
+    .addStyleEntry('form', './assets/styles/form.css')
     .splitEntryChunks()
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())

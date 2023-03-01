@@ -3,14 +3,18 @@
         "@babel/core": "^7.17.0",
         "@babel/preset-env": "^7.16.0",
         "@babel/preset-react": "^7.0.0",
-        "@hotwired/stimulus": "^3.0.0",
-        "@symfony/stimulus-bridge": "^3.2.0",
+        "@hotwired/stimulus": "^3.2.1",
+        "@symfony/stimulus-bridge": "^3.2.1",
         "@symfony/webpack-encore": "^4.0.0",
-        "core-js": "^3.23.0",
+        "autoprefixer": "^10.4.13",
+        "core-js": "^3.28.0",
+        "postcss": "^8.4.21",
+        "postcss-loader": "^7.0.2",
         "regenerator-runtime": "^0.13.9",
+        "tailwindcss": "^3.2.7",
         "webpack": "^5.74.0",
         "webpack-cli": "^4.10.0",
-        "webpack-notifier": "^1.15.0"
+        "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
     "private": true,
@@ -21,6 +25,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@headlessui/react": "^1.7.11",
+        "@heroicons/react": "^2.0.16",
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-react": "^0.8.1",
         "@inertiajs/progress": "^0.2.7",
