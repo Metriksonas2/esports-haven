@@ -4,13 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    /*@apply bg-indigo-900;*/
     @apply bg-[#312E81];
-    /*@apply bg-[#7B60CA];*/
-    /*@apply bg-[#F3C243];*/
-    /*@apply bg-[#CFCFCF];*/
-    /*font-family: 'Lato', sans-serif;*/
     font-family: 'Quicksand', sans-serif;
 }
 

@@ -3,7 +3,7 @@ import route from "@/Services/route";
 import {InertiaLink} from "@inertiajs/inertia-react";
 import {ChartBarSquareIcon} from "@heroicons/react/20/solid";
 
-const Sidebar = ({ pageIndex }) => {
+const Sidebar = ({ pageIndex, minimizeHandler }) => {
     const [open, setOpen] = useState(true);
     const Tabs = [
         { key: 'dashboard', title: "Dashboard", src: "" },
@@ -16,17 +16,24 @@ const Sidebar = ({ pageIndex }) => {
         { key: 'setting', title: "Setting", src: "" },
     ];
 
+    const onButtonClick = () => {
+        setOpen((prevState) => {
+            minimizeHandler(!prevState);
+            return !prevState;
+        });
+    }
+
   return (
       <div className={
           `
                     ${open ? 'w-72' : 'w-20'}
-                    bg-indigo-900 h-screen p-5 pt-8 relative duration-300
+                    bg-indigo-900 h-full p-5 pt-8 fixed duration-300
                 `
       }>
           <img
               src="/assets/images/arrow.png"
-              className={`absolute cursor-pointer -right-3 top-9 w-7 border-indigo-900 border-2 rounded-full ${!open && "rotate-180"}`}
-              onClick={() => setOpen(!open)}
+              className={`absolute cursor-pointer z-50 -right-3 top-9 w-7 border-indigo-900 border-2 rounded-full ${!open && "rotate-180"}`}
+              onClick={() => onButtonClick()}
           />
           <div className='flex gap-x-4 h-14 items-center align-center'>
               <img
