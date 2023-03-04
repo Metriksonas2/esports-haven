@@ -1,19 +1,25 @@
 import React, {useState} from 'react';
 import route from "@/Services/route";
 import {InertiaLink} from "@inertiajs/inertia-react";
-import {ChartBarSquareIcon} from "@heroicons/react/20/solid";
+import {
+    ChartBarSquareIcon, Cog8ToothIcon, DocumentIcon,
+    MagnifyingGlassIcon,
+    NewspaperIcon,
+    RocketLaunchIcon, TableCellsIcon,
+    TrophyIcon
+} from "@heroicons/react/24/solid";
 
 const Sidebar = ({ pageIndex, minimizeHandler }) => {
     const [open, setOpen] = useState(true);
     const Tabs = [
-        { key: 'dashboard', title: "Dashboard", src: "" },
-        { key: 'tournaments', title: "Tournaments", src: "tournaments" },
-        { key: 'accounts', title: "Accounts", src: "", gap: true },
-        { key: 'schedule', title: "Schedule ", src: "" },
-        { key: 'search', title: "Search", src: "" },
-        { key: 'analytics', title: "Analytics", src: "" },
-        { key: 'files', title: "Files", src: "", gap: true },
-        { key: 'setting', title: "Setting", src: "" },
+        { key: 'dashboard', title: "Dashboard", src: "", icon: <TableCellsIcon className='w-6' /> },
+        { key: 'tournaments', title: "Tournaments", src: "tournaments", icon: <TrophyIcon className='w-6' /> },
+        { key: 'games', title: "Games", src: "", gap: true, icon: <RocketLaunchIcon className='w-6' /> },
+        { key: 'schedule', title: "Schedule ", src: "", icon: <NewspaperIcon className='w-6' /> },
+        { key: 'search', title: "Search", src: "", icon: <MagnifyingGlassIcon className='w-6' /> },
+        { key: 'analytics', title: "Analytics", src: "", icon: <ChartBarSquareIcon className='w-6' /> },
+        { key: 'files', title: "Files", src: "", gap: true, icon: <DocumentIcon className='w-6' /> },
+        { key: 'settings', title: "Settings", src: "", icon: <Cog8ToothIcon className='w-6' /> },
     ];
 
     const onButtonClick = () => {
@@ -55,13 +61,13 @@ const Sidebar = ({ pageIndex, minimizeHandler }) => {
                       <li
                           className={
                               `
-                                        flex rounded-md p-2 cursor-pointer hover:bg-indigo-600 text-white text-sm items-center gap-x-4
-                                        ${Menu.gap ? 'mt-9' : 'mt-2'}
-                                        ${Menu.key === pageIndex && "navbar__active"}
+                                flex rounded-md p-2 cursor-pointer hover:bg-indigo-600 text-white text-sm items-center gap-x-4
+                                ${Menu.gap ? 'mt-9' : 'mt-2'}
+                                ${Menu.key === pageIndex && "navbar__active"}
                               `
                           }
                       >
-                          <ChartBarSquareIcon className='w-6' />
+                          {Menu.icon}
                           <span className={`${!open && "hidden"} origin-left duration-200`}>
                                     {Menu.title}
                                 </span>
