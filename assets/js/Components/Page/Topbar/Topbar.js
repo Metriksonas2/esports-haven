@@ -12,15 +12,16 @@ const Topbar = ({ open }) => {
   return (
       <div className={`${open ? 'pr-72' : 'pr-20'} flex fixed w-full justify-end h-24 bg-[#FEFFFE] z-40 border border-t-0 border-x-0 border-b-gray-200 duration-300`}>
           <ul className='flex items-center'>
+              {/*<li className='px-4'>*/}
+              {/*    <img className="w-12 h-12 rounded-full p-1 ring-2 ring-gray-300" src="/assets/images/avatar.jpg" alt="Rounded avatar" />*/}
+              {/*</li>*/}
               <li className='px-4'>
-                  <img className="w-12 h-12 rounded-full p-1 ring-2 ring-gray-300" src="/assets/images/avatar.png" alt="Rounded avatar" />
-              </li>
-              <li>
                   <Menu as="div" className="relative inline-block text-left">
                       <div>
-                          <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-indigo-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                              Options
-                              <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+                          <Menu.Button className="inline-flex w-full justify-center px-4 py-2 hover:opacity-90">
+                              {/*Options*/}
+                              {/*<ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />*/}
+                              <img className="w-14 h-14 rounded-full p-1 ring-2 ring-gray-300" src="/assets/images/avatar.jpg" alt="Rounded avatar" />
                           </Menu.Button>
                       </div>
 
@@ -137,9 +138,9 @@ const Topbar = ({ open }) => {
                       </Transition>
                   </Menu>
               </li>
-              <li className='px-4'>
-                  <InertiaLink href={route('logout')}>Logout</InertiaLink>
-              </li>
+              {/*<li className='px-4'>*/}
+              {/*    <InertiaLink href={route('logout')}>Logout</InertiaLink>*/}
+              {/*</li>*/}
           </ul>
       </div>
   );

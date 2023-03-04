@@ -1,8 +1,11 @@
 // Page should be given in this format. Ex.: "tournaments.create"
-const route = (pageRoute) => {
+const route = (pageRoute, id = false) => {
+
     let newPageRoute = pageRoute.replace(/\./g, "/");
 
-    // return `${location.protocol}//${location.hostname}/${newPageRoute}`;
+    if (id) {
+        return `${location.origin}/${newPageRoute}/${id}`;
+    }
     return `${location.origin}/${newPageRoute}`;
 }
 
