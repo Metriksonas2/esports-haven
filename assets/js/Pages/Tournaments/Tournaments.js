@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import route from "@/Services/route";
 
 import Page from "@/Components/Page/Page";
-import {InertiaLink} from "@inertiajs/inertia-react";
+import {InertiaLink, usePage} from "@inertiajs/inertia-react";
 import {PencilSquareIcon} from "@heroicons/react/24/solid";
 
 const Tournaments = () => {
+  const [tournaments, setTournaments] = useState(usePage().props.tournaments);
+
   const data = [
     {
       id: 1,
@@ -110,15 +112,15 @@ const Tournaments = () => {
   return (
     <Page pageIndex='tournaments'>
       <div>
-        <h1 className="mb-8 text-3xl font-bold">Organizations</h1>
+        <h1 className="mb-8 text-3xl font-bold">Tournaments</h1>
         <div className="flex items-center justify-between mb-6">
           {/*<SearchFilter />*/}
           <InertiaLink
               className="btn-indigo focus:outline-none"
-              href={route('organizations.create')}
+              href={route('tournaments.create')}
           >
             <span>Create</span>
-            <span className="hidden md:inline"> Organization</span>
+            <span className="hidden md:inline"> Tournament</span>
           </InertiaLink>
         </div>
         <div className="overflow-x-auto bg-white rounded shadow">
@@ -126,14 +128,14 @@ const Tournaments = () => {
             <thead>
             <tr className="font-bold text-left">
               <th className="px-6 pt-5 pb-4">Name</th>
-              <th className="px-6 pt-5 pb-4">City</th>
+              <th className="px-6 pt-5 pb-4">Game</th>
               <th className="px-6 pt-5 pb-4" colSpan="2">
-                Phone
+                Bracket type
               </th>
             </tr>
             </thead>
             <tbody>
-            {data.map(({ id, name, city, phone, deleted_at }) => {
+            {tournaments.map(({ id, name, game, bracketType }) => {
               return (
                   <tr
                       key={id}
@@ -141,7 +143,7 @@ const Tournaments = () => {
                   >
                     <td className="border-t">
                       <InertiaLink
-                          href={route('organizations.edit', id)}
+                          href={route('tournaments', id)}
                           className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
                       >
                         {name}
@@ -150,25 +152,25 @@ const Tournaments = () => {
                     <td className="border-t">
                       <InertiaLink
                           tabIndex="-1"
-                          href={route('organizations.edit', id)}
+                          href={route('tournaments', id)}
                           className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       >
-                        {city}
+                        {game}
                       </InertiaLink>
                     </td>
                     <td className="border-t">
                       <InertiaLink
                           tabIndex="-1"
-                          href={route('organizations.edit', id)}
+                          href={route('tournaments', id)}
                           className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
                       >
-                        {phone}
+                        {bracketType}
                       </InertiaLink>
                     </td>
                     <td className="w-px border-t">
                       <InertiaLink
                           tabIndex="-1"
-                          href={route('organizations.edit', id)}
+                          href={route('tournaments', id)}
                           className="flex items-center px-4 focus:outline-none"
                       >
                         <PencilSquareIcon className='w-6' />

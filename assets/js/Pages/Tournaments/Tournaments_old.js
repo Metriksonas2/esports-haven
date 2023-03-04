@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {usePage} from "@inertiajs/inertia-react";
 
-import './Index.css';
 import TextField from "@/Components/UI/TextField/TextField";
 import TournamentsList from "@/Components/Tournaments/TournamentsList/TournamentsList";
 import Notice from "@/Components/UI/Notice/Notice";
 import axios from "axios";
 import Navbar from "@/Components/Navbar/Navbar";
 
-const Index = () => {
+const Tournaments_old = () => {
     const isLoggedIn = usePage().props.isLoggedIn;
     const [tournaments, setTournaments] = useState(usePage().props.tournaments);
 
@@ -71,4 +70,4 @@ const Index = () => {
     );
 }
 
-export default Index;
+export default Tournaments_old;
