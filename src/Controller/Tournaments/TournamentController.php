@@ -2,6 +2,7 @@
 
 namespace App\Controller\Tournaments;
 
+use App\Entity\Tournament;
 use App\Repository\TournamentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,9 +27,22 @@ class TournamentController extends AbstractController
         ]);
     }
 
-    #[Route('/confirm', name: 'create')]
-    public function confirm(InertiaInterface $inertia): Response
+    #[Route('/create', name: 'create')]
+    public function create(
+        InertiaInterface $inertia,
+    ): Response
     {
-        return $inertia->render("Tournaments/Confirm", []);
+        return $inertia->render("Tournaments/Create", []);
+    }
+
+    #[Route('/{tournament}', name: 'view')]
+    public function view(
+        InertiaInterface $inertia,
+        Tournament $tournament
+    ): Response
+    {
+        return $inertia->render("Tournaments/Index", [
+            'tournament' => $tournament
+        ]);
     }
 }
