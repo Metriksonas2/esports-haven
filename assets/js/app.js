@@ -13,8 +13,6 @@ InertiaProgress.init({
 const app = document.getElementById('app');
 const root = createRoot(app);
 
-// Color palette used - https://coolors.co/c1aba6-533b4d-f564a9-faa4bd-fae3c6
-
 root.render(
     <InertiaApp
         initialPage={JSON.parse(app.dataset.page)}
