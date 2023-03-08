@@ -51,6 +51,7 @@ const Create = () => {
         },
     ]);
     const [enablePreview, setEnablePreview] = useState(true);
+    const [isThirdPlaceMatch, setIsThirdPlaceMatch] = useState(false);
 
     const singleMatchesArray = [
         {
@@ -286,11 +287,12 @@ const Create = () => {
             const newIndex = prevParticipants[prevParticipants.length - 1].index + 1;
             const newParticipant = {
                 index: newIndex,
-                name: ''
+                name: '-'
             }
             setEnablePreview(isPowerOfTwo(newIndex));
 
             const newParticipants = [...prevParticipants, newParticipant];
+
             formatTournamentPreview(newParticipants);
 
             return newParticipants;
@@ -302,24 +304,39 @@ const Create = () => {
             const newParticipants = [...prevParticipants];
             newParticipants[participant.index - 1] = participant;
 
+            formatTournamentPreview(newParticipants)
             return newParticipants;
         }));
     }
 
     const formatTournamentPreview = (participants) => {
         if (isPowerOfTwo(participants.length)) {
-            console.log(formatTournamentMatchesData(participants))
-            setSingleMatches(formatTournamentMatchesData(participants));
+            setSingleMatches(formatTournamentMatchesData(participants, true));
         }
+    }
+
+    const formSubmitHandler = (e) => {
+        e.preventDefault();
+        console.log('submit')
+    }
+
+    const thirdPlaceMatchHandler = () => {
+        setIsThirdPlaceMatch((prevState) => {
+            console.log(!prevState)
+            if (!prevState && isPowerOfTwo(participants.length)) {
+                setSingleMatches(formatTournamentMatchesData(participants, true));
+            }
+            return !prevState;
+        });
     }
 
     return (
     <Page pageIndex='tournaments'>
-        <div>
             <h1 className="mb-8 text-3xl font-bold">Create tournament</h1>
             <div className='flex'>
-                <div className='basis-2/5'>
-                    <form className="w-full max-w-lg mt-2">
+                <div className='basis-2/5 overflow-y-auto overflow-x-hidden max-h-[40rem]
+                                scrollbar-thin scrollbar-thumb-indigo-900 scrollbar-track-indigo-600 pr-5'>
+                    <form id="create-tournament-form" onSubmit={formSubmitHandler} className="w-full max-w-lg mt-2">
                         <div>
                             <div className="flex flex-wrap -mx-3 mb-6">
                                 <div className="w-full px-3">
@@ -410,7 +427,7 @@ const Create = () => {
                                     </Disclosure.Button>
                                     <Disclosure.Panel className="pt-4 pb-2 text-sm text-gray-500 flex flex-col gap-y-5">
                                         <label className="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" value="" className="sr-only peer" />
+                                            <input type="checkbox" onChange={thirdPlaceMatchHandler} value="" className="sr-only peer" />
                                                 <div
                                                     className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all focus:outline-none focus:border-gray-500 peer-checked:bg-indigo-900"></div>
                                                 <span
@@ -429,8 +446,9 @@ const Create = () => {
                         </Disclosure>
                     </form>
                 </div>
-                <div className='basis-3/5'>
+                <div className='basis-3/5 pl-2'>
                     <h1 className='text-xl font-semibold'>Tournament preview</h1>
+                    <hr/>
                     {enablePreview && (
                         <SingleEliminationBracket
                             matches={singleMatches}
@@ -444,7 +462,7 @@ const Create = () => {
                             }}
                             matchComponent={Match}
                             svgWrapper={({ children, ...props }) => (
-                                <SVGViewer width={750} height={750}{...props}
+                                <SVGViewer width={750} height={750} {...props}
                                            background="#FFF" SVGBackground="#F0F4F9"
                                 >
                                     {children}
@@ -461,7 +479,10 @@ const Create = () => {
                     )}
                 </div>
             </div>
-        </div>
+            <button type="submit" form='create-tournament-form'
+                    className="align-end mt-2 w-24 focus:outline-none text-white bg-indigo-900 hover:bg-indigo-600 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">
+                Create
+            </button>
     </Page>
   );
 }

@@ -1,4 +1,4 @@
-const formatTournamentMatchesData = (participants) => {
+const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) => {
     let newSingleMatches = [];
     let matchIndexesForRounds = [];
     const participantsCount = participants.length;
@@ -21,12 +21,16 @@ const formatTournamentMatchesData = (participants) => {
     }
 
     let indexForNextMatch = participantsCount / 2;
+    let participantIndex = 0;
+    let firstRound = true;
 
     for (let i = 1; i <= participantsCount - 1; i++) {
         if (i % 2 === 0) {
             indexForNextMatch--;
         }
 
+        let firstParticipantName = firstRound ? participants[participantIndex].name : '';
+        let secondParticipantName = firstRound ? participants[participantIndex + 1].name : '';
 
         newSingleMatches.push({
             "id": i,
@@ -41,18 +45,53 @@ const formatTournamentMatchesData = (participants) => {
                     "resultText": "WON", // Any string works
                     "isWinner": true,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                    "name": ''
+                    "name": firstParticipantName,
                 },
                 {
                     "id": "5c8264cf-2dcb-4c51-9134-367eaf7885a4",
                     "resultText": null,
                     "isWinner": false,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                    "name": ''
+                    "name": secondParticipantName,
+                }
+            ]
+        });
+
+        firstRound = i < participantsCount / 2;
+
+        if (firstRound) {
+            participantIndex += 2;
+        }
+    }
+
+    if (isThirdPlaceMatch) {
+        newSingleMatches.push({
+            "id": participantsCount,
+            "name": "Third Place Match",
+            "nextMatchId": null, // Id for the nextMatch in the bracket, if it's final match it must be null OR undefined
+            "tournamentRoundText": "4", // Text for Round Header
+            "startTime": "2021-05-30",
+            "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
+            "participants": [
+                {
+                    "id": "3d2c1bdd-e61f-4fd6-8c4d-f4a750504119", // Unique identifier of any kind
+                    "resultText": "WON", // Any string works
+                    "isWinner": true,
+                    "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
+                    "name": 'test',
+                },
+                {
+                    "id": "5c8264cf-2dcb-4c51-9134-367eaf7885a4",
+                    "resultText": null,
+                    "isWinner": false,
+                    "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
+                    "name": 'test',
                 }
             ]
         });
     }
+
+    console.log(newSingleMatches)
 
     return newSingleMatches;
 }
