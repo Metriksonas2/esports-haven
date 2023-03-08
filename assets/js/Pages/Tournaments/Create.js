@@ -318,7 +318,7 @@ const Create = () => {
         <div>
             <h1 className="mb-8 text-3xl font-bold">Create tournament</h1>
             <div className='flex'>
-                <div className='grow w-1/2'>
+                <div className='basis-2/5'>
                     <form className="w-full max-w-lg mt-2">
                         <div>
                             <div className="flex flex-wrap -mx-3 mb-6">
@@ -429,7 +429,7 @@ const Create = () => {
                         </Disclosure>
                     </form>
                 </div>
-                <div className='grow'>
+                <div className='basis-3/5'>
                     <h1 className='text-xl font-semibold'>Tournament preview</h1>
                     {enablePreview && (
                         <SingleEliminationBracket

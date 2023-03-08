@@ -8,107 +8,6 @@ import {PencilSquareIcon} from "@heroicons/react/24/solid";
 const Tournaments = () => {
   const [tournaments, setTournaments] = useState(usePage().props.tournaments);
 
-  const data = [
-    {
-      id: 1,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 2,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 3,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 4,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-    {
-      id: 5,
-      name: 'Test',
-      city: 'Kaunas',
-      phone: '888-396-1844',
-      deleted_at: false
-    },
-  ];
-
   return (
     <Page pageIndex='tournaments'>
       <div>
@@ -187,10 +86,10 @@ const Tournaments = () => {
                   </tr>
               );
             })}
-            {data.length === 0 && (
+            {tournaments.length === 0 && (
                 <tr>
                   <td className="px-6 py-4 border-t" colSpan="4">
-                    No organizations found.
+                    No tournaments found.
                   </td>
                 </tr>
             )}
