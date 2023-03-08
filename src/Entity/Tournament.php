@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use App\Enum\BracketType;
 use App\Repository\TournamentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,15 +33,20 @@ class Tournament
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $rules = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $bracketType = null;
+    #[ORM\Column(type: "string", length: 255, enumType: BracketType::class)]
+    private ?BracketType $bracketType = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: TournamentMatch::class, orphanRemoval: true)]
+    private Collection $tournamentMatches;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->tournamentMatches = new ArrayCollection();
+        $this->bracketType = BracketType::SINGLE_ELIMINATION;
     }
 
     public function getId(): ?int
@@ -106,12 +114,12 @@ class Tournament
         return $this;
     }
 
-    public function getBracketType(): ?string
+    public function getBracketType(): BracketType
     {
         return $this->bracketType;
     }
 
-    public function setBracketType(string $bracketType): self
+    public function setBracketType(BracketType $bracketType): self
     {
         $this->bracketType = $bracketType;
 
@@ -126,6 +134,36 @@ class Tournament
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TournamentMatch>
+     */
+    public function getTournamentMatches(): Collection
+    {
+        return $this->tournamentMatches;
+    }
+
+    public function addTournamentMatch(TournamentMatch $tournamentMatch): self
+    {
+        if (!$this->tournamentMatches->contains($tournamentMatch)) {
+            $this->tournamentMatches->add($tournamentMatch);
+            $tournamentMatch->setTournament($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournamentMatch(TournamentMatch $tournamentMatch): self
+    {
+        if ($this->tournamentMatches->removeElement($tournamentMatch)) {
+            // set the owning side to null (unless already changed)
+            if ($tournamentMatch->getTournament() === $this) {
+                $tournamentMatch->setTournament(null);
+            }
+        }
 
         return $this;
     }
