@@ -98,7 +98,7 @@ const Tournaments = () => {
       {/*    </table>*/}
       {/*  </div>*/}
       {/*</div>*/}
-      <Table />
+      <Table tournaments={tournaments} />
     </Page>
   );
 }

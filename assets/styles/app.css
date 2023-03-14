@@ -23,3 +23,7 @@ body {
 .btn-indigo {
     @apply px-6 py-3 rounded bg-indigo-700 text-white text-sm whitespace-nowrap hover:bg-indigo-600;
 }
+
+.notifications .items {
+    @apply scrollbar-thin scrollbar-thumb-indigo-900 scrollbar-track-indigo-600 !important;
+}

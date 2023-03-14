@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Menu, Transition} from "@headlessui/react";
-import {ChevronDownIcon} from "@heroicons/react/20/solid";
 import {InertiaLink} from "@inertiajs/inertia-react";
+import NotificationBell from "@/Components/Page/Topbar/NotificationBell";
 import route from "@/Services/route";
 
 function classNames(...classes) {
@@ -12,9 +12,9 @@ const Topbar = ({ open }) => {
   return (
       <div className={`${open ? 'pr-72' : 'pr-20'} flex fixed w-full justify-end h-24 bg-[#FEFFFE] z-40 border border-t-0 border-x-0 border-b-gray-200 duration-300`}>
           <ul className='flex items-center'>
-              {/*<li className='px-4'>*/}
-              {/*    <img className="w-12 h-12 rounded-full p-1 ring-2 ring-gray-300" src="/assets/images/avatar.jpg" alt="Rounded avatar" />*/}
-              {/*</li>*/}
+              <li className='px-4'>
+                  <NotificationBell />
+              </li>
               <li className='px-4'>
                   <Menu as="div" className="relative inline-block text-left">
                       <div>
@@ -138,9 +138,6 @@ const Topbar = ({ open }) => {
                       </Transition>
                   </Menu>
               </li>
-              {/*<li className='px-4'>*/}
-              {/*    <InertiaLink href={route('logout')}>Logout</InertiaLink>*/}
-              {/*</li>*/}
           </ul>
       </div>
   );
