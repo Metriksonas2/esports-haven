@@ -21,5 +21,5 @@ body {
 }
 
 .btn-indigo {
-    @apply px-6 py-3 rounded bg-indigo-700 text-white text-sm whitespace-nowrap hover:bg-indigo-600 focus:bg-orange-500;
+    @apply px-6 py-3 rounded bg-indigo-700 text-white text-sm whitespace-nowrap hover:bg-indigo-600;
 }
