@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TournamentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -16,31 +17,44 @@ class Tournament
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('tournaments')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('tournaments')]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('tournaments')]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('tournaments')]
     private ?string $game = null;
 
     #[ORM\Column]
+    #[Groups('tournaments')]
     private ?bool $withThirdPlaceMatch = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('tournaments')]
     private ?string $rules = null;
 
     #[ORM\Column(type: "string", length: 255, enumType: BracketType::class)]
+    #[Groups('tournaments')]
     private ?BracketType $bracketType = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: TournamentMatch::class, orphanRemoval: true)]
+    #[Groups('tournaments')]
     private Collection $tournamentMatches;
+
+    #[ORM\ManyToOne(inversedBy: 'hostedTournaments')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups('tournaments')]
+    private ?User $host = null;
 
     public function __construct()
     {
@@ -164,6 +178,18 @@ class Tournament
                 $tournamentMatch->setTournament(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHost(): ?User
+    {
+        return $this->host;
+    }
+
+    public function setHost(?User $host): self
+    {
+        $this->host = $host;
 
         return $this;
     }
