@@ -7,7 +7,7 @@ import {PencilSquareIcon} from "@heroicons/react/24/solid";
 import Table from "@/Components/Tournaments/Table/Table";
 
 const Tournaments = () => {
-  const [tournaments, setTournaments] = useState(usePage().props.tournaments);
+  const [tournaments, setTournaments] = useState(JSON.parse(usePage().props.tournaments));
 
   return (
     <Page pageIndex='tournaments'>

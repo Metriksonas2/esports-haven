@@ -4,6 +4,7 @@ namespace App\Controller\Tournaments;
 
 use App\Entity\Tournament;
 use App\Repository\TournamentRepository;
+use App\Service\JsonSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,13 +17,16 @@ class TournamentController extends AbstractController
     public function index(
         InertiaInterface $inertia,
         TournamentRepository $tournamentRepository,
+        JsonSerializer $jsonSerializer
     ): Response
     {
         $isLoggedIn = (bool)$this->getUser();
+        $serializationGroups = ['tournaments', 'users'];
         $tournaments = $tournamentRepository->findBy([], ['createdAt' => 'DESC']);
+        $jsonTournaments = $jsonSerializer->serializeToJson($tournaments, $serializationGroups);
 
         return $inertia->render("Tournaments/Tournaments", [
-            "tournaments" => $tournaments,
+            "tournaments" => $jsonTournaments,
             "isLoggedIn" => $isLoggedIn
         ]);
     }
