@@ -3,104 +3,69 @@ import route from "@/Services/route";
 
 import Page from "@/Components/Page/Page";
 import {InertiaLink, usePage} from "@inertiajs/inertia-react";
-import {PencilSquareIcon} from "@heroicons/react/24/solid";
 import Table from "@/Components/Tournaments/Table/Table";
+import { Tab } from '@headlessui/react'
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
 
 const Tournaments = () => {
-  const [tournaments, setTournaments] = useState(JSON.parse(usePage().props.tournaments));
+    const [tournaments, setTournaments] = useState(JSON.parse(usePage().props.tournaments));
+    const [hostedTournaments, setHostedTournaments] = useState(JSON.parse(usePage().props.hostedTournaments));
+    const [wonTournaments, setWonTournaments] = useState(JSON.parse(usePage().props.tournaments));
+    const [inProgressTournaments, setInProgressTournaments] = useState(JSON.parse(usePage().props.tournaments));
 
-  return (
-      <Page pageIndex='tournaments'>
-          <div className="flex items-center justify-between mb-6">
-              <InertiaLink
-                className="btn-indigo focus:outline-none"
-                href={route('tournaments.create')}
-              >
-                <span>Create</span>
-                <span className="hidden md:inline"> Tournament</span>
-              </InertiaLink>
-          </div>
-          <Table tournaments={tournaments} />
-      {/*<div>*/}
-      {/*  <h1 className="mb-8 text-3xl font-bold">Tournaments</h1>*/}
-      {/*  <div className="flex items-center justify-between mb-6">*/}
-      {/*    <InertiaLink*/}
-      {/*        className="btn-indigo focus:outline-none"*/}
-      {/*        href={route('tournaments.create')}*/}
-      {/*    >*/}
-      {/*      <span>Create</span>*/}
-      {/*      <span className="hidden md:inline"> Tournament</span>*/}
-      {/*    </InertiaLink>*/}
-      {/*  </div>*/}
-      {/*  <div className="overflow-x-auto bg-white rounded shadow">*/}
-      {/*    <table className="w-full whitespace-nowrap">*/}
-      {/*      <thead>*/}
-      {/*      <tr className="font-bold text-left">*/}
-      {/*        <th className="px-6 pt-5 pb-4">Name</th>*/}
-      {/*        <th className="px-6 pt-5 pb-4">Game</th>*/}
-      {/*        <th className="px-6 pt-5 pb-4" colSpan="2">*/}
-      {/*          Bracket type*/}
-      {/*        </th>*/}
-      {/*      </tr>*/}
-      {/*      </thead>*/}
-      {/*      <tbody>*/}
-      {/*      {tournaments.map(({ id, name, game, bracketType }) => {*/}
-      {/*        return (*/}
-      {/*            <tr*/}
-      {/*                key={id}*/}
-      {/*                className="hover:bg-gray-100 focus-within:bg-gray-100"*/}
-      {/*            >*/}
-      {/*              <td className="border-t">*/}
-      {/*                <InertiaLink*/}
-      {/*                    href={route('tournaments', id)}*/}
-      {/*                    className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"*/}
-      {/*                >*/}
-      {/*                  {name}*/}
-      {/*                </InertiaLink>*/}
-      {/*              </td>*/}
-      {/*              <td className="border-t">*/}
-      {/*                <InertiaLink*/}
-      {/*                    tabIndex="-1"*/}
-      {/*                    href={route('tournaments', id)}*/}
-      {/*                    className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"*/}
-      {/*                >*/}
-      {/*                  {game}*/}
-      {/*                </InertiaLink>*/}
-      {/*              </td>*/}
-      {/*              <td className="border-t">*/}
-      {/*                <InertiaLink*/}
-      {/*                    tabIndex="-1"*/}
-      {/*                    href={route('tournaments', id)}*/}
-      {/*                    className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"*/}
-      {/*                >*/}
-      {/*                  {bracketType}*/}
-      {/*                </InertiaLink>*/}
-      {/*              </td>*/}
-      {/*              <td className="w-px border-t">*/}
-      {/*                <InertiaLink*/}
-      {/*                    tabIndex="-1"*/}
-      {/*                    href={route('tournaments', id)}*/}
-      {/*                    className="flex items-center px-4 focus:outline-none"*/}
-      {/*                >*/}
-      {/*                  <PencilSquareIcon className='w-6' />*/}
-      {/*                </InertiaLink>*/}
-      {/*              </td>*/}
-      {/*            </tr>*/}
-      {/*        );*/}
-      {/*      })}*/}
-      {/*      {tournaments.length === 0 && (*/}
-      {/*          <tr>*/}
-      {/*            <td className="px-6 py-4 border-t" colSpan="4">*/}
-      {/*              No tournaments found.*/}
-      {/*            </td>*/}
-      {/*          </tr>*/}
-      {/*      )}*/}
-      {/*      </tbody>*/}
-      {/*    </table>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
-    </Page>
-  );
+    const tournamentCategories = {
+        "All": tournaments,
+        "Hosted": hostedTournaments,
+        "Won": wonTournaments,
+        "In Progress": inProgressTournaments,
+    };
+
+    return (
+        <Page pageIndex='tournaments'>
+            <div className="flex items-center justify-between mb-6">
+                <InertiaLink
+                    className="btn-indigo focus:outline-none"
+                    href={route('tournaments.create')}
+                >
+                    <span>Create</span>
+                    <span className="hidden md:inline"> Tournament</span>
+                </InertiaLink>
+            </div>
+            <Tab.Group>
+                <div className="w-full max-w-md px-2 sm:px-0">
+                        <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+                            {Object.keys(tournamentCategories).map((category) => (
+                                <Tab
+                                    key={category}
+                                    className={({ selected }) =>
+                                        classNames(
+                                            'w-full rounded-lg py-2.5 text-sm font-semibold leading-5 text-blue-700',
+                                            'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                                            selected
+                                                ? 'bg-white shadow'
+                                                : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                                        )
+                                    }
+                                >
+                                    {category}
+                                </Tab>
+                            ))}
+                        </Tab.List>
+                </div>
+                <Tab.Panels>
+                    {Object.values(tournamentCategories).map((tournaments) => (
+                        <Tab.Panel>
+                            <Table tournaments={tournaments} />
+                        </Tab.Panel>
+                    ))}
+
+                </Tab.Panels>
+            </Tab.Group>
+        </Page>
+    );
 }
 
 export default Tournaments;

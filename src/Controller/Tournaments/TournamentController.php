@@ -20,14 +20,18 @@ class TournamentController extends AbstractController
         JsonSerializer $jsonSerializer
     ): Response
     {
-        $isLoggedIn = (bool)$this->getUser();
+        $user = $this->getUser();
         $serializationGroups = ['tournaments', 'users'];
+
         $tournaments = $tournamentRepository->findBy([], ['createdAt' => 'DESC']);
+        $hostedTournaments = $tournamentRepository->findBy(['host' => $user], ['createdAt' => 'DESC']);
+
         $jsonTournaments = $jsonSerializer->serializeToJson($tournaments, $serializationGroups);
+        $jsonHostedTournaments = $jsonSerializer->serializeToJson($hostedTournaments, $serializationGroups);
 
         return $inertia->render("Tournaments/Tournaments", [
-            "tournaments" => $jsonTournaments,
-            "isLoggedIn" => $isLoggedIn
+            'tournaments' => $jsonTournaments,
+            'hostedTournaments' => $jsonHostedTournaments
         ]);
     }
 
