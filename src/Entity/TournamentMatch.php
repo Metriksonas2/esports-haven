@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Enum\MatchPlacement;
 use App\Repository\TournamentMatchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,9 +33,16 @@ class TournamentMatch
     #[ORM\Column(type: "string", length: 255, enumType: MatchPlacement::class)]
     private ?MatchPlacement $placement = null;
 
+    #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'matches')]
+    private Collection $participants;
+
+    #[ORM\ManyToOne(inversedBy: 'wonMatches')]
+    private ?Participant $winnerParticipant = null;
+
     public function __construct()
     {
         $this->placement = MatchPlacement::UPPER;
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,6 +106,42 @@ class TournamentMatch
     public function setPlacement(?MatchPlacement $placement): self
     {
         $this->placement = $placement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participant $participant): self
+    {
+        $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+    public function getWinnerParticipant(): ?Participant
+    {
+        return $this->winnerParticipant;
+    }
+
+    public function setWinnerParticipant(?Participant $winnerParticipant): self
+    {
+        $this->winnerParticipant = $winnerParticipant;
 
         return $this;
     }
