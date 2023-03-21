@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import route from "@/Services/route";
 
 import Page from "@/Components/Page/Page";
@@ -37,7 +37,7 @@ const Tournaments = () => {
             <Tab.Group>
                 <div className="w-full max-w-md px-2 sm:px-0">
                         <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-                            {Object.keys(tournamentCategories).map((category) => (
+                            {Object.keys(tournamentCategories).map((category, index) => (
                                 <Tab
                                     key={category}
                                     className={({ selected }) =>
@@ -56,9 +56,9 @@ const Tournaments = () => {
                         </Tab.List>
                 </div>
                 <Tab.Panels>
-                    {Object.values(tournamentCategories).map((tournaments) => (
+                    {Object.values(tournamentCategories).map((tournaments, index) => (
                         <Tab.Panel>
-                            <Table tournaments={tournaments} />
+                            <Table tournaments={tournaments} isHosted={index === 1}/>
                         </Tab.Panel>
                     ))}
 

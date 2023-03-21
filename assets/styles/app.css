@@ -27,3 +27,7 @@ body {
 .notifications .items {
     @apply scrollbar-thin scrollbar-thumb-indigo-900 scrollbar-track-indigo-600 !important;
 }
+
+.new-tournament {
+    @apply font-semibold;
+}

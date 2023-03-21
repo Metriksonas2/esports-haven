@@ -100,7 +100,13 @@ const isPowerOfTwo = x => {
     return Math.log2(x) % 1 === 0;
 }
 
+const getQueryParam = (paramName) => {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(paramName);
+}
+
 export {
     formatTournamentMatchesData,
     isPowerOfTwo,
+    getQueryParam
 };
