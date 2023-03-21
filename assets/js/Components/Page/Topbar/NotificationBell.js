@@ -22,37 +22,37 @@ const NOTIFICATIONS = [
     },
     {
         image: "/assets/images/avatar.jpg",
-        message: "Notification one.",
+        message: "Notification four.",
         detailPage: "/",
         receivedTime: "2h ago"
     },
     {
         image: "/assets/images/avatar.jpg",
-        message: "Notification two.",
+        message: "Notification five.",
         detailPage: "/",
         receivedTime: "7h ago"
     },
     {
         image: "/assets/images/avatar.jpg",
-        message: "Notification three.",
+        message: "Notification six.",
         detailPage: "/",
         receivedTime: "12h ago"
     },
     {
         image: "/assets/images/avatar.jpg",
-        message: "Notification one.",
+        message: "Notification seven.",
         detailPage: "/",
         receivedTime: "2h ago"
     },
     {
         image: "/assets/images/avatar.jpg",
-        message: "Notification two.",
+        message: "Notification eight.",
         detailPage: "/",
         receivedTime: "7h ago"
     },
     {
         image: "/assets/images/avatar.jpg",
-        message: "Notification three.",
+        message: "Notification nine.",
         detailPage: "/",
         receivedTime: "12h ago"
     },

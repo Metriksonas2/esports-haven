@@ -45,6 +45,7 @@ class Tournament
     private ?BracketType $bracketType = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups('tournaments')]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: TournamentMatch::class, orphanRemoval: true)]

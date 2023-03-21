@@ -61,7 +61,6 @@ const Create = () => {
     const [rules, setRules] = useState('');
     const [bracketType, setBracketType] = useState('Single Elimination');
 
-
     const singleMatchesArray = [
         {
             "id": 1,
@@ -328,12 +327,19 @@ const Create = () => {
         e.preventDefault();
 
         try {
-            const body = { name };
+            const body = {
+                name,
+                description,
+                game,
+                withThirdPlaceMatch: isThirdPlaceMatch,
+                rules,
+                bracketType,
+            };
+
             const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
             const response = await axios.post('/api/tournaments', body, {
                 headers: headers
             });
-            console.log(response);
         } catch (error) {
             console.log(error);
         }
@@ -341,7 +347,6 @@ const Create = () => {
 
     const thirdPlaceMatchHandler = () => {
         setIsThirdPlaceMatch((prevState) => {
-            console.log(!prevState)
             if (!prevState && isPowerOfTwo(participants.length)) {
                 setSingleMatches(formatTournamentMatchesData(participants, true));
             }
@@ -365,7 +370,7 @@ const Create = () => {
                                     </label>
                                     <input
                                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="" type="text" placeholder="Baltic LoL Cup #2" />
+                                        id="" type="text" placeholder="Baltic LoL Cup #2" onChange={(e) => setName(e.target.value) } />
                                     {/*<p className="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>*/}
                                 </div>
                             </div>
@@ -376,9 +381,10 @@ const Create = () => {
                                         Tournament Type
                                     </label>
                                     <select id="types"
-                                            className="bg-gray-200 border border-gray-200 text-gray-700 text-sm rounded-lg focus:bg-white focus:outline-none focus:border-gray-500 block w-full p-2.5">
-                                        <option value="type-single" defaultValue>Single Elimination</option>
-                                        <option value="type-double">Double Elimination</option>
+                                            className="bg-gray-200 border border-gray-200 text-gray-700 text-sm rounded-lg focus:bg-white focus:outline-none focus:border-gray-500 block w-full p-2.5"
+                                            onChange={(e) => setBracketType(e.target.value) }>
+                                        <option value="Single Elimination" defaultValue>Single Elimination</option>
+                                        <option value="Double Elimination">Double Elimination</option>
                                     </select>
                                 </div>
                             </div>
@@ -390,7 +396,9 @@ const Create = () => {
                                     </label>
                                     <textarea id="" rows="4"
                                               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-200 focus:bg-white focus:outline-none focus:border-gray-500"
-                                              placeholder="Write your thoughts here..."></textarea>
+                                              placeholder="Write your thoughts here..."
+                                              onChange={(e) => setDescription(e.target.value) }>
+                                    </textarea>
                                 </div>
                             </div>
                         </div>

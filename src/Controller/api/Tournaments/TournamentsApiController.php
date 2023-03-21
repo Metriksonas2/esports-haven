@@ -49,7 +49,7 @@ class TournamentsApiController extends AbstractController
         /** @var Tournament $tournament */
         $tournament = $this->serializer->deserialize(
             $request->getContent(), Tournament::class, JsonEncoder::FORMAT, [
-                AbstractNormalizer::IGNORED_ATTRIBUTES => ['bracketType']
+                AbstractNormalizer::IGNORED_ATTRIBUTES => ['bracketType'],
             ]
         );
 
@@ -65,7 +65,8 @@ class TournamentsApiController extends AbstractController
         return $this->json(
             $tournament,
             Response::HTTP_CREATED,
-            headers: ['Content-Type' => 'application/json;charset=UTF-8']
+            headers: ['Content-Type' => 'application/json;charset=UTF-8'],
+            context: [AbstractNormalizer::IGNORED_ATTRIBUTES => ['host']]
         );
     }
 
