@@ -13,6 +13,7 @@ import {
 import {Disclosure, Transition} from '@headlessui/react'
 import {ChevronUpIcon} from "@heroicons/react/24/solid";
 import {Button, Tooltip} from "flowbite-react";
+import axios from "axios";
 
 const WhiteTheme = createTheme({
     textColor: { main: '#000000', highlighted: '#07090D', dark: '#3E414D' },
@@ -51,7 +52,15 @@ const Create = () => {
         },
     ]);
     const [enablePreview, setEnablePreview] = useState(true);
+
+    // Form data
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [game, setGame] = useState('');
     const [isThirdPlaceMatch, setIsThirdPlaceMatch] = useState(false);
+    const [rules, setRules] = useState('');
+    const [bracketType, setBracketType] = useState('Single Elimination');
+
 
     const singleMatchesArray = [
         {
@@ -315,9 +324,19 @@ const Create = () => {
         }
     }
 
-    const formSubmitHandler = (e) => {
+    const formSubmitHandler = async (e) => {
         e.preventDefault();
-        console.log('submit')
+
+        try {
+            const body = { name };
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+            const response = await axios.post('/api/tournaments', body, {
+                headers: headers
+            });
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const thirdPlaceMatchHandler = () => {

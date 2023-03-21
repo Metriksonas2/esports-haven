@@ -3,12 +3,15 @@
 namespace App\Controller\api\Tournaments;
 
 use App\Entity\Tournament;
+use App\Enum\BracketType;
 use App\Repository\TournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api', name: 'app_api_tournaments_')]
@@ -31,15 +34,30 @@ class TournamentsApiController extends AbstractController
         Request $request,
     ): Response
     {
-        $tournament = new Tournament();
-        $tournamentDto = $this->serializer->deserialize($request->getContent(), Tournament::class, 'json');
-        $name = $tournamentDto->getName();
+        $user = $this->getUser();
 
-        $tournament->setName($name);
-        // todo: change data
-        $tournament->setGame("Dota 2");
-        $tournament->setBracketType("Single Elimination");
-        $tournament->setWithThirdPlaceMatch(false);
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->json(
+                ["error" => "Access denied."],
+                Response::HTTP_UNAUTHORIZED,
+                headers: ['Content-Type' => 'application/json;charset=UTF-8']
+            );
+        }
+
+        $requestData = json_decode($request->getContent(), true);
+
+        /** @var Tournament $tournament */
+        $tournament = $this->serializer->deserialize(
+            $request->getContent(), Tournament::class, JsonEncoder::FORMAT, [
+                AbstractNormalizer::IGNORED_ATTRIBUTES => ['bracketType']
+            ]
+        );
+
+        if (!is_null($bracketType = BracketType::tryFrom($requestData['bracketType']))) {
+            $tournament->setBracketType($bracketType);
+        }
+
+        $tournament->setHost($user);
 
         $this->entityManager->persist($tournament);
         $this->entityManager->flush();

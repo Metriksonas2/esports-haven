@@ -10,16 +10,17 @@ const Tournaments = () => {
   const [tournaments, setTournaments] = useState(JSON.parse(usePage().props.tournaments));
 
   return (
-    <Page pageIndex='tournaments'>
-      <div className="flex items-center justify-between mb-6">
-        <InertiaLink
-            className="btn-indigo focus:outline-none"
-            href={route('tournaments.create')}
-        >
-          <span>Create</span>
-          <span className="hidden md:inline"> Tournament</span>
-        </InertiaLink>
-      </div>
+      <Page pageIndex='tournaments'>
+          <div className="flex items-center justify-between mb-6">
+              <InertiaLink
+                className="btn-indigo focus:outline-none"
+                href={route('tournaments.create')}
+              >
+                <span>Create</span>
+                <span className="hidden md:inline"> Tournament</span>
+              </InertiaLink>
+          </div>
+          <Table tournaments={tournaments} />
       {/*<div>*/}
       {/*  <h1 className="mb-8 text-3xl font-bold">Tournaments</h1>*/}
       {/*  <div className="flex items-center justify-between mb-6">*/}
@@ -98,7 +99,6 @@ const Tournaments = () => {
       {/*    </table>*/}
       {/*  </div>*/}
       {/*</div>*/}
-      <Table tournaments={tournaments} />
     </Page>
   );
 }
