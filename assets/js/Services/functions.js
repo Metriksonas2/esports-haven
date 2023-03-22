@@ -105,8 +105,19 @@ const getQueryParam = (paramName) => {
     return url.searchParams.get(paramName);
 }
 
+const isSidebarOpen = () => {
+    let sidebarOpenItemValue = window.localStorage.getItem('sidebar-open');
+
+    if (sidebarOpenItemValue === null) {
+        return true;
+    }
+
+    return window.localStorage.getItem('sidebar-open') === 'true';
+}
+
 export {
     formatTournamentMatchesData,
     isPowerOfTwo,
-    getQueryParam
+    getQueryParam,
+    isSidebarOpen,
 };

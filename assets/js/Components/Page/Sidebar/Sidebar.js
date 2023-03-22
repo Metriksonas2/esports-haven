@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import route from "@/Services/route";
 import {InertiaLink} from "@inertiajs/inertia-react";
 import {
@@ -8,9 +8,10 @@ import {
     RocketLaunchIcon, TableCellsIcon,
     TrophyIcon
 } from "@heroicons/react/24/solid";
+import {isSidebarOpen} from "@/Services/functions";
 
 const Sidebar = ({ pageIndex, minimizeHandler }) => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(isSidebarOpen());
     const Tabs = [
         { key: 'dashboard', title: "Dashboard", src: "", icon: <TableCellsIcon className='w-6' /> },
         { key: 'tournaments', title: "Tournaments", src: "tournaments", icon: <TrophyIcon className='w-6' /> },

@@ -2,13 +2,15 @@ import React, {Fragment, useEffect, useState} from 'react';
 import Sidebar from "@/Components/Page/Sidebar/Sidebar";
 import Main from "@/Components/Page/Main/Main";
 import toast, {Toaster} from "react-hot-toast";
+import {isSidebarOpen} from "@/Services/functions";
 
 const Page = ({ pageIndex, children }) => {
     let socket = new WebSocket('ws://localhost:8080');
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(isSidebarOpen());
 
     const minimizeHandler = (value) => {
         setOpen(value);
+        window.localStorage.setItem('sidebar-open', value ? 'true' : 'false');
     }
 
     useEffect(() => {
