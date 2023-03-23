@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Card = ({ name, image, className }) => {
+const Card = ({ name, image, description, className }) => {
     return (
         <div className={`max-w-sm bg-white border border-gray-200 rounded-lg shadow ${className}`}>
             <a href="#">
@@ -13,7 +13,7 @@ const Card = ({ name, image, className }) => {
                     </h5>
                 </a>
                 <p className="mb-3 font-normal text-gray-700">
-                    Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+                    {description}
                 </p>
                 <a href="#"
                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700

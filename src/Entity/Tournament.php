@@ -60,6 +60,9 @@ class Tournament
     #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: Participant::class, orphanRemoval: true)]
     private Collection $participants;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $startDate = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -225,6 +228,18 @@ class Tournament
                 $participant->setTournament(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(?\DateTimeInterface $startDate): self
+    {
+        $this->startDate = $startDate;
 
         return $this;
     }

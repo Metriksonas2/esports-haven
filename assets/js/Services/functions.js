@@ -145,6 +145,10 @@ const getEmptyCalendarCellsCount = () => {
     return emptyCellsCount;
 }
 
+const getCorrectDateFormatFromDateObject = (date) => {
+    return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+}
+
 export {
     formatTournamentMatchesData,
     isPowerOfTwo,
@@ -152,5 +156,6 @@ export {
     isSidebarOpen,
     generateMonthlyCalendar,
     getFirstDayOfTheCurrentMonth,
-    getEmptyCalendarCellsCount
+    getEmptyCalendarCellsCount,
+    getCorrectDateFormatFromDateObject
 };

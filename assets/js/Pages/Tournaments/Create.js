@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {formatTournamentMatchesData, isPowerOfTwo} from "@/Services/functions";
+import {formatTournamentMatchesData, isPowerOfTwo, getCorrectDateFormatFromDateObject} from "@/Services/functions";
 import Page from "@/Components/Page/Page";
 import Participant from "@/Components/Tournaments/Form/Create/Participant";
 import {createTheme, Match, SingleEliminationBracket, SVGViewer} from "@g-loot/react-tournament-brackets";
@@ -10,6 +10,7 @@ import {Button, Tooltip} from "flowbite-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import route from "@/Services/route";
+import DatePicker from "@/Components/UI/DatePicker/DatePicker";
 
 const WhiteTheme = createTheme({
     textColor: { main: '#000000', highlighted: '#07090D', dark: '#3E414D' },
@@ -54,6 +55,7 @@ const Create = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [game, setGame] = useState('');
+    const [startDate, setStartDate] = useState(getCorrectDateFormatFromDateObject(new Date()))
     const [isThirdPlaceMatch, setIsThirdPlaceMatch] = useState(false);
     const [rules, setRules] = useState('');
     const [bracketType, setBracketType] = useState('Single Elimination');
@@ -331,6 +333,7 @@ const Create = () => {
                     game,
                     withThirdPlaceMatch: isThirdPlaceMatch,
                     rules,
+                    startDate,
                     bracketType,
                     participants
                 };
@@ -359,6 +362,10 @@ const Create = () => {
             }
             return !prevState;
         });
+    }
+
+    const handleDateChange = (date) => {
+        setStartDate(date);
     }
 
     return (
@@ -454,6 +461,11 @@ const Create = () => {
                                             <option value="Rocket League">Rocket League</option>
                                             <option value="Brawlhalla">Brawlhalla</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap -mx-3 mb-6">
+                                    <div className="w-full px-3">
+                                        <DatePicker setDate={handleDateChange}/>
                                     </div>
                                 </div>
                                 <div className="flex flex-wrap -mx-3 mb-6">
