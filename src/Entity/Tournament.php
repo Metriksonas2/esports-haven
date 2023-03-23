@@ -57,11 +57,15 @@ class Tournament
     #[Groups('tournaments')]
     private ?User $host = null;
 
+    #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: Participant::class, orphanRemoval: true)]
+    private Collection $participants;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->tournamentMatches = new ArrayCollection();
         $this->bracketType = BracketType::SINGLE_ELIMINATION;
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,6 +195,36 @@ class Tournament
     public function setHost(?User $host): self
     {
         $this->host = $host;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+            $participant->setTournament($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participant $participant): self
+    {
+        if ($this->participants->removeElement($participant)) {
+            // set the owning side to null (unless already changed)
+            if ($participant->getTournament() === $this) {
+                $participant->setTournament(null);
+            }
+        }
 
         return $this;
     }

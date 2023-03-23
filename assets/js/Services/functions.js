@@ -2,23 +2,23 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
     let newSingleMatches = [];
     let matchIndexesForRounds = [];
     const participantsCount = participants.length;
-    const numberOfRounds = Math.log2(participantsCount);
-    let separator = participantsCount;
-    let indexNumber = 1;
-    let limit = 0;
-
-    for (let i = 1; i <= numberOfRounds; i++) {
-        let indexesArrayForRound = [];
-        separator = separator / 2;
-        limit += separator;
-
-        for (let j = indexNumber; j <= limit; j++) {
-            indexesArrayForRound.push(j);
-        }
-        indexNumber += separator;
-
-        matchIndexesForRounds.push(indexesArrayForRound);
-    }
+    // const numberOfRounds = Math.log2(participantsCount);
+    // let separator = participantsCount;
+    // let indexNumber = 1;
+    // let limit = 0;
+    //
+    // for (let i = 1; i <= numberOfRounds; i++) {
+    //     let indexesArrayForRound = [];
+    //     separator = separator / 2;
+    //     limit += separator;
+    //
+    //     for (let j = indexNumber; j <= limit; j++) {
+    //         indexesArrayForRound.push(j);
+    //     }
+    //     indexNumber += separator;
+    //
+    //     matchIndexesForRounds.push(indexesArrayForRound);
+    // }
 
     let indexForNextMatch = participantsCount / 2;
     let participantIndex = 0;

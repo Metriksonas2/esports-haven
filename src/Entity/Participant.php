@@ -28,6 +28,13 @@ class Participant
     #[ORM\OneToMany(mappedBy: 'winnerParticipant', targetEntity: TournamentMatch::class)]
     private Collection $wonMatches;
 
+    #[ORM\Column(length: 255)]
+    private ?string $tournamentName = null;
+
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tournament $tournament = null;
+
     public function __construct()
     {
         $this->matches = new ArrayCollection();
@@ -116,6 +123,30 @@ class Participant
                 $wonMatch->setWinnerParticipant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTournamentName(): ?string
+    {
+        return $this->tournamentName;
+    }
+
+    public function setTournamentName(string $tournamentName): self
+    {
+        $this->tournamentName = $tournamentName;
+
+        return $this;
+    }
+
+    public function getTournament(): ?Tournament
+    {
+        return $this->tournament;
+    }
+
+    public function setTournament(?Tournament $tournament): self
+    {
+        $this->tournament = $tournament;
 
         return $this;
     }
