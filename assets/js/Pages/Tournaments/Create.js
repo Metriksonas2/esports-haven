@@ -440,6 +440,24 @@ const Create = () => {
                                 </div>
                                 <div className="flex flex-wrap -mx-3 mb-6">
                                     <div className="w-full px-3">
+                                        <label htmlFor="types"
+                                               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                            Game
+                                        </label>
+                                        <select id="types"
+                                                className="bg-gray-200 border border-gray-200 text-gray-700 text-sm rounded-lg focus:bg-white focus:outline-none focus:border-gray-500 block w-full p-2.5"
+                                                onChange={(e) => setGame(e.target.value) }>
+                                            <option value="none" defaultValue>-</option>
+                                            <option value="League of Legends">League of Legends</option>
+                                            <option value="Dota 2">Dota 2</option>
+                                            <option value="CS:GO">CS:GO</option>
+                                            <option value="Rocket League">Rocket League</option>
+                                            <option value="Brawlhalla">Brawlhalla</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap -mx-3 mb-6">
+                                    <div className="w-full px-3">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                                htmlFor="">
                                             Description

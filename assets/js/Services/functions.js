@@ -115,9 +115,42 @@ const isSidebarOpen = () => {
     return window.localStorage.getItem('sidebar-open') === 'true';
 }
 
+const daysInThisMonth = () => {
+    var now = new Date();
+    return new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+}
+
+const generateMonthlyCalendar = () => {
+    let months = [];
+
+    for (let i = 1; i <= daysInThisMonth(); i++) {
+        months.push(i);
+    }
+
+    return months;
+}
+
+const getFirstDayOfTheCurrentMonth = () => {
+    let monthIndex = new Date().getMonth();
+    let year = new Date().getFullYear();
+
+    return new Date(`${year}-${monthIndex + 1}-01`).getDay()
+}
+
+const getEmptyCalendarCellsCount = () => {
+    let emptyCellsCount = 0;
+    for (let i = 1; i < getFirstDayOfTheCurrentMonth(); i++) {
+        emptyCellsCount++;
+    }
+    return emptyCellsCount;
+}
+
 export {
     formatTournamentMatchesData,
     isPowerOfTwo,
     getQueryParam,
     isSidebarOpen,
+    generateMonthlyCalendar,
+    getFirstDayOfTheCurrentMonth,
+    getEmptyCalendarCellsCount
 };

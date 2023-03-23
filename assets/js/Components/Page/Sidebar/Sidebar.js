@@ -15,8 +15,8 @@ const Sidebar = ({ pageIndex, minimizeHandler }) => {
     const Tabs = [
         { key: 'dashboard', title: "Dashboard", src: "", icon: <TableCellsIcon className='w-6' /> },
         { key: 'tournaments', title: "Tournaments", src: "tournaments", icon: <TrophyIcon className='w-6' /> },
-        { key: 'games', title: "Games", src: "", gap: true, icon: <RocketLaunchIcon className='w-6' /> },
-        { key: 'schedule', title: "Schedule ", src: "", icon: <NewspaperIcon className='w-6' /> },
+        { key: 'games', title: "Games", src: "games", gap: true, icon: <RocketLaunchIcon className='w-6' /> },
+        { key: 'schedule', title: "Schedule ", src: "schedule", icon: <NewspaperIcon className='w-6' /> },
         { key: 'search', title: "Search", src: "", icon: <MagnifyingGlassIcon className='w-6' /> },
         { key: 'analytics', title: "Analytics", src: "", icon: <ChartBarSquareIcon className='w-6' /> },
         { key: 'files', title: "Files", src: "", gap: true, icon: <DocumentIcon className='w-6' /> },
