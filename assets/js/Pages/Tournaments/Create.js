@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 
-import {formatTournamentMatchesData, isPowerOfTwo, getCorrectDateFormatFromDateObject} from "@/Services/functions";
+import {
+    formatTournamentMatchesData,
+    isPowerOfTwo,
+    getCorrectDateFormatFromDateObject
+} from "@/Services/functions";
 import Page from "@/Components/Page/Page";
 import Participant from "@/Components/Tournaments/Form/Create/Participant";
 import {createTheme, Match, SingleEliminationBracket, SVGViewer} from "@g-loot/react-tournament-brackets";
@@ -11,17 +15,18 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import route from "@/Services/route";
 import DatePicker from "@/Components/UI/DatePicker/DatePicker";
+import Heading from "@/Components/Page/Heading/Heading";
 
 const WhiteTheme = createTheme({
-    textColor: { main: '#000000', highlighted: '#07090D', dark: '#3E414D' },
-    matchBackground: { wonColor: '#daebf9', lostColor: '#96c6da' },
+    textColor: { main: '#000000', highlighted: '#FFFFFF', dark: '#000000' },
+    matchBackground: { wonColor: '#a8aab9', lostColor: '#a8aab9' },
     score: {
-        background: { wonColor: '#87b2c4', lostColor: '#87b2c4' },
+        background: { wonColor: '#4642a5', lostColor: '#4642a5' },
         text: { highlightedWonColor: '#7BF59D', highlightedLostColor: '#FB7E94' },
     },
     border: {
-        color: '#CED1F2',
-        highlightedColor: '#F0F4F9',
+        color: '#a8aab9',
+        highlightedColor: '#000000',
     },
     roundHeader: { backgroundColor: '#da96c6', fontColor: '#000' },
     connectorColor: '#CED1F2',
@@ -33,22 +38,21 @@ const Create = () => {
     const [participants, setParticipants] = useState([
         {
             index: 1,
-            name: 'First',
+            name: 'Participant #1',
         },
         {
             index: 2,
-            name: 'Second',
+            name: 'Participant #2',
         },
         {
             index: 3,
-            name: 'Third',
+            name: 'Participant #3',
         },
         {
             index: 4,
-            name: 'Fourth',
+            name: 'Participant #4',
         },
     ]);
-    const [enablePreview, setEnablePreview] = useState(true);
     const [loading, setLoading] = useState(false);
 
     // Form data
@@ -71,8 +75,8 @@ const Create = () => {
             "participants": [
                 {
                     "id": "3d2c1bdd-e61f-4fd6-8c4d-f4a750504119", // Unique identifier of any kind
-                    "resultText": "WON", // Any string works
-                    "isWinner": true,
+                    "resultText": null, // Any string works
+                    "isWinner": false,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
                     "name": participants[0].name
                 },
@@ -95,8 +99,8 @@ const Create = () => {
             "participants": [
                 {
                     "id": "feb4a46c-87f5-45d9-9d75-4f364933ed1c", // Unique identifier of any kind
-                    "resultText": "WON", // Any string works
-                    "isWinner": true,
+                    "resultText": null, // Any string works
+                    "isWinner": false,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
                     "name": participants[2].name
                 },
@@ -118,188 +122,33 @@ const Create = () => {
             "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
             "participants": [
                 {
-                    "id": "3d2c1bdd-e61f-4fd6-8c4d-f4a750504119", // Unique identifier of any kind
-                    "resultText": "WON", // Any string works
-                    "isWinner": true,
+                    "id": '', // Unique identifier of any kind
+                    "resultText": null, // Any string works
+                    "isWinner": false,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                    "name": "Erikas"
+                    "name": "TBD"
                 },
                 {
-                    "id": "feb4a46c-87f5-45d9-9d75-4f364933ed1c",
+                    "id": '',
                     "resultText": null,
                     "isWinner": false,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                    "name": "Ignas"
+                    "name": "TBD"
                 }
             ]
         },
     ];
     const [singleMatches, setSingleMatches] = useState(singleMatchesArray);
 
-    const doubleMatches = {
-        'upper': [
-            {
-                "id": 260001, // Unique identifier of any kind
-                "name": "Semi Final - Match",
-                "nextMatchId": 260003,  // Id for the next match in upper bracket, if it's final match it must be null OR undefined
-                "nextLooserMatchId": 260004,  // Id for the next match in lower bracket, if it's final match or a lower bracket match it must be null OR undefined
-                "startTime": "2021-05-30",
-                "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
-                "participants": [
-                    {
-                        "id": "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc", // Unique identifier of any kind
-                        "resultText": "WON", // Any string works
-                        "isWinner": false,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                        "name": "giacomo123"
-                    },
-                    {
-                        "id": "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-                        "resultText": "LOST", // Any string works
-                        "isWinner": true,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                        "name": "Ant"
-                    }
-                ]
-            },
-            {
-                "id": 260002, // Unique identifier of any kind
-                "name": "Semi Final - Match",
-                "nextMatchId": 260003,  // Id for the next match in upper bracket, if it's final match it must be null OR undefined
-                "nextLooserMatchId": 260004,  // Id for the next match in lower bracket, if it's final match or a lower bracket match it must be null OR undefined
-                "startTime": "2021-05-30",
-                "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
-                "participants": [
-                    {
-                        "id": "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc", // Unique identifier of any kind
-                        "resultText": "WON", // Any string works
-                        "isWinner": false,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                        "name": "giacomo123"
-                    },
-                    {
-                        "id": "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-                        "resultText": "LOST", // Any string works
-                        "isWinner": true,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                        "name": "Ant"
-                    }
-                ]
-            },
-            {
-                "id": 260003, // Unique identifier of any kind
-                "name": "Semi Final - Match",
-                "nextMatchId": 260005,  // Id for the next match in upper bracket, if it's final match it must be null OR undefined
-                "nextLooserMatchId": null,  // Id for the next match in lower bracket, if it's final match or a lower bracket match it must be null OR undefined
-                "startTime": "2021-05-30",
-                "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
-                "participants": [
-                    {
-                        "id": "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc", // Unique identifier of any kind
-                        "resultText": "WON", // Any string works
-                        "isWinner": false,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                        "name": "giacomo123"
-                    },
-                    {
-                        "id": "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-                        "resultText": "LOST", // Any string works
-                        "isWinner": true,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                        "name": "Ant"
-                    }
-                ]
-            },
-            {
-                "id": 260006, // Unique identifier of any kind
-                "name": "Final - Match",
-                "nextMatchId": null,  // Id for the next match in upper bracket, if it's final match it must be null OR undefined
-                "nextLooserMatchId": null,  // Id for the next match in lower bracket, if it's final match or a lower bracket match it must be null OR undefined
-                "startTime": "2021-05-30",
-                "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
-                "participants": [
-                    {
-                        "id": "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc", // Unique identifier of any kind
-                        "resultText": "WON", // Any string works
-                        "isWinner": false,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                        "name": "giacomo123"
-                    },
-                    {
-                        "id": "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-                        "resultText": "LOST", // Any string works
-                        "isWinner": true,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                        "name": "Ant"
-                    }
-                ]
-            }
-        ],
-        'lower': [
-            {
-                "id": 260004,
-                "name": "Semi Final - Match",
-                "nextMatchId": 260005,
-                "nextLooserMatchId": 260005,
-                "tournamentRoundText": "4",
-                "startTime": "2021-05-30",
-                "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
-                "participants": [
-                    {
-                        "id": "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc", // Unique identifier of any kind
-                        "resultText": "WON", // Any string works
-                        "isWinner": false,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                        "name": "giacomo123"
-                    },
-                    {
-                        "id": "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-                        "resultText": null,
-                        "isWinner": true,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                        "name": "Ant"
-                    }
-                ]
-            },
-            {
-                "id": 260005,
-                "name": "Semi Final - Match",
-                "nextMatchId": 260006,
-                "nextLooserMatchId": null,
-                "tournamentRoundText": "4",
-                "startTime": "2021-05-30",
-                "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
-                "participants": [
-                    {
-                        "id": "c016cb2a-fdd9-4c40-a81f-0cc6bdf4b9cc", // Unique identifier of any kind
-                        "resultText": "WON", // Any string works
-                        "isWinner": false,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                        "name": "giacomo123"
-                    },
-                    {
-                        "id": "9ea9ce1a-4794-4553-856c-9a3620c0531b",
-                        "resultText": null,
-                        "isWinner": true,
-                        "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                        "name": "Ant"
-                    }
-                ]
-            }
-        ],
-    };
-
     const addParticipantHandler = () => {
         setParticipants((prevParticipants => {
             const newIndex = prevParticipants[prevParticipants.length - 1].index + 1;
             const newParticipant = {
                 index: newIndex,
-                name: '-'
+                name: `Participant #${newIndex}`
             }
-            setEnablePreview(isPowerOfTwo(newIndex));
 
             const newParticipants = [...prevParticipants, newParticipant];
-
             formatTournamentPreview(newParticipants);
 
             return newParticipants;
@@ -317,9 +166,7 @@ const Create = () => {
     }
 
     const formatTournamentPreview = (participants) => {
-        if (isPowerOfTwo(participants.length)) {
-            setSingleMatches(formatTournamentMatchesData(participants, true));
-        }
+        setSingleMatches(formatTournamentMatchesData(participants));
     }
 
     const formSubmitHandler = async (e) => {
@@ -370,7 +217,7 @@ const Create = () => {
 
     return (
     <Page pageIndex='tournaments'>
-        <h1 className="mb-8 text-3xl font-bold">Create tournament</h1>
+        <Heading title='Create tournament' subtitle='Create tournament with live tournament preview.' />
         {loading
             ? (<React.Fragment>
                 <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Creating your tournament:</h2>
@@ -414,10 +261,10 @@ const Create = () => {
                 </ul>
             </React.Fragment>)
             : (<React.Fragment>
-                <div className='flex'>
+                <div className='flex flex-col items-stretch xl:flex-row'>
                     <div className='basis-2/5 overflow-y-auto overflow-x-hidden max-h-[40rem]
                                 scrollbar-thin scrollbar-thumb-indigo-900 scrollbar-track-indigo-600 pr-5'>
-                        <form id="create-tournament-form" onSubmit={formSubmitHandler} className="w-full max-w-lg mt-2">
+                        <form id="create-tournament-form" onSubmit={formSubmitHandler} className="w-full max-w-lg mt-2 mx-auto mb-10">
                             <div>
                                 <div className="flex flex-wrap -mx-3 mb-6">
                                     <div className="w-full px-3">
@@ -553,37 +400,28 @@ const Create = () => {
                             </Disclosure>
                         </form>
                     </div>
-                    <div className='basis-3/5 pl-2'>
+                    <div className='basis-3/5 pl-2 self-center'>
                         <h1 className='text-xl font-semibold'>Tournament preview</h1>
                         <hr/>
-                        {enablePreview && (
-                            <SingleEliminationBracket
-                                matches={singleMatches}
-                                theme={WhiteTheme}
-                                options={{
-                                    style: {
-                                        roundHeader: { backgroundColor: '#312E81' },
-                                        connectorColor: '#312E81',
-                                        connectorColorHighlight: '#000',
-                                    },
-                                }}
-                                matchComponent={Match}
-                                svgWrapper={({ children, ...props }) => (
-                                    <SVGViewer width={750} height={750} {...props}
-                                               background="#FFF" SVGBackground="#F0F4F9"
-                                    >
-                                        {children}
-                                    </SVGViewer>
-                                )}
-                            />
-                        )}
-                        {!enablePreview && (
-                            <div>
-                                <div className='text-md font-semibold'>
-                                    Tournament preview will be available once you add eligible number of participants.
-                                </div>
-                            </div>
-                        )}
+                        <SingleEliminationBracket
+                            matches={singleMatches}
+                            theme={WhiteTheme}
+                            options={{
+                                style: {
+                                    roundHeader: { backgroundColor: '#312E81' },
+                                    connectorColor: '#312E81',
+                                    connectorColorHighlight: '#000',
+                                },
+                            }}
+                            matchComponent={Match}
+                            svgWrapper={({ children, ...props }) => (
+                                <SVGViewer width={750} height={750} {...props}
+                                           background="#FFF" SVGBackground="#F0F4F9"
+                                >
+                                    {children}
+                                </SVGViewer>
+                            )}
+                        />
                     </div>
                 </div>
                 <button type="submit" form='create-tournament-form'
