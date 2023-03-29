@@ -9,6 +9,7 @@ import {
     SVGViewer,
     createTheme
 } from '@g-loot/react-tournament-brackets';
+import Heading from "@/Components/Page/Heading/Heading";
 
 const WhiteTheme = createTheme({
     textColor: { main: '#000000', highlighted: '#07090D', dark: '#3E414D' },
@@ -203,8 +204,8 @@ const Index = () => {
     ];
 
     return (
-        <Page pageIndex='tournaments'>
-            <h1 className="mb-8 text-3xl font-bold">{tournament.name}</h1>
+        <Page pageIndex='tournaments' breadcrumbsPathArray={['Tournaments', 'View']}>
+            <Heading title={tournament.name} />
             <SingleEliminationBracket
                 matches={matches}
                 theme={WhiteTheme}

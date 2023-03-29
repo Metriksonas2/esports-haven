@@ -3,8 +3,9 @@ import Sidebar from "@/Components/Page/Sidebar/Sidebar";
 import Main from "@/Components/Page/Main/Main";
 import toast, {Toaster} from "react-hot-toast";
 import {isSidebarOpen} from "@/Services/functions";
+import Breadcrumbs from "@/Components/Page/Breadcrumbs/Breadcrumbs";
 
-const Page = ({ pageIndex, children }) => {
+const Page = ({ pageIndex, breadcrumbsPathArray = [], children }) => {
     let socket = new WebSocket('ws://localhost:8080');
     const [open, setOpen] = useState(isSidebarOpen());
 
@@ -54,7 +55,8 @@ const Page = ({ pageIndex, children }) => {
                     position="top-right"
                     reverseOrder={false}
                 />
-                <button className='btn-indigo mb-2' onClick={notificationHandler}>Follow</button>
+                {/*<button className='btn-indigo mb-2' onClick={notificationHandler}>Follow</button>*/}
+                {breadcrumbsPathArray.length !== 0 && <Breadcrumbs pathArray={breadcrumbsPathArray} /> }
                 {children}
             </Main>
         </div>

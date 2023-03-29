@@ -32,7 +32,7 @@ const Index = () => {
         },
     ];
     return (
-        <Page pageIndex='games'>
+        <Page pageIndex='games' breadcrumbsPathArray={['Games']}>
             <Heading title='Games' subtitle='Games in which you can compete in your own tournaments.' />
             <div className="games w-full flex flex-wrap gap-4">
                 {games.map(game => (

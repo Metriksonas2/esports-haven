@@ -4,7 +4,7 @@ import Calendar from "@/Components/Schedule/Calendar/Calendar";
 
 const Index = () => {
     return (
-        <Page pageIndex='schedule'>
+        <Page pageIndex='schedule' breadcrumbsPathArray={['Schedule']}>
             <Calendar />
         </Page>
     );

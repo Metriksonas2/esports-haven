@@ -24,7 +24,7 @@ const Tournaments = () => {
     };
 
     return (
-        <Page pageIndex='tournaments'>
+        <Page pageIndex='tournaments' breadcrumbsPathArray={['Tournaments']}>
             <div className="flex items-center justify-between mb-6">
                 <InertiaLink
                     className="btn-indigo focus:outline-none"

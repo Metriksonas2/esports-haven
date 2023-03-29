@@ -172,33 +172,29 @@ const Create = () => {
     const formSubmitHandler = async (e) => {
         e.preventDefault();
 
-        if (isPowerOfTwo(participants.length)) {
-            try {
-                const body = {
-                    name,
-                    description,
-                    game,
-                    withThirdPlaceMatch: isThirdPlaceMatch,
-                    rules,
-                    startDate,
-                    bracketType,
-                    participants
-                };
+        try {
+            const body = {
+                name,
+                description,
+                game,
+                withThirdPlaceMatch: isThirdPlaceMatch,
+                rules,
+                startDate,
+                bracketType,
+                participants
+            };
 
-                const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
 
-                setLoading(true);
-                const response = await axios.post('/api/tournaments', body, {
-                    headers: headers
-                });
-                toast.success('Tournament has been created!')
-                location.replace(route('tournaments?tournament=created'));
-            } catch (error) {
-                setLoading(false);
-                console.log(error);
-            }
-        } else {
-            //TODO handle when not eligible number of participants
+            setLoading(true);
+            const response = await axios.post('/api/tournaments', body, {
+                headers: headers
+            });
+            toast.success('Tournament has been created!')
+            location.replace(route('tournaments?tournament=created'));
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
         }
     }
 
@@ -216,7 +212,7 @@ const Create = () => {
     }
 
     return (
-    <Page pageIndex='tournaments'>
+    <Page pageIndex='tournaments' breadcrumbsPathArray={['Tournaments', 'Create tournament']}>
         <Heading title='Create tournament' subtitle='Create tournament with live tournament preview.' />
         {loading
             ? (<React.Fragment>
