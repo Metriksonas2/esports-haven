@@ -10,7 +10,26 @@ function classNames(...classes) {
 
 const Topbar = ({ open }) => {
   return (
-      <div className={`${open ? 'pr-72' : 'pr-20'} flex fixed w-full justify-end h-24 bg-[#FEFFFE] z-40 border border-t-0 border-x-0 border-b-gray-200 duration-300`}>
+      <div className={`${open ? 'pr-72' : 'pr-20'} flex fixed w-full h-24 bg-[#FEFFFE] z-40 border border-t-0 border-x-0 border-b-gray-200 duration-300`}>
+          <form className='basis-2/6 pt-4 pl-4 mx-auto'>
+              <label htmlFor="default-search"
+                     className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+              <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <svg aria-hidden="true" className="w-5 h-5 text-gray-500" fill="none"
+                           stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                      </svg>
+                  </div>
+                  <input type="search" id="default-search"
+                         className="block w-full p-4 pl-10 text-sm text-gray-900 border border-indigo-400 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                         placeholder="Search users" required />
+                  <button type="submit"
+                          className="text-white absolute right-2.5 bottom-2.5 bg-indigo-700 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search
+                  </button>
+              </div>
+          </form>
           <ul className='flex items-center'>
               <li className='px-4'>
                   <NotificationBell />
@@ -38,15 +57,15 @@ const Topbar = ({ open }) => {
                               <div className="py-1">
                                   <Menu.Item>
                                       {({ active }) => (
-                                          <a
-                                              href="#"
+                                          <InertiaLink
+                                              href={route('profile')}
                                               className={classNames(
                                                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                   'block px-4 py-2 text-sm'
                                               )}
                                           >
-                                              Edit
-                                          </a>
+                                              View profile
+                                          </InertiaLink>
                                       )}
                                   </Menu.Item>
                                   <Menu.Item>
@@ -58,7 +77,7 @@ const Topbar = ({ open }) => {
                                                   'block px-4 py-2 text-sm'
                                               )}
                                           >
-                                              Duplicate
+                                              Edit profile
                                           </a>
                                       )}
                                   </Menu.Item>
