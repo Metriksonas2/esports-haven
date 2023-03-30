@@ -4,7 +4,7 @@ const Cell = ({ day, isEmpty = false }) => {
     return (isEmpty
             ? (<div></div>)
 
-            : (<div className="relative flex flex-col bg-white group h-[171px]">
+            : (<div className="relative flex flex-col bg-white group">
                 <span className="mx-2 my-1 text-xs font-bold">{day}</span>
                 <div className="flex flex-col px-1 py-1 overflow-auto h-full scrollbar-thin scrollbar-thumb-gray-600">
                     <button
