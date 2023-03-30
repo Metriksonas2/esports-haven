@@ -110,7 +110,7 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
             } else if (isSecondRound) {
                 let firstParticipantName = participants[participantIndex].name;
                 let index = findIndexFromSecondRoundObjects(secondRoundIndexes, i);
-                console.log(i)
+
                 if (index > -1) {
                     let roundObj = secondRoundIndexes[index];
 
