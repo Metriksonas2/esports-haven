@@ -46,7 +46,7 @@ const Index = () => {
                                         <div className="relative">
                                             <img id='profile-image' alt="Profile image"
                                                  src="/assets/images/profile-avatar.jpg"
-                                                 className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -mt-10 -ml-[75px] max-w-[150px] z-20 ease-linear transition-all duration-200" />
+                                                 className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -mt-[42px] -ml-[75px] max-w-[150px] z-20 ease-linear transition-all duration-200" />
                                             <div className='w-48 h-48 align-middle absolute -m-16 -ml-24 lg:-ml-22 z-10'>
                                                 <CircularProgressbar value={userProgression.percentage}
                                                                      text={`${userProgression.level}`}
