@@ -5,11 +5,15 @@ import CsgoBox from "@/Components/Games/GameBoxes/CsgoBox";
 import DotaBox from "@/Components/Games/GameBoxes/DotaBox";
 import LeagueOfLegendsBox from "@/Components/Games/GameBoxes/LeagueOfLegendsBox";
 import RocketLeagueBox from "@/Components/Games/GameBoxes/RocketLeagueBox";
+import { CircularProgressbar } from 'react-circular-progressbar';
 
 const Index = () => {
     const user = usePage().props.user;
     const fullName = user.firstName + ' ' + user.lastName;
-
+    const userProgression = {
+        level: 5,
+        percentage: 70
+    }
     return (
         <Page pageIndex=''>
             <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" />
@@ -36,13 +40,19 @@ const Index = () => {
                     <div className="container mx-auto px-6">
                         <div
                             className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-                            <div className="px-6">
+                            <div id='profile-section' className="px-6">
                                 <div className="flex flex-wrap justify-center">
                                     <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                                         <div className="relative">
-                                            <img alt="..."
+                                            <img id='profile-image' alt="Profile image"
                                                  src="/assets/images/profile-avatar.jpg"
-                                                 className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]" />
+                                                 className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -mt-10 -ml-[75px] max-w-[150px] z-20 ease-linear transition-all duration-200" />
+                                            <div className='w-48 h-48 align-middle absolute -m-16 -ml-24 lg:-ml-22 z-10'>
+                                                <CircularProgressbar value={userProgression.percentage}
+                                                                     text={`${userProgression.level}`}
+                                                                     background='true'
+                                                />;
+                                            </div>
                                         </div>
                                     </div>
                                     <div
