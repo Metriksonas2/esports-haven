@@ -8,7 +8,7 @@ import {getQueryParam} from "@/Services/functions";
 
 const Table = ({ tournaments, isHosted }) => {
     const [tournamentCreated, setTournamentCreated] = useState(false);
-
+    console.log(tournaments)
     useEffect(() => {
         let getTournamentQuery = getQueryParam('tournament');
 

@@ -3,6 +3,7 @@
 namespace App\Controller\Tournaments;
 
 use App\Entity\Tournament;
+use App\Enum\GameType;
 use App\Repository\TournamentRepository;
 use App\Service\JsonSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,7 +41,9 @@ class TournamentController extends AbstractController
         InertiaInterface $inertia,
     ): Response
     {
-        return $inertia->render("Tournaments/Create", []);
+        return $inertia->render("Tournaments/Create", [
+            'games' => GameType::cases()
+        ]);
     }
 
     #[Route('/{tournament}', name: 'view')]

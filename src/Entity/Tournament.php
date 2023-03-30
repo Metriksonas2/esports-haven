@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\BracketType;
+use App\Enum\GameType;
 use App\Repository\TournamentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -28,9 +29,9 @@ class Tournament
     #[Groups('tournaments')]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: "string", length: 255, enumType: GameType::class)]
     #[Groups('tournaments')]
-    private ?string $game = null;
+    private ?GameType $game = null;
 
     #[ORM\Column]
     #[Groups('tournaments')]
@@ -100,12 +101,12 @@ class Tournament
         return $this;
     }
 
-    public function getGame(): ?string
+    public function getGame(): ?GameType
     {
         return $this->game;
     }
 
-    public function setGame(string $game): self
+    public function setGame(GameType $game): self
     {
         $this->game = $game;
 

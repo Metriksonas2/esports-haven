@@ -55,9 +55,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'host', targetEntity: Tournament::class)]
     private Collection $hostedTournaments;
 
+    #[ORM\OneToMany(mappedBy: 'endorsedUser', targetEntity: Endorsement::class)]
+    private Collection $endorsements;
+
     public function __construct()
     {
         $this->hostedTournaments = new ArrayCollection();
+        $this->endorsements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +206,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($hostedTournament->getHost() === $this) {
                 $hostedTournament->setHost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Endorsement>
+     */
+    public function getEndorsements(): Collection
+    {
+        return $this->endorsements;
+    }
+
+    public function addEndorsement(Endorsement $endorsement): self
+    {
+        if (!$this->endorsements->contains($endorsement)) {
+            $this->endorsements->add($endorsement);
+            $endorsement->setEndorsedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEndorsement(Endorsement $endorsement): self
+    {
+        if ($this->endorsements->removeElement($endorsement)) {
+            // set the owning side to null (unless already changed)
+            if ($endorsement->getEndorsedUser() === $this) {
+                $endorsement->setEndorsedUser(null);
             }
         }
 

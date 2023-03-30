@@ -100,15 +100,15 @@ const Index = () => {
                                     </div>
                                     <div className="mb-2 text-blueGray-600 flex flex-col lg:flex-row justify-center items-center">
                                         {/*<i className="fas fa-gamepad mr-2 text-lg text-blueGray-400"></i>*/}
-                                        <div className='flex flex-wrap gap-y-2 mt-4'>
+                                        <div className='flex flex-wrap gap-y-3 mt-4'>
                                             <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
-                                                <LeagueOfLegendsBox />
+                                                <LeagueOfLegendsBox endorsements='12' />
                                             </div>
                                             <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
                                                 <CsgoBox />
                                             </div>
                                             <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
-                                                <DotaBox />
+                                                <DotaBox endorsements='4' />
                                             </div>
                                             <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
                                                 <RocketLeagueBox />

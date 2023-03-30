@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Entity\Tournament;
 use App\Entity\TournamentMatch;
 use App\Enum\BracketType;
+use App\Enum\GameType;
 use App\Repository\TournamentRepository;
 use App\Service\ParticipantService;
 use App\Service\TournamentMatchService;
@@ -55,7 +56,7 @@ class TournamentsApiController extends AbstractController
         /** @var Tournament $tournament */
         $tournament = $this->serializer->deserialize(
             $request->getContent(), Tournament::class, JsonEncoder::FORMAT, [
-                AbstractNormalizer::IGNORED_ATTRIBUTES => ['bracketType', 'participants'],
+                AbstractNormalizer::IGNORED_ATTRIBUTES => ['game', 'bracketType', 'participants'],
             ]
         );
 
@@ -77,6 +78,10 @@ class TournamentsApiController extends AbstractController
 
         if (!is_null($bracketType = BracketType::tryFrom($requestData['bracketType']))) {
             $tournament->setBracketType($bracketType);
+        }
+
+        if (!is_null($game = GameType::tryFrom($requestData['game']))) {
+            $tournament->setGame($game);
         }
 
         $tournament->setHost($user);

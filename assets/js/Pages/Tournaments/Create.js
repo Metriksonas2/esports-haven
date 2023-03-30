@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import route from "@/Services/route";
 import DatePicker from "@/Components/UI/DatePicker/DatePicker";
 import Heading from "@/Components/Page/Heading/Heading";
+import {usePage} from "@inertiajs/inertia-react";
 
 const WhiteTheme = createTheme({
     textColor: { main: '#000000', highlighted: '#FFFFFF', dark: '#000000' },
@@ -35,6 +36,7 @@ const WhiteTheme = createTheme({
 });
 
 const Create = () => {
+    const gamesList = usePage().props.games;
     const [participants, setParticipants] = useState([
         {
             index: 1,
@@ -298,11 +300,13 @@ const Create = () => {
                                                 className="bg-gray-200 border border-gray-200 text-gray-700 text-sm rounded-lg focus:bg-white focus:outline-none focus:border-gray-500 block w-full p-2.5"
                                                 onChange={(e) => setGame(e.target.value) }>
                                             <option value="none" defaultValue>-</option>
-                                            <option value="League of Legends">League of Legends</option>
-                                            <option value="Dota 2">Dota 2</option>
-                                            <option value="CS:GO">CS:GO</option>
-                                            <option value="Rocket League">Rocket League</option>
-                                            <option value="Brawlhalla">Brawlhalla</option>
+                                            {gamesList.map((game, index) => {
+                                                if (index !== 0) {
+                                                    return (
+                                                        <option value={game}>{game}</option>
+                                                    );
+                                                }
+                                            })}
                                         </select>
                                     </div>
                                 </div>
