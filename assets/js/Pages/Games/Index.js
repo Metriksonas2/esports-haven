@@ -21,6 +21,11 @@ const Index = () => {
             description: 'Counter-Strike: Global Offensive is a tactical shooter that emphasizes teamwork, strategy, and gunplay. Getting kills in CS:GO comes from recognizing and holding angles, using grenades in a smart manner, and effectively communicating with your team. Winning a game requires extensive teamwork, as well as personal economy management.'
         },
         {
+            name: 'Valorant',
+            image: '/assets/images/games/Valorant.webp',
+            description: 'Valorant is a team-based first-person tactical hero shooter set in the near future. Players play as one of a set of Agents, characters based on several countries and cultures around the world. In the main game mode, players are assigned to either the attacking or defending team with each team having five players on it.'
+        },
+        {
             name: 'Rocket League',
             image: '/assets/images/games/Rocket League.png',
             description: 'Rocket League is a fantastical sport-based video game, developed by Psyonix (it\'s “soccer with cars”). It features a competitive game mode based on teamwork and outmaneuvering opponents. Players work with their team to advance the ball down the field, and score goals in their opponents\' net.'
