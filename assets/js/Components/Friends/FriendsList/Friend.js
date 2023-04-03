@@ -2,7 +2,9 @@ import React from 'react';
 import {UserMinusIcon} from "@heroicons/react/24/solid";
 import route from "@/Services/route";
 
-const Friend = () => {
+const Friend = ({ id, firstName, lastName, email, position, country }) => {
+    const fullName = firstName + ' ' + lastName;
+
     return (
         <tr className="hover:bg-gray-100">
             <td className="p-4 w-4">
@@ -13,23 +15,23 @@ const Friend = () => {
                 </div>
             </td>
             <td>
-                <a href={route('profile')} className='flex items-center p-4 whitespace-nowrap space-x-6 mr-12 lg:mr-0'>
+                <a href={route('user', id)} className='flex items-center p-4 whitespace-nowrap space-x-6 mr-12 lg:mr-0'>
                     <img className="h-10 w-10 rounded-full"
                          src="/assets/images/avatar.jpg"
                          alt="Avatar" />
                     <div className="text-sm font-normal text-gray-500">
-                        <div className="text-base font-semibold text-gray-900">Erikas Goriačevskis</div>
+                        <div className="text-base font-semibold text-gray-900">{fullName}</div>
                         <div className="text-sm font-normal text-gray-500">
-                            erikas.goriacevskis@gmail.com
+                            {email}
                         </div>
                     </div>
                 </a>
             </td>
             <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">
-                PHP Developer
+                {position}
             </td>
             <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">
-                Lithuania
+                {country}
             </td>
             <td className="p-4 whitespace-nowrap text-base font-normal text-gray-900">
                 <div className="flex items-center">

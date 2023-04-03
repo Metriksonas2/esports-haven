@@ -17,8 +17,10 @@ class ProfileController extends AbstractController
     {
         $user = $this->getUser();
 
-        return $inertia->render("Profile/Index", [
+        return $inertia->render("Profile/View", [
             'user' => $user,
+            'isMe' => true,
+            'isFriend' => false,
         ]);
     }
 }

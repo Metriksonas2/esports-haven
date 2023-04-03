@@ -61,7 +61,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'toUser', targetEntity: FriendRequest::class, orphanRemoval: true)]
     private Collection $friendRequests;
 
-    #[ORM\ManyToMany(targetEntity: Friend::class, inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\JoinTable(
+        name: 'friends',
+        joinColumns: [new ORM\JoinColumn(name: 'user_a_id', referencedColumnName: 'id')],
+        inverseJoinColumns: [new ORM\JoinColumn('user_b_id', referencedColumnName: 'id')]
+    )]
     private Collection $friends;
 
     public function __construct()
@@ -280,27 +285,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Friend>
-     */
-    public function getFriends(): Collection
+    public function getFriends()
     {
-        return $this->friends;
+        return $this->friends->toArray();
     }
 
-    public function addFriend(Friend $friend): self
+    public function addFriend(User $user)
     {
-        if (!$this->friends->contains($friend)) {
-            $this->friends->add($friend);
+        if (!$this->friends->contains($user)) {
+            $this->friends->add($user);
+            $user->addFriend($this);
         }
-
-        return $this;
     }
 
-    public function removeFriend(Friend $friend): self
+    public function removeFriend(User $user)
     {
-        $this->friends->removeElement($friend);
-
-        return $this;
+        if ($this->friends->contains($user)) {
+            $this->friends->removeElement($user);
+            $user->removeFriend($this);
+        }
     }
 }

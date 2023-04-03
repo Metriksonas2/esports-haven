@@ -15,6 +15,11 @@ class FriendController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(InertiaInterface $inertia)
     {
-        return $inertia->render("Friends/Index", []);
+        $user = $this->getUser();
+        $friends = $user->getFriends();
+
+        return $inertia->render("Friends/Index", [
+            'friends' => $friends,
+        ]);
     }
 }

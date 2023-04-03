@@ -34,8 +34,16 @@ const FriendsList = ({ friends }) => {
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {[...Array(20)].map((friend, index) => (
-                                <Friend key={index} />
+                            {friends.map((friend, index) => (
+                                <Friend
+                                    key={index}
+                                    id={friend.id}
+                                    firstName={friend.firstName}
+                                    lastName={friend.lastName}
+                                    email={friend.email}
+                                    position='PHP Developer'
+                                    country='Lithuania'
+                                />
                             ))}
                             </tbody>
                         </table>

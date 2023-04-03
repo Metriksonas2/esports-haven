@@ -6,15 +6,19 @@ import DotaBox from "@/Components/Games/GameBoxes/DotaBox";
 import LeagueOfLegendsBox from "@/Components/Games/GameBoxes/LeagueOfLegendsBox";
 import RocketLeagueBox from "@/Components/Games/GameBoxes/RocketLeagueBox";
 import { CircularProgressbar } from 'react-circular-progressbar';
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 
 const Index = () => {
     const user = usePage().props.user;
-    console.log(user)
+    const isMe = usePage().props.isMe;
+    const isFriend = usePage().props.isFriend;
+
     const fullName = user.firstName + ' ' + user.lastName;
     const userProgression = {
         level: 5,
         percentage: 70
     }
+
     return (
         <Page pageIndex=''>
             <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" />
@@ -58,12 +62,23 @@ const Index = () => {
                                     </div>
                                     <div
                                         className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                                        <div className="py-6 px-3 mt-32 sm:mt-0">
-                                            <button
-                                                className="btn-indigo uppercase text-white font-semibold hover:shadow-md shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                                                type="button">
-                                                Follow
-                                            </button>
+                                        <div className={`py-6 px-3 mt-32 sm:mt-0 ${isFriend ? 'flex justify-end' : ''}`}>
+                                            {(!isFriend && !isMe) && (
+                                                <button
+                                                    className="btn-indigo uppercase text-white font-semibold hover:shadow-md shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                                                    type="button">
+                                                    Add Friend
+                                                </button>
+                                            )}
+
+                                            {isFriend && (
+                                                <div
+                                                    className="w-32 flex gap-x-2 items-center bg-indigo-900 uppercase text-white font-semibold shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                                                >
+                                                    <div>Friends</div>
+                                                    <CheckBadgeIcon className='w-6' />
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     <div className="w-full lg:w-4/12 px-4 lg:order-1">
