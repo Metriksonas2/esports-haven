@@ -58,10 +58,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'endorsedUser', targetEntity: Endorsement::class)]
     private Collection $endorsements;
 
+    #[ORM\OneToMany(mappedBy: 'toUser', targetEntity: FriendRequest::class, orphanRemoval: true)]
+    private Collection $friendRequests;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Friend::class, orphanRemoval: true)]
+    private Collection $friends;
+
     public function __construct()
     {
         $this->hostedTournaments = new ArrayCollection();
         $this->endorsements = new ArrayCollection();
+        $this->friendRequests = new ArrayCollection();
+        $this->friends = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -236,6 +244,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($endorsement->getEndorsedUser() === $this) {
                 $endorsement->setEndorsedUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FriendRequest>
+     */
+    public function getFriendRequests(): Collection
+    {
+        return $this->friendRequests;
+    }
+
+    public function addFriendRequest(FriendRequest $friendRequest): self
+    {
+        if (!$this->friendRequests->contains($friendRequest)) {
+            $this->friendRequests->add($friendRequest);
+            $friendRequest->setToUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriendRequest(FriendRequest $friendRequest): self
+    {
+        if ($this->friendRequests->removeElement($friendRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($friendRequest->getToUser() === $this) {
+                $friendRequest->setToUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Friend>
+     */
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(Friend $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends->add($friend);
+            $friend->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(Friend $friend): self
+    {
+        if ($this->friends->removeElement($friend)) {
+            // set the owning side to null (unless already changed)
+            if ($friend->getUser() === $this) {
+                $friend->setUser(null);
             }
         }
 
