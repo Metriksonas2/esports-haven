@@ -324,6 +324,10 @@ const getFirstDayOfTheCurrentMonth = () => {
     return new Date(`${year}-${monthIndex + 1}-01`).getDay()
 }
 
+const daysInMonth = (month, year) => {
+    return new Date(year, month + 1, 0).getDate();
+}
+
 const getEmptyCalendarCellsCount = () => {
     let emptyCellsCount = 0;
     for (let i = 1; i < getFirstDayOfTheCurrentMonth(); i++) {
@@ -343,6 +347,7 @@ export {
     isSidebarOpen,
     generateMonthlyCalendar,
     getFirstDayOfTheCurrentMonth,
+    daysInMonth,
     getEmptyCalendarCellsCount,
     getCorrectDateFormatFromDateObject,
     getTwoRoundMatchIndexes

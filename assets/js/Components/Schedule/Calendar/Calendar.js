@@ -1,5 +1,10 @@
 import React, {useEffect} from 'react';
-import {generateMonthlyCalendar, getFirstDayOfTheCurrentMonth, getEmptyCalendarCellsCount} from "@/Services/functions";
+import {
+    generateMonthlyCalendar,
+    getFirstDayOfTheCurrentMonth,
+    getEmptyCalendarCellsCount,
+    daysInMonth
+} from "@/Services/functions";
 import Cell from "@/Components/Schedule/Calendar/Cell/Cell";
 
 const Calendar = () => {
@@ -9,12 +14,12 @@ const Calendar = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
     const currentYear = currentDate.getFullYear();
+    const daysInCurrentMonth = daysInMonth(currentDate.getMonth(), currentYear);
 
     return (
         <React.Fragment>
             <div className="text-gray-700 -z-10">
                 <div className="flex flex-grow w-full h-screen overflow-auto">
-
                     <div className="flex flex-col flex-grow">
                         <div className="flex items-center mt-4">
                             <div className="flex ml-6">
@@ -46,7 +51,7 @@ const Calendar = () => {
                         </div>
                         <div className={
                             `grid flex-grow w-full h-auto grid-cols-7 
-                            ${monthStartsAfterFriday ? 'grid-rows-6' : 'grid-rows-5'} gap-px pt-px mt-1 bg-gray-200`
+                            ${monthStartsAfterFriday && daysInCurrentMonth > 30 ? 'grid-rows-6' : 'grid-rows-5'} gap-px pt-px mt-1 bg-gray-200`
                         }>
                             {[...Array(emptyCellsCount)].map((e) => (
                                 <Cell isEmpty={true} />
