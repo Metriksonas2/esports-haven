@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FriendRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FriendRepository::class)]
@@ -13,23 +15,42 @@ class Friend
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'friends')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'friends')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
-    public function setUser(?User $user): self
+    public function addUser(User $user): self
     {
-        $this->user = $user;
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addFriend($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeFriend($this);
+        }
 
         return $this;
     }

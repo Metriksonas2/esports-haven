@@ -61,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'toUser', targetEntity: FriendRequest::class, orphanRemoval: true)]
     private Collection $friendRequests;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Friend::class, orphanRemoval: true)]
+    #[ORM\ManyToMany(targetEntity: Friend::class, inversedBy: 'users')]
     private Collection $friends;
 
     public function __construct()
@@ -292,7 +292,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->friends->contains($friend)) {
             $this->friends->add($friend);
-            $friend->setUser($this);
         }
 
         return $this;
@@ -300,12 +299,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeFriend(Friend $friend): self
     {
-        if ($this->friends->removeElement($friend)) {
-            // set the owning side to null (unless already changed)
-            if ($friend->getUser() === $this) {
-                $friend->setUser(null);
-            }
-        }
+        $this->friends->removeElement($friend);
 
         return $this;
     }
