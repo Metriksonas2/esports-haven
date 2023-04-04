@@ -21,6 +21,8 @@ class ProfileController extends AbstractController
             'user' => $user,
             'isMe' => true,
             'isFriend' => false,
+            'isRequestSent' => false,
+            'isRequestingToBeFriend' => false,
         ]);
     }
 }

@@ -5,10 +5,7 @@ import Page from "@/Components/Page/Page";
 import {InertiaLink, usePage} from "@inertiajs/inertia-react";
 import Table from "@/Components/Tournaments/Table/Table";
 import { Tab } from '@headlessui/react'
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+import {classNames} from "@/Services/functions";
 
 const Tournaments = () => {
     const [tournaments, setTournaments] = useState(JSON.parse(usePage().props.tournaments));

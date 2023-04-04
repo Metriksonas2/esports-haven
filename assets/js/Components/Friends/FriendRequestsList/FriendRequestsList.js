@@ -1,7 +1,7 @@
 import React from 'react';
-import Friend from "@/Components/Friends/FriendsList/Friend";
+import FriendRequest from "@/Components/Friends/FriendRequestsList/FriendRequest";
 
-const FriendsList = ({ friends, friendRequests }) => {
+const FriendRequestsList = ({ friendRequests }) => {
     return (
         <div className="flex flex-col">
             <div className="overflow-x-auto">
@@ -21,27 +21,23 @@ const FriendsList = ({ friends, friendRequests }) => {
                                     Name
                                 </th>
                                 <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase">
-                                    Position
+                                    Games
                                 </th>
                                 <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase">
                                     Country
-                                </th>
-                                <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase">
-                                    Status
                                 </th>
                                 <th scope="col" className="p-4">
                                 </th>
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                            {friends.map((friend, index) => (
-                                <Friend
+                            {friendRequests.map((friendRequest, index) => (
+                                <FriendRequest
                                     key={index}
-                                    id={friend.id}
-                                    firstName={friend.firstName}
-                                    lastName={friend.lastName}
-                                    email={friend.email}
-                                    position='PHP Developer'
+                                    id={friendRequest.id}
+                                    firstName={friendRequest.firstName}
+                                    lastName={friendRequest.lastName}
+                                    email={friendRequest.email}
                                     country='Lithuania'
                                 />
                             ))}
@@ -54,4 +50,4 @@ const FriendsList = ({ friends, friendRequests }) => {
     );
 }
 
-export default FriendsList;
+export default FriendRequestsList;

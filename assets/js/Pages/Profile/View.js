@@ -6,17 +6,101 @@ import DotaBox from "@/Components/Games/GameBoxes/DotaBox";
 import LeagueOfLegendsBox from "@/Components/Games/GameBoxes/LeagueOfLegendsBox";
 import RocketLeagueBox from "@/Components/Games/GameBoxes/RocketLeagueBox";
 import { CircularProgressbar } from 'react-circular-progressbar';
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import {CheckBadgeIcon, PaperAirplaneIcon} from "@heroicons/react/24/solid";
+import axios from "axios";
+import toast from "react-hot-toast";
+import route from "@/Services/route";
 
 const Index = () => {
     const user = usePage().props.user;
     const isMe = usePage().props.isMe;
-    const isFriend = usePage().props.isFriend;
+    const [isFriend, setIsFriend] = useState(usePage().props.isFriend);
+    const [isRequestSent, setIsRequestSent] = useState(usePage().props.isRequestSent);
+    const isRequestingToBeFriend = usePage().props.isRequestingToBeFriend;
 
     const fullName = user.firstName + ' ' + user.lastName;
     const userProgression = {
         level: 5,
         percentage: 70
+    }
+
+    const addFriendHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/friends/request/${user.id}`, {}, {
+                headers: headers
+            });
+
+            toast.success('Friend request has been sent successfully!')
+            setIsRequestSent(true);
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
+    }
+
+    const acceptFriendRequestHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/friends/accept/${user.id}`, {}, {
+                headers: headers
+            });
+
+            toast.success(`You're now friends with ${user.firstName}!`)
+            setIsFriend(true);
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
+    }
+
+    const buttonDisplay = () => {
+        if (isMe) {
+            return ('');
+        } else if (isFriend) {
+            return (
+                <div
+                    className="w-32 flex gap-x-2 items-center bg-indigo-900 uppercase text-white font-semibold shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                >
+                    <div>Friends</div>
+                    <CheckBadgeIcon className='w-6' />
+                </div>
+            );
+        }
+        if (!isFriend && isRequestSent) {
+            return (
+                <div
+                    className="w-40 flex gap-x-2 items-center bg-indigo-900 uppercase text-white font-semibold shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                >
+                    <div className='whitespace-nowrap'>Request sent</div>
+                    <PaperAirplaneIcon className='w-6' />
+                </div>
+            );
+        } else if (!isFriend && isRequestingToBeFriend) {
+            return (
+                <button
+                    className="btn-indigo uppercase text-white font-semibold hover:shadow-md shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={acceptFriendRequestHandler}>
+                    Accept request
+                </button>
+            );
+        } else {
+            return (
+                <button
+                    className="btn-indigo uppercase text-white font-semibold hover:shadow-md shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={addFriendHandler}>
+                    Add Friend
+                </button>
+            );
+        }
     }
 
     return (
@@ -62,23 +146,8 @@ const Index = () => {
                                     </div>
                                     <div
                                         className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                                        <div className={`py-6 px-3 mt-32 sm:mt-0 ${isFriend ? 'flex justify-end' : ''}`}>
-                                            {(!isFriend && !isMe) && (
-                                                <button
-                                                    className="btn-indigo uppercase text-white font-semibold hover:shadow-md shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                                                    type="button">
-                                                    Add Friend
-                                                </button>
-                                            )}
-
-                                            {isFriend && (
-                                                <div
-                                                    className="w-32 flex gap-x-2 items-center bg-indigo-900 uppercase text-white font-semibold shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                                                >
-                                                    <div>Friends</div>
-                                                    <CheckBadgeIcon className='w-6' />
-                                                </div>
-                                            )}
+                                        <div className={`py-6 px-3 mt-32 sm:mt-0 ${isFriend || isRequestSent ? 'flex justify-end' : ''}`}>
+                                            {buttonDisplay()}
                                         </div>
                                     </div>
                                     <div className="w-full lg:w-4/12 px-4 lg:order-1">

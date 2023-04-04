@@ -340,6 +340,10 @@ const getCorrectDateFormatFromDateObject = (date) => {
     return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
 }
 
+const classNames = (...classes) => {
+    return classes.filter(Boolean).join(' ')
+}
+
 export {
     formatTournamentMatchesData,
     isPowerOfTwo,
@@ -350,5 +354,6 @@ export {
     daysInMonth,
     getEmptyCalendarCellsCount,
     getCorrectDateFormatFromDateObject,
-    getTwoRoundMatchIndexes
+    getTwoRoundMatchIndexes,
+    classNames,
 };

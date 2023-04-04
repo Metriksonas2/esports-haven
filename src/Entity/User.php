@@ -46,7 +46,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Ignore]
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
@@ -255,12 +254,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, FriendRequest>
-     */
-    public function getFriendRequests(): Collection
+    public function getFriendRequests(): array
     {
-        return $this->friendRequests;
+        return $this->friendRequests->toArray();
     }
 
     public function addFriendRequest(FriendRequest $friendRequest): self

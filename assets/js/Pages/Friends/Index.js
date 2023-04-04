@@ -4,14 +4,62 @@ import FriendsListSmall from "@/Components/Friends/FriendsList/FriendsListSmall"
 import FriendsList from "@/Components/Friends/FriendsList/FriendsList";
 import Heading from "@/Components/Page/Heading/Heading";
 import {usePage} from "@inertiajs/inertia-react";
+import {Tab} from "@headlessui/react";
+import Table from "@/Components/Tournaments/Table/Table";
+import {classNames} from "@/Services/functions";
+import FriendRequestsList from "@/Components/Friends/FriendRequestsList/FriendRequestsList";
 
 const Index = () => {
-    const friends = usePage().props.friends;
-    console.log(friends)
+    const [friends, setFriends] = useState(usePage().props.friends);
+    const [friendRequests, setFriendRequests] = useState(usePage().props.friendRequests);
+
+    const friendsTabs = {
+        "Friends List": <FriendsList friends={friends} />,
+        "Friend Requests": <FriendRequestsList friendRequests={friendRequests} />,
+    };
+
     return (
         <Page pageIndex='friends' breadcrumbsPathArray={['Friends']}>
-            <Heading title='Friends' />
-            <FriendsList friends={friends}/>
+            <Tab.Group>
+                <div className="w-full max-w-md px-2 sm:px-0 mb-6">
+                    <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+                        {Object.keys(friendsTabs).map((category, index) => (
+                            <Tab
+                                key={category}
+                                className={({ selected }) =>
+                                    classNames(
+                                        'w-full rounded-lg py-2.5 text-sm font-semibold leading-5 text-blue-700',
+                                        'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                                        selected
+                                            ? 'bg-white shadow'
+                                            : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                                    )
+                                }
+                            >
+                                {category}
+                            </Tab>
+                        ))}
+                    </Tab.List>
+                </div>
+                <Tab.Panels>
+                    {Object.values(friendsTabs).map((data, index) => (
+                        <Tab.Panel>
+                            <div className="flex flex-wrap -mx-3 mb-4">
+                                <div className="flex-none w-full max-w-full px-3">
+                                    <div
+                                        className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                                        <div className="p-6 pb-6 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                                            <h6 className='font-semibold'>{Object.keys(friendsTabs)[index]}</h6>
+                                        </div>
+                                        {data}
+                                    </div>
+                                </div>
+                            </div>
+                        </Tab.Panel>
+                    ))}
+
+                </Tab.Panels>
+            </Tab.Group>
         </Page>
     );
 }
