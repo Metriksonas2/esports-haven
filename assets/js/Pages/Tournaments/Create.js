@@ -183,7 +183,8 @@ const Create = () => {
                 rules,
                 startDate,
                 bracketType,
-                participants
+                participants,
+                matches: singleMatches
             };
 
             const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
@@ -196,6 +197,7 @@ const Create = () => {
             location.replace(route('tournaments?tournament=created'));
         } catch (error) {
             setLoading(false);
+            toast.error('Something went wrong... Please try again later')
             console.log(error);
         }
     }

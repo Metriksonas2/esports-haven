@@ -64,6 +64,9 @@ class Tournament
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startDate = null;
 
+    #[ORM\Column]
+    private ?bool $matchesSynced = false;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -241,6 +244,18 @@ class Tournament
     public function setStartDate(?\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    public function isMatchesSynced(): ?bool
+    {
+        return $this->matchesSynced;
+    }
+
+    public function setMatchesSynced(bool $matchesSynced): self
+    {
+        $this->matchesSynced = $matchesSynced;
 
         return $this;
     }

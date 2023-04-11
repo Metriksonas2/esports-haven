@@ -7,11 +7,13 @@ use App\Entity\Tournament;
 use App\Entity\TournamentMatch;
 use App\Enum\BracketType;
 use App\Enum\GameType;
+use App\Event\AfterTournamentCreatedEvent;
 use App\Repository\TournamentRepository;
 use App\Service\ParticipantService;
 use App\Service\TournamentMatchService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,7 +40,8 @@ class TournamentsApiController extends AbstractController
     public function create(
         Request $request,
         ParticipantService $participantService,
-        TournamentMatchService $tournamentMatchService
+        TournamentMatchService $tournamentMatchService,
+        EventDispatcherInterface $eventDispatcher,
     ): Response
     {
         $user = $this->getUser();
@@ -56,13 +59,16 @@ class TournamentsApiController extends AbstractController
         /** @var Tournament $tournament */
         $tournament = $this->serializer->deserialize(
             $request->getContent(), Tournament::class, JsonEncoder::FORMAT, [
-                AbstractNormalizer::IGNORED_ATTRIBUTES => ['game', 'bracketType', 'participants'],
+                AbstractNormalizer::IGNORED_ATTRIBUTES => ['game', 'bracketType', 'participants', 'matches'],
             ]
         );
 
+        $participants = $requestData['participants'];
+        $matches = $requestData['matches'];
+
         // Add participants to the tournament
         $participantsArray = $participantService->saveParticipants(
-            $requestData['participants'],
+            $participants,
             $tournament,
             $user,
             'WON',
@@ -74,6 +80,7 @@ class TournamentsApiController extends AbstractController
             "The match",
             "IN_PROGRESS",
             $participantsArray,
+            $matches,
         );
 
         if (!is_null($bracketType = BracketType::tryFrom($requestData['bracketType']))) {
@@ -88,6 +95,10 @@ class TournamentsApiController extends AbstractController
 
         $this->entityManager->persist($tournament);
         $this->entityManager->flush();
+
+        // Dispatch an event - "AfterTournamentCreatedEvent"
+        $afterTournamentCreatedEvent = new AfterTournamentCreatedEvent($tournament);
+        $eventDispatcher->dispatch($afterTournamentCreatedEvent);
 
         return $this->json(
             $tournament,

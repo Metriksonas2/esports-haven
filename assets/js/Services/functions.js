@@ -186,7 +186,7 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
                                 "name": firstParticipantName,
                             },
                             {
-                                "id": '',
+                                "id": '5c8264cf-2dcb-4c51-9134-367eaf7885a4',
                                 "resultText": null,
                                 "isWinner": false,
                                 "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
@@ -198,6 +198,9 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
                     participantIndex += 2;
                 }
             } else {
+                // check if "ghost" match (not first round match)
+                const participantId = i > (matchesCount + 1) / 2 ? 'TBD' : '-';
+
                 newSingleMatches.push({
                     "id": i,
                     "name": "-",
@@ -207,18 +210,18 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
                     "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
                     "participants": [
                         {
-                            "id": "-", // Unique identifier of any kind
+                            "id": participantId, // Unique identifier of any kind
                             "resultText": null, // Any string works
                             "isWinner": false,
                             "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
-                            "name": '-',
+                            "name": participantId,
                         },
                         {
-                            "id": "-",
+                            "id": participantId,
                             "resultText": null,
                             "isWinner": false,
                             "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
-                            "name": '-',
+                            "name": participantId,
                         }
                     ]
                 });
@@ -227,6 +230,62 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
     }
 
     return newSingleMatches;
+}
+
+const renderTournamentView = (matches) => {
+    const matchesArray = [];
+
+    matches.forEach(match => {
+        let participantOneId, participantTwoId;
+        let participantOneName, participantTwoName;
+        const participants = match.participants;
+
+        if (match.isGhostMatch) {
+            participantOneId = participantTwoId = '-';
+            participantOneName = participantTwoName = '-';
+        } else if (!Array.isArray(participants) && Object.keys(participants).length === 0) {
+            participantOneId = participantTwoId = 'TBD';
+            participantOneName = participantTwoName = 'TBD';
+        } else if (Array.isArray(participants) && participants.length === 1) {
+            participantOneId = participants[0].id;
+            participantOneName = participants[0].tournamentName;
+
+            participantTwoId = participantTwoName = 'TBD';
+        } else {
+            participantOneId = participants[0].id;
+            participantOneName = participants[0].tournamentName;
+
+            participantTwoId = participants[1].id;
+            participantTwoName = participants[1].tournamentName;
+        }
+
+        matchesArray.push({
+            "id": match.id,
+            "name": match.name,
+            "nextMatchId": match.nextMatch !== null ? match.nextMatch.id : null, // Id for the nextMatch in the bracket, if it's final match it must be null OR undefined
+            "tournamentRoundText": "4", // Text for Round Header
+            "startTime": match.startDate,
+            "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
+            "participants": [
+                {
+                    "id": participantOneId,
+                    "resultText": null,
+                    "isWinner": false,
+                    "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
+                    "name": participantOneName,
+                },
+                {
+                    "id": participantTwoId,
+                    "resultText": null,
+                    "isWinner": false,
+                    "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
+                    "name": participantTwoName,
+                }
+            ]
+        });
+    });
+
+    return matchesArray;
 }
 
 const getMatchesCount = (participantsCount) => {
@@ -346,6 +405,7 @@ const classNames = (...classes) => {
 
 export {
     formatTournamentMatchesData,
+    renderTournamentView,
     isPowerOfTwo,
     getQueryParam,
     isSidebarOpen,

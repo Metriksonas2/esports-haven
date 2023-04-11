@@ -39,6 +39,12 @@ class TournamentMatch
     #[ORM\ManyToOne(inversedBy: 'wonMatches')]
     private ?Participant $winnerParticipant = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    private ?self $nextMatch = null;
+
+    #[ORM\Column]
+    private ?bool $isGhostMatch = false;
+
     public function __construct()
     {
         $this->placement = MatchPlacement::UPPER;
@@ -142,6 +148,30 @@ class TournamentMatch
     public function setWinnerParticipant(?Participant $winnerParticipant): self
     {
         $this->winnerParticipant = $winnerParticipant;
+
+        return $this;
+    }
+
+    public function getNextMatch(): ?self
+    {
+        return $this->nextMatch;
+    }
+
+    public function setNextMatch(?self $nextMatch): self
+    {
+        $this->nextMatch = $nextMatch;
+
+        return $this;
+    }
+
+    public function isIsGhostMatch(): ?bool
+    {
+        return $this->isGhostMatch;
+    }
+
+    public function setIsGhostMatch(bool $isGhostMatch): self
+    {
+        $this->isGhostMatch = $isGhostMatch;
 
         return $this;
     }

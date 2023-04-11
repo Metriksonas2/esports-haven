@@ -6,6 +6,7 @@ use App\Entity\Tournament;
 use App\Enum\GameType;
 use App\Repository\TournamentRepository;
 use App\Service\JsonSerializer;
+use App\Service\TournamentMatchService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,9 +50,14 @@ class TournamentController extends AbstractController
     #[Route('/{tournament}', name: 'view')]
     public function view(
         InertiaInterface $inertia,
-        Tournament $tournament
+        Tournament $tournament,
+        TournamentMatchService $tournamentMatchService,
     ): Response
     {
+        if (!$tournament->isMatchesSynced()) {
+            $tournamentMatchService->syncNextMatchIds($tournament);
+        }
+
         return $inertia->render("Tournaments/Index", [
             'tournament' => $tournament
         ]);
