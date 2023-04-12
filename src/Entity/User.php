@@ -68,12 +68,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private Collection $friends;
 
+    #[ORM\OneToMany(mappedBy: 'winner', targetEntity: Tournament::class)]
+    private Collection $wonTournaments;
+
     public function __construct()
     {
         $this->hostedTournaments = new ArrayCollection();
         $this->endorsements = new ArrayCollection();
         $this->friendRequests = new ArrayCollection();
         $this->friends = new ArrayCollection();
+        $this->wonTournaments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -300,5 +304,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->friends->removeElement($user);
             $user->removeFriend($this);
         }
+    }
+
+    /**
+     * @return Collection<int, Tournament>
+     */
+    public function getWonTournaments(): Collection
+    {
+        return $this->wonTournaments;
+    }
+
+    public function addWonTournament(Tournament $wonTournament): self
+    {
+        if (!$this->wonTournaments->contains($wonTournament)) {
+            $this->wonTournaments->add($wonTournament);
+            $wonTournament->setWinner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWonTournament(Tournament $wonTournament): self
+    {
+        if ($this->wonTournaments->removeElement($wonTournament)) {
+            // set the owning side to null (unless already changed)
+            if ($wonTournament->getWinner() === $this) {
+                $wonTournament->setWinner(null);
+            }
+        }
+
+        return $this;
     }
 }

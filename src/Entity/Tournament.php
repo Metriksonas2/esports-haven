@@ -67,6 +67,9 @@ class Tournament
     #[ORM\Column]
     private ?bool $matchesSynced = false;
 
+    #[ORM\ManyToOne(inversedBy: 'wonTournaments')]
+    private ?User $winner = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -256,6 +259,18 @@ class Tournament
     public function setMatchesSynced(bool $matchesSynced): self
     {
         $this->matchesSynced = $matchesSynced;
+
+        return $this;
+    }
+
+    public function getWinner(): ?User
+    {
+        return $this->winner;
+    }
+
+    public function setWinner(?User $winner): self
+    {
+        $this->winner = $winner;
 
         return $this;
     }

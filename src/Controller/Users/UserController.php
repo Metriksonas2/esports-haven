@@ -30,6 +30,10 @@ class UserController extends AbstractController
         /** @var User $me */
         $me = $this->getUser();
 
+        $friendsCount = count($user->getFriends());
+        $hostedTournamentsCount = count($user->getHostedTournaments());
+        $wonTournamentsCount = count($user->getWonTournaments());
+
         $isFriend = in_array($user, $me->getFriends());
         $isMe = $me === $user;
         $isRequestSent = $friendService->isFriendRequestSentByMe($me, $user);
@@ -37,6 +41,9 @@ class UserController extends AbstractController
 
         return $inertia->render("Profile/View", [
             'user' => $user,
+            'friends' => $friendsCount,
+            'hostedTournaments' => $hostedTournamentsCount,
+            'wonTournaments' => $wonTournamentsCount,
             'isMe' => $isMe,
             'isFriend' => $isFriend,
             'isRequestSent' => $isRequestSent,

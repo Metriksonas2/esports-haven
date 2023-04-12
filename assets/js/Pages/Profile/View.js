@@ -13,10 +13,15 @@ import route from "@/Services/route";
 
 const Index = () => {
     const user = usePage().props.user;
+    const hostedTournamentsCount = usePage().props.hostedTournaments;
+    const friendsCount = usePage().props.friends;
+    const wonTournamentsCount = usePage().props.wonTournaments;
+
     const isMe = usePage().props.isMe;
     const [isFriend, setIsFriend] = useState(usePage().props.isFriend);
     const [isRequestSent, setIsRequestSent] = useState(usePage().props.isRequestSent);
     const isRequestingToBeFriend = usePage().props.isRequestingToBeFriend;
+    console.log(user)
 
     const fullName = user.firstName + ' ' + user.lastName;
     const userProgression = {
@@ -154,17 +159,17 @@ const Index = () => {
                                         <div className="flex justify-center py-4 lg:pt-4 pt-8">
                                             <div className="mr-4 p-3 text-center">
                                                 <span
-                                                    className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">22</span><span
+                                                    className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{friendsCount}</span><span
                                                 className="text-sm text-blueGray-400">Friends</span>
                                             </div>
                                             <div className="mr-4 p-3 text-center">
                                                 <span
-                                                    className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">10</span><span
+                                                    className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{hostedTournamentsCount}</span><span
                                                 className="text-sm text-blueGray-400">Tournaments</span>
                                             </div>
                                             <div className="lg:mr-4 p-3 text-center">
                                                 <span
-                                                    className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">89</span><span
+                                                    className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{wonTournamentsCount}</span><span
                                                 className="text-sm text-blueGray-400">Wins</span>
                                             </div>
                                         </div>
