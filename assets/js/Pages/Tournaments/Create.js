@@ -18,6 +18,7 @@ import DatePicker from "@/Components/UI/DatePicker/DatePicker";
 import Heading from "@/Components/Page/Heading/Heading";
 import {usePage} from "@inertiajs/inertia-react";
 import {TournamentBracketTheme} from "@/Services/TournamentBracketTheme";
+import TournamentPreview from "@/Components/Tournaments/Tournament/TournamentPreview/TournamentPreview";
 
 const Create = () => {
     const gamesList = usePage().props.games;
@@ -387,27 +388,7 @@ const Create = () => {
                         </form>
                     </div>
                     <div className='basis-3/5 pl-2 self-center'>
-                        <h1 className='text-xl font-semibold'>Tournament preview</h1>
-                        <hr/>
-                        <SingleEliminationBracket
-                            matches={singleMatches}
-                            theme={TournamentBracketTheme}
-                            options={{
-                                style: {
-                                    roundHeader: { backgroundColor: '#312E81' },
-                                    connectorColor: '#312E81',
-                                    connectorColorHighlight: '#000',
-                                },
-                            }}
-                            matchComponent={Match}
-                            svgWrapper={({ children, ...props }) => (
-                                <SVGViewer width={750} height={750} {...props}
-                                           background="#FFF" SVGBackground="#F0F4F9"
-                                >
-                                    {children}
-                                </SVGViewer>
-                            )}
-                        />
+                        <TournamentPreview matches={singleMatches}/>
                     </div>
                 </div>
                 <button type="submit" form='create-tournament-form'
