@@ -17,23 +17,7 @@ import route from "@/Services/route";
 import DatePicker from "@/Components/UI/DatePicker/DatePicker";
 import Heading from "@/Components/Page/Heading/Heading";
 import {usePage} from "@inertiajs/inertia-react";
-
-const WhiteTheme = createTheme({
-    textColor: { main: '#000000', highlighted: '#FFFFFF', dark: '#000000' },
-    matchBackground: { wonColor: '#a8aab9', lostColor: '#a8aab9' },
-    score: {
-        background: { wonColor: '#4642a5', lostColor: '#4642a5' },
-        text: { highlightedWonColor: '#7BF59D', highlightedLostColor: '#FB7E94' },
-    },
-    border: {
-        color: '#a8aab9',
-        highlightedColor: '#000000',
-    },
-    roundHeader: { backgroundColor: '#da96c6', fontColor: '#000' },
-    connectorColor: '#CED1F2',
-    connectorColorHighlight: '#da96c6',
-    svgBackground: '#FAFAFA',
-});
+import {TournamentBracketTheme} from "@/Services/TournamentBracketTheme";
 
 const Create = () => {
     const gamesList = usePage().props.games;
@@ -407,7 +391,7 @@ const Create = () => {
                         <hr/>
                         <SingleEliminationBracket
                             matches={singleMatches}
-                            theme={WhiteTheme}
+                            theme={TournamentBracketTheme}
                             options={{
                                 style: {
                                     roundHeader: { backgroundColor: '#312E81' },

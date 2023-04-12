@@ -58,7 +58,7 @@ const Table = ({ tournaments, isHosted }) => {
                                         <td className="py-3 px-6 text-center">
                                             <Actions
                                                 viewRoute={route('tournaments', id)}
-                                                editRoute={''}
+                                                editRoute={route('tournaments.manage', id)}
                                                 deleteRoute={''}
                                                 isHosted={isHosted}
                                             />

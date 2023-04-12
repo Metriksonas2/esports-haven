@@ -62,4 +62,26 @@ class TournamentController extends AbstractController
             'tournament' => $tournament
         ]);
     }
+
+    #[Route('/manage/{tournament}', name: 'manage')]
+    public function manage(
+        InertiaInterface $inertia,
+        Tournament $tournament,
+        TournamentMatchService $tournamentMatchService,
+    ): Response
+    {
+        $isTournamentHost = $tournament->getHost() === $this->getUser();
+        if ($isTournamentHost || $this->isGranted('ROLE_ADMIN')) {
+            if (!$tournament->isMatchesSynced()) {
+                $tournamentMatchService->syncNextMatchIds($tournament);
+            }
+
+            return $inertia->render("Tournaments/Edit", [
+                'tournament' => $tournament,
+                'games' => GameType::cases(),
+            ]);
+        } else {
+            return $this->redirectToRoute('app_index');
+        }
+    }
 }

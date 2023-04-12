@@ -11,28 +11,10 @@ import {
 } from '@g-loot/react-tournament-brackets';
 import Heading from "@/Components/Page/Heading/Heading";
 import {renderTournamentView} from "@/Services/functions";
-
-const WhiteTheme = createTheme({
-    textColor: { main: '#000000', highlighted: '#07090D', dark: '#3E414D' },
-    matchBackground: { wonColor: '#daebf9', lostColor: '#96c6da' },
-    score: {
-        background: { wonColor: '#87b2c4', lostColor: '#87b2c4' },
-        text: { highlightedWonColor: '#7BF59D', highlightedLostColor: '#FB7E94' },
-    },
-    border: {
-        color: '#CED1F2',
-        highlightedColor: '#F0F4F9',
-    },
-    roundHeader: { backgroundColor: '#da96c6', fontColor: '#000' },
-    connectorColor: '#CED1F2',
-    connectorColorHighlight: '#da96c6',
-    svgBackground: '#FAFAFA',
-});
+import {TournamentBracketTheme} from "@/Services/TournamentBracketTheme";
 
 const Index = () => {
-    const [name, setName] = useState('Erikas');
     const [tournament, setTournament] = useState(usePage().props.tournament);
-
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
 
     return (
@@ -40,7 +22,7 @@ const Index = () => {
             <Heading title={tournament.name} />
             <SingleEliminationBracket
                 matches={matchesArray}
-                theme={WhiteTheme}
+                theme={TournamentBracketTheme}
                 options={{
                     style: {
                         roundHeader: { backgroundColor: '#312E81' },
