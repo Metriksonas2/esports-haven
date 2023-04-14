@@ -21,7 +21,6 @@ const Index = () => {
     const [isFriend, setIsFriend] = useState(usePage().props.isFriend);
     const [isRequestSent, setIsRequestSent] = useState(usePage().props.isRequestSent);
     const isRequestingToBeFriend = usePage().props.isRequestingToBeFriend;
-    console.log(user)
 
     const fullName = user.firstName + ' ' + user.lastName;
     const userProgression = {

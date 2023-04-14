@@ -54,7 +54,7 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
             }
         }
     } else {
-        let [firstRoundMatchIndexes, sr] = getTwoRoundMatchIndexes(participantsCount);
+        let firstRoundMatchIndexes = getTwoRoundMatchIndexes(participantsCount);
         let secondRoundIndexes = [];
         let nextMatchId, isSecondRound;
 
@@ -288,6 +288,62 @@ const renderTournamentView = (matches) => {
     return matchesArray;
 }
 
+const getStructuredTournamentMatches = (tournament) => {
+    const roundCount = Math.ceil(Math.log2(tournament.participants.length));
+    let tournamentMatches = tournament.tournamentMatches.slice();
+    const structuredTournamentMatches = [];
+    let roundIndexer = 1;
+    let roundNameIndexer = 1;
+
+    // remove ghost matches
+    tournamentMatches = tournamentMatches.filter(match => {
+        return match.isGhostMatch === false;
+    });
+
+    for (let i = roundCount; i > 0; i--) {
+        const roundObject = {
+            name: getRoundNameByIndex(i, roundNameIndexer),
+            matches: [],
+        };
+
+        let thisRoundMatchesCount;
+
+        // If first round
+        if (i === roundCount) {
+            thisRoundMatchesCount = getTwoRoundMatchIndexes(tournament.participants.length).length;
+        } else {
+            thisRoundMatchesCount = getMatchesCountForRound(roundIndexer, tournament.tournamentMatches.length);
+        }
+
+        for (let j = 0; j < thisRoundMatchesCount; j++) {
+            roundObject.matches.push(tournamentMatches[j]);
+        }
+
+        tournamentMatches.splice(0, thisRoundMatchesCount);
+
+        if (i > 3) {
+            roundNameIndexer++;
+        }
+        roundIndexer++;
+        structuredTournamentMatches.push(roundObject);
+    }
+
+    return structuredTournamentMatches;
+}
+
+const getRoundNameByIndex = (index, roundIndexer) => {
+    switch (index) {
+        case 3:
+            return 'Quarterfinals';
+        case 2:
+            return 'Semifinals';
+        case 1:
+            return 'Final';
+        default:
+            return `Round ${roundIndexer}`;
+    }
+}
+
 const getMatchesCount = (participantsCount) => {
     let x = participantsCount;
     while (!isPowerOfTwo(x)) {
@@ -295,6 +351,24 @@ const getMatchesCount = (participantsCount) => {
     }
 
     return x - 1;
+}
+
+const getMatchesCountForRound = (roundIndex, matchesCount) => {
+    let roundIndexer = 0;
+    let matchesCountForRound;
+    let powerOfTwoIndex = matchesCount + 1;
+
+    if (roundIndex < 0) {
+        return 0;
+    }
+
+    while (roundIndexer !== roundIndex) {
+        powerOfTwoIndex /= 2;
+        matchesCountForRound = powerOfTwoIndex;
+        roundIndexer++;
+    }
+
+    return matchesCountForRound;
 }
 
 const getTwoRoundMatchIndexes = (participantsCount) => {
@@ -339,7 +413,7 @@ const getTwoRoundMatchIndexes = (participantsCount) => {
         }
     }
 
-    return [firstRoundMatchIndexes];
+    return firstRoundMatchIndexes;
 }
 
 const isPowerOfTwo = x => {
@@ -416,4 +490,5 @@ export {
     getCorrectDateFormatFromDateObject,
     getTwoRoundMatchIndexes,
     classNames,
+    getStructuredTournamentMatches,
 };

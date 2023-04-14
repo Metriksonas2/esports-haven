@@ -3,7 +3,6 @@ import {Match, SingleEliminationBracket, SVGViewer} from "@g-loot/react-tourname
 import {TournamentBracketTheme} from "@/Services/TournamentBracketTheme";
 
 const TournamentPreview = ({ matches, width = 750, height = 750}) => {
-    console.log(matches)
     return (
         <React.Fragment>
             <h1 className='text-xl font-semibold'>Tournament preview</h1>

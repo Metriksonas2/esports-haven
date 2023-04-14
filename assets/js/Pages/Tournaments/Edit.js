@@ -7,7 +7,7 @@ import {Button, Tooltip} from "flowbite-react";
 import Participant from "@/Components/Tournaments/Form/Create/Participant";
 import {Match, SingleEliminationBracket, SVGViewer} from "@g-loot/react-tournament-brackets";
 import {TournamentBracketTheme} from "@/Services/TournamentBracketTheme";
-import {classNames, renderTournamentView} from "@/Services/functions";
+import {classNames, getStructuredTournamentMatches, renderTournamentView} from "@/Services/functions";
 import {usePage} from "@inertiajs/inertia-react";
 import Heading from "@/Components/Page/Heading/Heading";
 import GeneralSettings from "@/Components/Tournaments/Tournament/Edit/General/General";
@@ -20,12 +20,11 @@ const Edit = () => {
     const [tournament, setTournament] = useState(usePage().props.tournament);
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
     const gamesList = usePage().props.games;
-    console.log(tournament)
 
     const manageTabs = {
         "General": <GeneralSettings tournament={tournament}/>,
         "Participants": <ParticipantSettings participants={tournament.participants}/>,
-        "Matches": <MatchesSettings matches={tournament.tournamentMatches}/>,
+        "Matches": <MatchesSettings structuredMatches={getStructuredTournamentMatches(tournament)}/>,
     };
 
     const formSubmitHandler = () => {
