@@ -108,6 +108,47 @@ class TournamentsApiController extends AbstractController
         );
     }
 
+    #[Route('/tournaments/{tournament}/winner', name: 'declare_winner', methods: ["POST"])]
+    public function declareWinner(
+        Request $request,
+        ParticipantService $participantService,
+        TournamentMatchService $tournamentMatchService,
+    ): Response
+    {
+        $user = $this->getUser();
+
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->json(
+                ["error" => "Access denied."],
+                Response::HTTP_UNAUTHORIZED,
+                headers: ['Content-Type' => 'application/json;charset=UTF-8']
+            );
+        }
+
+        $requestData = json_decode($request->getContent(), true);
+
+        /** @var TournamentMatch $match */
+        $match = $this->entityManager->getRepository(TournamentMatch::class)->find($requestData['matchId']);
+
+        /** @var Participant $winnerParticipant */
+        $winnerParticipant = $this->entityManager->getRepository(Participant::class)->find($requestData['winnerParticipantId']);
+
+        $match->setWinnerParticipant($winnerParticipant);
+
+        $nextMatch = $match->getNextMatch();
+
+        $nextMatch?->addParticipant($winnerParticipant);
+
+        $this->entityManager->flush();
+
+        return $this->json(
+            '',
+            Response::HTTP_OK,
+            headers: ['Content-Type' => 'application/json;charset=UTF-8'],
+            context: [AbstractNormalizer::IGNORED_ATTRIBUTES => ['host']]
+        );
+    }
+
     #[Route('/tournaments/{id}', name: 'delete', methods: ["DELETE"])]
     public function delete(
         Tournament $tournament,

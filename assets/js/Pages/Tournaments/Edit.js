@@ -14,6 +14,8 @@ import GeneralSettings from "@/Components/Tournaments/Tournament/Edit/General/Ge
 import ParticipantSettings from "@/Components/Tournaments/Tournament/Edit/Participants/Participants";
 import MatchesSettings from "@/Components/Tournaments/Tournament/Edit/Matches/Matches";
 import TournamentPreview from "@/Components/Tournaments/Tournament/TournamentPreview/TournamentPreview";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 const Edit = () => {
@@ -21,15 +23,58 @@ const Edit = () => {
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
     const gamesList = usePage().props.games;
 
-    const manageTabs = {
-        "General": <GeneralSettings tournament={tournament}/>,
-        "Participants": <ParticipantSettings participants={tournament.participants}/>,
-        "Matches": <MatchesSettings structuredMatches={getStructuredTournamentMatches(tournament)}/>,
-    };
+    const winnerChoiceHandler = async (matchId, winnerParticipant) => {
+        try {
+            setTournament((prevTournament) => {
+                let newTournament = {...prevTournament};
+                let match = newTournament.tournamentMatches.find(x => x.id === matchId);
+                let nextMatch = match.nextMatch;
+
+                match.winnerParticipant = winnerParticipant;
+                if (nextMatch !== null) {
+                    nextMatch = newTournament.tournamentMatches.find(x => x.id === nextMatch.id);
+
+                    if (!Array.isArray(nextMatch.participants)) {
+                        nextMatch.participants = [];
+                        nextMatch.participants.push(winnerParticipant);
+                    } else {
+                        nextMatch.participants.push(winnerParticipant);
+                    }
+                }
+
+                return newTournament;
+            })
+
+            const body = {
+                matchId: matchId,
+                winnerParticipantId: winnerParticipant.id
+            };
+
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/tournaments/${tournament.id}/winner`, body, {
+                headers: headers
+            });
+
+            toast.success('Winner declared successfully!')
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
+    }
 
     const formSubmitHandler = () => {
         console.log('form submitted')
     }
+
+    const manageTabs = {
+        "General": <GeneralSettings tournament={tournament}/>,
+        "Participants": <ParticipantSettings participants={tournament.participants}/>,
+        "Matches": <MatchesSettings
+            structuredMatches={getStructuredTournamentMatches(tournament)}
+            winnerChoiceHandler={winnerChoiceHandler}
+        />,
+    };
 
     return (
         <Page pageIndex='tournaments' breadcrumbsPathArray={['Tournaments', 'Manage tournament']}>
@@ -78,7 +123,7 @@ const Edit = () => {
                 </div>
                 <button type="submit" form='create-tournament-form'
                         className="align-end mt-2 w-24 focus:outline-none text-white bg-indigo-900 hover:bg-indigo-600 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">
-                    Create
+                    Edit
                 </button>
             </React.Fragment>
         </Page>

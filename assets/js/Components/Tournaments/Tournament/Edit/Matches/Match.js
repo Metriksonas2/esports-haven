@@ -1,8 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Disclosure} from "@headlessui/react";
-import {ChevronUpIcon} from "@heroicons/react/24/solid";
+import {ChevronUpIcon, TrophyIcon} from "@heroicons/react/24/solid";
+import MatchWinnerButton from "@/Components/Tournaments/Tournament/Edit/Matches/MatchWinnerButton";
 
-const Match = ({ matchIndex}) => {
+const Match = ({ id, participants, matchIndex, winnerParticipant, winnerChoiceHandler }) => {
+    const getMatchTitle = () => {
+        if (getParticipantsLength() === 0) {
+            return 'TBD VS TBD';
+        } else if (getParticipantsLength() === 1) {
+            return `${participants[0].tournamentName} VS TBD`;
+        } else {
+            return `${participants[0].tournamentName} VS ${participants[1].tournamentName}`;
+        }
+    }
+
+    const getParticipantsLength = () => {
+        if (!Array.isArray(participants) && Object.keys(participants).length === 0) {
+            return 0;
+        } else if (participants.length === 1) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
     return (
         <Disclosure as="div" className="mt-2">
             {({ open }) => (
@@ -16,20 +37,40 @@ const Match = ({ matchIndex}) => {
                         />
                     </Disclosure.Button>
                     <Disclosure.Panel className="pt-4 pb-2 text-sm text-gray-500 flex flex-col gap-y-5">
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" value="" className="sr-only peer" />
-                            <div
-                                className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all focus:outline-none focus:border-gray-500 peer-checked:bg-indigo-900"></div>
-                            <span
-                                className="ml-3 text-sm font-medium text-gray-700">3rd place match</span>
-                        </label>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" value="" className="sr-only peer" />
-                            <div
-                                className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all focus:outline-none focus:border-gray-500 peer-checked:bg-indigo-900"></div>
-                            <span
-                                className="ml-3 text-sm font-medium text-gray-700">Show title</span>
-                        </label>
+                        <h2 className='font-semibold'>{getMatchTitle()}</h2>
+
+                        {(winnerParticipant === null && getParticipantsLength() === 0) && (
+                            <div className='flex w-full justify-between px-4'>
+                                Waiting for players to finish their matches...
+                            </div>
+                        )}
+
+                        {(winnerParticipant === null && getParticipantsLength() === 1) && (
+                            <div className='flex w-full justify-between px-4'>
+                                Waiting for other player match to finish...
+                            </div>
+                        )}
+
+                        {(winnerParticipant === null && getParticipantsLength() === 2) && (
+                            <div className='flex w-full justify-between px-4'>
+                                <MatchWinnerButton
+                                    matchId={id}
+                                    participant={participants[0]}
+                                    winnerChoiceHandler={winnerChoiceHandler}
+                                />
+                                <MatchWinnerButton
+                                    matchId={id}
+                                    participant={participants[1]}
+                                    winnerChoiceHandler={winnerChoiceHandler}
+                                />
+                            </div>
+                        )}
+
+                        {winnerParticipant !== null && (
+                            <h2 className="flex items-center text-2xl font-extrabold text-indigo-700">{winnerParticipant.tournamentName}<span
+                                className="bg-yellow-100 text-yellow-800 text-xl font-semibold mr-2 px-2.5 py-0.5 rounded ml-2">WINNER</span>
+                            </h2>
+                        )}
                     </Disclosure.Panel>
                 </>
             )}
