@@ -243,7 +243,7 @@ const renderTournamentView = (matches) => {
         if (match.isGhostMatch) {
             participantOneId = participantTwoId = '-';
             participantOneName = participantTwoName = '-';
-        } else if (!Array.isArray(participants) && Object.keys(participants).length === 0) {
+        } else if (Array.isArray(participants) && participants.length === 0) {
             participantOneId = participantTwoId = 'TBD';
             participantOneName = participantTwoName = 'TBD';
         } else if (Array.isArray(participants) && participants.length === 1) {
@@ -262,7 +262,7 @@ const renderTournamentView = (matches) => {
         matchesArray.push({
             "id": match.id,
             "name": match.name,
-            "nextMatchId": match.nextMatch !== null ? match.nextMatch.id : null, // Id for the nextMatch in the bracket, if it's final match it must be null OR undefined
+            "nextMatchId": match.nextMatch !== null ? match.nextMatch : null, // Id for the nextMatch in the bracket, if it's final match it must be null OR undefined
             "tournamentRoundText": "4", // Text for Round Header
             "startTime": match.startDate,
             "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)

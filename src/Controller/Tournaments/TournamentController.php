@@ -2,6 +2,7 @@
 
 namespace App\Controller\Tournaments;
 
+use App\Dto\TournamentDto;
 use App\Entity\Tournament;
 use App\Enum\GameType;
 use App\Repository\TournamentRepository;
@@ -58,8 +59,10 @@ class TournamentController extends AbstractController
             $tournamentMatchService->syncNextMatchIds($tournament);
         }
 
+        $tournamentDto = TournamentDto::createFromTournament($tournament);
+
         return $inertia->render("Tournaments/Index", [
-            'tournament' => $tournament
+            'tournament' => $tournamentDto
         ]);
     }
 
@@ -76,8 +79,10 @@ class TournamentController extends AbstractController
                 $tournamentMatchService->syncNextMatchIds($tournament);
             }
 
+            $tournamentDto = TournamentDto::createFromTournament($tournament);
+
             return $inertia->render("Tournaments/Edit", [
-                'tournament' => $tournament,
+                'tournament' => $tournamentDto,
                 'games' => GameType::cases(),
             ]);
         } else {

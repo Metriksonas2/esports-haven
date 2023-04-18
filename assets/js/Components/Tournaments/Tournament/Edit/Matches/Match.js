@@ -15,12 +15,18 @@ const Match = ({ id, participants, matchIndex, winnerParticipant, winnerChoiceHa
     }
 
     const getParticipantsLength = () => {
-        if (!Array.isArray(participants) && Object.keys(participants).length === 0) {
+        if (participants.length === 0) {
             return 0;
         } else if (participants.length === 1) {
             return 1;
         } else {
             return 2;
+        }
+    }
+
+    const winnerParticipantTournamentName = () => {
+        if (winnerParticipant !== null) {
+            return participants.find(x => x.id === winnerParticipant).tournamentName;
         }
     }
 
@@ -67,7 +73,7 @@ const Match = ({ id, participants, matchIndex, winnerParticipant, winnerChoiceHa
                         )}
 
                         {winnerParticipant !== null && (
-                            <h2 className="flex items-center text-2xl font-extrabold text-indigo-700">{winnerParticipant.tournamentName}<span
+                            <h2 className="flex items-center text-2xl font-extrabold text-indigo-700">{winnerParticipantTournamentName()}<span
                                 className="bg-yellow-100 text-yellow-800 text-xl font-semibold mr-2 px-2.5 py-0.5 rounded ml-2">WINNER</span>
                             </h2>
                         )}

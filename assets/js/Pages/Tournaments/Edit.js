@@ -22,7 +22,7 @@ const Edit = () => {
     const [tournament, setTournament] = useState(usePage().props.tournament);
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
     const gamesList = usePage().props.games;
-
+    console.log(tournament)
     const winnerChoiceHandler = async (matchId, winnerParticipant) => {
         try {
             setTournament((prevTournament) => {
@@ -32,14 +32,8 @@ const Edit = () => {
 
                 match.winnerParticipant = winnerParticipant;
                 if (nextMatch !== null) {
-                    nextMatch = newTournament.tournamentMatches.find(x => x.id === nextMatch.id);
-
-                    if (!Array.isArray(nextMatch.participants)) {
-                        nextMatch.participants = [];
-                        nextMatch.participants.push(winnerParticipant);
-                    } else {
-                        nextMatch.participants.push(winnerParticipant);
-                    }
+                    nextMatch = newTournament.tournamentMatches.find(x => x.id === nextMatch);
+                    nextMatch.participants.push(newTournament.participants.find(x => x.id === winnerParticipant));
                 }
 
                 return newTournament;
@@ -47,7 +41,7 @@ const Edit = () => {
 
             const body = {
                 matchId: matchId,
-                winnerParticipantId: winnerParticipant.id
+                winnerParticipantId: winnerParticipant
             };
 
             const headers = { 'Content-Type': 'application/json;charset=UTF-8' };

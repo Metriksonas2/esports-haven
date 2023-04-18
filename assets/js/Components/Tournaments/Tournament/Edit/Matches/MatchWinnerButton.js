@@ -3,7 +3,7 @@ import {TrophyIcon} from "@heroicons/react/24/solid";
 
 const MatchWinnerButton = ({ matchId, participant, winnerChoiceHandler }) => {
     const onWinnerChoiceHandler = () => {
-        winnerChoiceHandler(matchId, participant);
+        winnerChoiceHandler(matchId, participant.id);
     }
 
     return (
