@@ -1,14 +1,40 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Menu, Transition} from "@headlessui/react";
 import {InertiaLink} from "@inertiajs/inertia-react";
 import NotificationBell from "@/Components/Page/Topbar/NotificationBell";
 import route from "@/Services/route";
+import axios from "axios";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Topbar = ({ open }) => {
+  const [profileImage, setProfileImage] = useState('/assets/images/avatar_placeholder.png');
+
+  useEffect(() => {
+      const profileImageInLocalStorage = window.localStorage.getItem('profile-image');
+      const profileImageSynced = window.localStorage.getItem('profile-image-synced') === 'true';
+
+      if (profileImageInLocalStorage === null || !profileImageSynced) {
+          (async () => {
+              await axios.get('/api/users/profileimage')
+                  .then(response => {
+                      const imageData = response.data;
+                      setProfileImage(response.data.path);
+                      window.localStorage.setItem('profile-image', response.data.path);
+                  })
+                  .catch(error => {
+                      console.log(error);
+                  });
+          })()
+
+          window.localStorage.setItem('profile-image-synced', 'true')
+      } else {
+          setProfileImage(profileImageInLocalStorage);
+      }
+  }, []);
+
   return (
       <div className={`${open ? 'pr-72' : 'pr-20'} flex fixed w-full h-24 bg-[#FEFFFE] z-40 border border-t-0 border-x-0 border-b-gray-200 duration-300`}>
           <form className='basis-2/6 pt-4 pl-4 mx-auto'>
@@ -40,7 +66,7 @@ const Topbar = ({ open }) => {
                           <Menu.Button className="inline-flex w-full justify-center px-4 py-2 hover:opacity-90">
                               {/*Options*/}
                               {/*<ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />*/}
-                              <img className="w-14 h-14 rounded-full p-1 ring-2 ring-gray-300" src="/assets/images/avatar.jpg" alt="Rounded avatar" />
+                              <img className="w-14 h-14 rounded-full p-1 ring-2 ring-gray-300" src={profileImage} alt="Rounded avatar" />
                           </Menu.Button>
                       </div>
 

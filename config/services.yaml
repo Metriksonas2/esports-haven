@@ -6,6 +6,7 @@
 parameters:
     uploads_directory: '%kernel.project_dir%/public/uploads'
     default_avatar: '/assets/images/avatar.jpg'
+    default_cover: '/assets/images/cover.jpg'
     default_tournament_icon: '/assets/images/default-tournament-icon.png'
 
 services:

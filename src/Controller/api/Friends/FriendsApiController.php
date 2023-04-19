@@ -2,7 +2,6 @@
 
 namespace App\Controller\api\Friends;
 
-use App\Entity\Friend;
 use App\Entity\FriendRequest;
 use App\Entity\Participant;
 use App\Entity\Tournament;

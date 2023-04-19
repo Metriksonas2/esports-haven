@@ -113,7 +113,7 @@ const Index = () => {
             <main className="profile-page">
                 <section className="relative block h-[500px]">
                     <div className="absolute top-0 w-full h-full bg-center bg-cover" style={{
-                        backgroundImage: "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80')",
+                        backgroundImage: `url('${user.coverImage}')`,
                     }}>
                         <span id="blackOverlay" className="w-full h-full absolute opacity-50 bg-black"></span>
                     </div>
@@ -138,7 +138,7 @@ const Index = () => {
                                     <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                                         <div className="relative">
                                             <img id='profile-image' alt="Profile image"
-                                                 src="/assets/images/profile-avatar.jpg"
+                                                 src={user.profileImage}
                                                  className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -mt-[42px] -ml-[75px] max-w-[150px] z-20 ease-linear transition-all duration-200" />
                                             <div className='w-48 h-48 align-middle absolute -m-16 -ml-24 lg:-ml-22 z-10'>
                                                 <CircularProgressbar value={userProgression.percentage}
