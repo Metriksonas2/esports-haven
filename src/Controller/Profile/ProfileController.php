@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
+use App\Dto\UserDto;
 use App\Entity\User;
 use Rompetomp\InertiaBundle\Service\InertiaInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,8 +23,10 @@ class ProfileController extends AbstractController
         $hostedTournamentsCount = count($user->getHostedTournaments());
         $wonTournamentsCount = count($user->getWonTournaments());
 
+        $userDto = UserDto::createFromUser($user);
+
         return $inertia->render("Profile/View", [
-            'user' => $user,
+            'user' => $userDto,
             'friends' => $friendsCount,
             'hostedTournaments' => $hostedTournamentsCount,
             'wonTournaments' => $wonTournamentsCount,
@@ -31,6 +34,16 @@ class ProfileController extends AbstractController
             'isFriend' => false,
             'isRequestSent' => false,
             'isRequestingToBeFriend' => false,
+        ]);
+    }
+
+    #[Route('/edit', name: 'edit')]
+    public function edit(InertiaInterface $inertia)
+    {
+        $user = $this->getUser();
+
+        return $inertia->render("Profile/Edit", [
+            'user' => $user,
         ]);
     }
 }

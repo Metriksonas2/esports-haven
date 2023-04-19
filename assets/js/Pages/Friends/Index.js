@@ -18,6 +18,11 @@ const Index = () => {
         "Friend Requests": <FriendRequestsList friendRequests={friendRequests} />,
     };
 
+    const friendsData = [
+        friends,
+        friendRequests,
+    ]
+
     return (
         <Page pageIndex='friends' breadcrumbsPathArray={['Friends']}>
             <Tab.Group>
@@ -29,7 +34,7 @@ const Index = () => {
                                 className={({ selected }) =>
                                     classNames(
                                         'w-full rounded-lg py-2.5 text-sm font-semibold leading-5 text-blue-700',
-                                        'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                                        'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 relative',
                                         selected
                                             ? 'bg-white shadow'
                                             : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
@@ -37,6 +42,11 @@ const Index = () => {
                                 }
                             >
                                 {category}
+                                {(category === 'Friend Requests' && friendRequests.length !== 0) && (
+                                    <div className='h-6 w-6 rounded-full max-w-6 min-h-6 flex items-center justify-center absolute -top-2.5 -right-2.5 text-[12px] font-semibold bg-indigo-700 text-white'>
+                                        {friendRequests.length}
+                                    </div>
+                                )}
                             </Tab>
                         ))}
                     </Tab.List>
@@ -48,8 +58,9 @@ const Index = () => {
                                 <div className="flex-none w-full max-w-full px-3">
                                     <div
                                         className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                                        <div className="p-6 pb-6 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                                        <div className="flex flex-row gap-3 p-6 pb-6 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                                             <h6 className='font-semibold'>{Object.keys(friendsTabs)[index]}</h6>
+                                            <div className='rounded-full border border-indigo-700 text-indigo-700 font-semibold px-2'>{friendsData[index].length}</div>
                                         </div>
                                         {data}
                                     </div>
@@ -57,7 +68,6 @@ const Index = () => {
                             </div>
                         </Tab.Panel>
                     ))}
-
                 </Tab.Panels>
             </Tab.Group>
         </Page>

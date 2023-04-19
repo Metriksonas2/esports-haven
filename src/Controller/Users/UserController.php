@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Users;
 
+use App\Dto\UserDto;
 use App\Entity\User;
 use App\Service\FriendService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,8 +40,10 @@ class UserController extends AbstractController
         $isRequestSent = $friendService->isFriendRequestSentByMe($me, $user);
         $isRequestingToBeFriend = $friendService->isUserRequestingToBeMyFriend($me, $user);
 
+        $userDto = UserDto::createFromUser($user);
+
         return $inertia->render("Profile/View", [
-            'user' => $user,
+            'user' => $userDto,
             'friends' => $friendsCount,
             'hostedTournaments' => $hostedTournamentsCount,
             'wonTournaments' => $wonTournamentsCount,
