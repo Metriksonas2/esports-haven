@@ -1,7 +1,7 @@
 import React from 'react';
 import FriendRequest from "@/Components/Friends/FriendRequestsList/FriendRequest";
 
-const FriendRequestsList = ({ friendRequests }) => {
+const FriendRequestsList = ({ friendRequests, acceptHandler, declineHandler }) => {
     return (
         <div className="flex flex-col">
             <div className="overflow-x-auto">
@@ -34,11 +34,9 @@ const FriendRequestsList = ({ friendRequests }) => {
                             {friendRequests.map((friendRequest, index) => (
                                 <FriendRequest
                                     key={index}
-                                    id={friendRequest.id}
-                                    firstName={friendRequest.firstName}
-                                    lastName={friendRequest.lastName}
-                                    email={friendRequest.email}
-                                    country='Lithuania'
+                                    friendRequest={friendRequest}
+                                    acceptHandler={acceptHandler}
+                                    declineHandler={declineHandler}
                                 />
                             ))}
                             </tbody>

@@ -133,23 +133,32 @@ class FriendsApiController extends AbstractController
 
         return $this->json(
             ['success' => 'Friend request has been declined.'],
-            Response::HTTP_CREATED,
+            Response::HTTP_OK,
             headers: ['Content-Type' => 'application/json;charset=UTF-8']
         );
     }
 
     #[Route('/friends/{user}', name: 'remove_friend', methods: ["DELETE"])]
     public function removeFriend(
-        Tournament $tournament,
-        TournamentRepository $tournamentRepository,
+        User $user
     ): Response
     {
-        $tournamentRepository->remove($tournament);
+        $me = $this->getUser();
+
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->json(
+                ["error" => "Access denied."],
+                Response::HTTP_UNAUTHORIZED,
+                headers: ['Content-Type' => 'application/json;charset=UTF-8']
+            );
+        }
+
+        $me->removeFriend($user);
         $this->entityManager->flush();
 
         return $this->json(
-            [],
-            Response::HTTP_ACCEPTED,
+            ['success' => 'Friend has been removed'],
+            Response::HTTP_OK,
             headers: ['Content-Type' => 'application/json;charset=UTF-8']
         );
     }

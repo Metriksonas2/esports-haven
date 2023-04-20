@@ -4,8 +4,55 @@ import {CheckIcon, XMarkIcon} from "@heroicons/react/24/solid";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const FriendRequest = ({ id, firstName, lastName, email, position, country }) => {
+const FriendRequest = ({ friendRequest, acceptHandler, declineHandler }) => {
+    const id = friendRequest.id;
+    const firstName = friendRequest.firstName;
+    const lastName = friendRequest.lastName;
+    const email = friendRequest.email;
+    // const position = friendRequest.position;
+    // const country = friendRequest.country;
+    const position = 'PHP Developer';
+    const country = 'Lithuania';
+
     const fullName = firstName + ' ' + lastName;
+
+    const acceptFriendRequestHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/friends/accept/${id}`, {}, {
+                headers: headers
+            });
+
+            toast.success(`You're now friends with ${firstName}!`)
+
+            acceptHandler(friendRequest);
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
+    }
+
+    const declineFriendRequestHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/friends/decline/${id}`, {}, {
+                headers: headers
+            });
+
+            toast.success(`Successfully declined!`)
+
+            declineHandler(id);
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
+    }
 
     return (
         <tr className="hover:bg-gray-100">
@@ -37,12 +84,16 @@ const FriendRequest = ({ id, firstName, lastName, email, position, country }) =>
             </td>
             <td className="p-4 whitespace-nowrap space-x-2">
                 <button type="button"
-                        className="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg font-semibold text-xs inline-flex gap-2 items-center px-3 py-2 text-center">
+                        className="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg font-semibold text-xs inline-flex gap-2 items-center px-3 py-2 text-center"
+                        onClick={acceptFriendRequestHandler}
+                >
                     <CheckIcon className='w-6 text-white' />
                     Accept
                 </button>
                 <button type="button"
-                        className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg font-semibold text-xs inline-flex gap-2 items-center px-3 py-2 text-center">
+                        className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg font-semibold text-xs inline-flex gap-2 items-center px-3 py-2 text-center"
+                        onClick={declineFriendRequestHandler}
+                >
                     <XMarkIcon className='w-6 text-white' />
                     Decline
                 </button>

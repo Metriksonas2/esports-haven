@@ -1,7 +1,7 @@
 import React from 'react';
 import Friend from "@/Components/Friends/FriendsList/Friend";
 
-const FriendsList = ({ friends, friendRequests }) => {
+const FriendsList = ({ friends, removeFriendHandler }) => {
     return (
         <div className="flex flex-col">
             <div className="overflow-x-auto">
@@ -43,6 +43,7 @@ const FriendsList = ({ friends, friendRequests }) => {
                                     email={friend.email}
                                     position='PHP Developer'
                                     country='Lithuania'
+                                    removeFriendHandler={removeFriendHandler}
                                 />
                             ))}
                             </tbody>

@@ -4,7 +4,7 @@ import './ModalButton.css';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-const ModalButton = ({children, title, message, onYesClick, onNoClick}) => {
+const ModalButton = ({children, className, title, message, onYesClick, onNoClick }) => {
   const submit = () => {
     confirmAlert({
       title: title,
@@ -23,7 +23,7 @@ const ModalButton = ({children, title, message, onYesClick, onNoClick}) => {
   };
 
   return (
-      <button onClick={submit}>{children}</button>
+      <button className={`${className}`} onClick={submit}>{children}</button>
   );
 }
 

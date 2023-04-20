@@ -13,9 +13,35 @@ const Index = () => {
     const [friends, setFriends] = useState(usePage().props.friends);
     const [friendRequests, setFriendRequests] = useState(usePage().props.friendRequests);
 
+    const removeFriendHandler = (id) => {
+        setFriends((prevFriends) => {
+            return prevFriends.filter(x => x.id !== id);
+        });
+    }
+
+    const acceptFriendRequestHandler = (friend) => {
+        setFriends((prevFriends) => {
+            return [friend, ...prevFriends];
+        });
+
+        setFriendRequests((prevFriendRequests) => {
+            return prevFriendRequests.filter(x => x.id !== friend.id);
+        });
+    }
+
+    const removeFriendRequestHandler = (id) => {
+        setFriendRequests((prevFriendRequests) => {
+            return prevFriendRequests.filter(x => x.id !== id);
+        });
+    }
+
     const friendsTabs = {
-        "Friends List": <FriendsList friends={friends} />,
-        "Friend Requests": <FriendRequestsList friendRequests={friendRequests} />,
+        "Friends List": <FriendsList friends={friends} removeFriendHandler={removeFriendHandler}/>,
+        "Friend Requests": <FriendRequestsList
+            friendRequests={friendRequests}
+            acceptHandler={acceptFriendRequestHandler}
+            declineHandler={removeFriendRequestHandler}
+        />,
     };
 
     const friendsData = [
