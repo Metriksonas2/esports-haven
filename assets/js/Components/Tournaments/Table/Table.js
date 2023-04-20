@@ -47,7 +47,7 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                                             </div>
                                         </td>
                                         <td className="py-3 px-6 text-left">
-                                            <Host name={host.username} />
+                                            <Host user={host} />
                                         </td>
                                         <td className="py-3 px-6 text-center">
                                             <Participants />

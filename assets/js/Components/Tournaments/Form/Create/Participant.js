@@ -1,4 +1,5 @@
 import React from 'react';
+import UserPicker from "@/Components/UI/UserPicker/UserPicker";
 
 const Participant = ({ index, name, changeParticipantName }) => {
     const setParticipantNameHandler = (e) => {
@@ -12,14 +13,25 @@ const Participant = ({ index, name, changeParticipantName }) => {
 
     return (
         <div className="w-full">
-            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-4"
                    htmlFor="">
                 Participant #{index}
+            </label>
+
+            <label className="block uppercase tracking-wide text-gray-600 text-xs font-semibold mb-2">
+                Tournament username
             </label>
             <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="" type="text" defaultValue={name} placeholder="Erikas"
                 onChange={setParticipantNameHandler} />
+
+            <label className="block uppercase tracking-wide text-gray-600 text-xs font-semibold mb-2">
+                User
+            </label>
+            <UserPicker />
+            <div className='pb-4 border-b'></div>
+            <div className='pt-4'></div>
         </div>
     );
 }

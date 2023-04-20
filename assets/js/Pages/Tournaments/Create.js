@@ -331,7 +331,7 @@ const Create = () => {
                                             <div className="flex flex-col mb-6">
                                                 <div className="w-12 self-end">
                                                     <Tooltip
-                                                        content='Number of participants should be the power of two ("4, 8, 16, 32" and etc.)'
+                                                        content="Select a user for each participant and create it's tournament username!"
                                                         animation="duration-300"
                                                     >
                                                         <Button className='text-md text-white bg-indigo-900 hover:bg-indigo-600'>

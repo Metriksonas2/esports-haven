@@ -71,6 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $wonTournaments;
 
     #[ORM\Column(length: 255)]
+    #[Groups('users')]
     private ?string $profileImage = '/assets/images/avatar.jpg';
 
     #[ORM\Column(length: 255)]
