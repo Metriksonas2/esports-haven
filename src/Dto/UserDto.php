@@ -39,6 +39,17 @@ class UserDto
         );
     }
 
+    public static function createFromUsers(array $users): array
+    {
+        $usersArray = [];
+
+        foreach ($users as $user) {
+            $usersArray[] = self::createFromUser($user);
+        }
+
+        return $usersArray;
+    }
+
     public function getId(): int
     {
         return $this->id;

@@ -4,6 +4,7 @@ import {InertiaLink} from "@inertiajs/inertia-react";
 import NotificationBell from "@/Components/Page/Topbar/NotificationBell";
 import route from "@/Services/route";
 import axios from "axios";
+import Search from "@/Components/Page/Topbar/Search/Search";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -38,23 +39,7 @@ const Topbar = ({ open }) => {
   return (
       <div className={`${open ? 'pr-72' : 'pr-20'} flex fixed w-full h-24 bg-[#FEFFFE] z-40 border border-t-0 border-x-0 border-b-gray-200 duration-300`}>
           <form className='basis-2/6 pt-4 pl-4 mx-auto'>
-              <label htmlFor="default-search"
-                     className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-              <div className="relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <svg aria-hidden="true" className="w-5 h-5 text-gray-500" fill="none"
-                           stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                      </svg>
-                  </div>
-                  <input type="search" id="default-search"
-                         className="block w-full p-4 pl-10 text-sm text-gray-900 border border-indigo-400 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                         placeholder="Search users" required />
-                  <button type="submit"
-                          className="text-white absolute right-2.5 bottom-2.5 bg-indigo-700 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search
-                  </button>
-              </div>
+              <Search />
           </form>
           <ul className='flex items-center'>
               <li className='px-4'>
