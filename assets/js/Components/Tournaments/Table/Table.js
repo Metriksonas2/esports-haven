@@ -6,7 +6,7 @@ import Actions from "@/Components/Tournaments/Table/Actions/Actions";
 import route from "@/Services/route";
 import {getQueryParam} from "@/Services/functions";
 
-const Table = ({ tournaments, isHosted }) => {
+const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
     const [tournamentCreated, setTournamentCreated] = useState(false);
 
     useEffect(() => {
@@ -59,8 +59,9 @@ const Table = ({ tournaments, isHosted }) => {
                                             <Actions
                                                 viewRoute={route('tournaments', id)}
                                                 editRoute={route('tournaments.manage', id)}
-                                                deleteRoute={''}
+                                                deleteTournamentHandler={deleteTournamentHandler}
                                                 isHosted={isHosted}
+                                                tournamentId={id}
                                             />
                                         </td>
                                     </tr>

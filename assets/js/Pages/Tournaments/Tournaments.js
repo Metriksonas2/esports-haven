@@ -20,6 +20,24 @@ const Tournaments = () => {
         "In Progress": inProgressTournaments,
     };
 
+    const deleteTournamentHandler = (id) => {
+        setTournaments((prevTournaments) => {
+            return prevTournaments.filter(x => x.id !== id);
+        });
+
+        setHostedTournaments((prevTournaments) => {
+            return prevTournaments.filter(x => x.id !== id);
+        });
+
+        setWonTournaments((prevTournaments) => {
+            return prevTournaments.filter(x => x.id !== id);
+        });
+
+        setInProgressTournaments((prevTournaments) => {
+            return prevTournaments.filter(x => x.id !== id);
+        });
+    }
+
     return (
         <Page pageIndex='tournaments' breadcrumbsPathArray={['Tournaments']}>
             <div className="flex items-center justify-between mb-6">
@@ -55,7 +73,10 @@ const Tournaments = () => {
                 <Tab.Panels>
                     {Object.values(tournamentCategories).map((tournaments, index) => (
                         <Tab.Panel>
-                            <Table tournaments={tournaments} isHosted={index === 1}/>
+                            <Table
+                                tournaments={tournaments}
+                                isHosted={index === 1}
+                                deleteTournamentHandler={deleteTournamentHandler}/>
                         </Tab.Panel>
                     ))}
 

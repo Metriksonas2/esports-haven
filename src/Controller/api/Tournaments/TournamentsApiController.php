@@ -111,13 +111,13 @@ class TournamentsApiController extends AbstractController
     #[Route('/tournaments/{tournament}/winner', name: 'declare_winner', methods: ["POST"])]
     public function declareWinner(
         Request $request,
-        ParticipantService $participantService,
-        TournamentMatchService $tournamentMatchService,
+        Tournament $tournament,
     ): Response
     {
         $user = $this->getUser();
+        $isTournamentHostOrAdmin = ($tournament->getHost() === $user) || $this->isGranted('ROLE_ADMIN');
 
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if (!$isTournamentHostOrAdmin) {
             return $this->json(
                 ["error" => "Access denied."],
                 Response::HTTP_UNAUTHORIZED,
@@ -155,12 +155,22 @@ class TournamentsApiController extends AbstractController
         TournamentRepository $tournamentRepository,
     ): Response
     {
+        $user = $this->getUser();
+        $isTournamentHostOrAdmin = ($tournament->getHost() === $user) || $this->isGranted('ROLE_ADMIN');
+        if (!$isTournamentHostOrAdmin) {
+            return $this->json(
+                ["error" => "Access denied."],
+                Response::HTTP_UNAUTHORIZED,
+                headers: ['Content-Type' => 'application/json;charset=UTF-8']
+            );
+        }
+
         $tournamentRepository->remove($tournament);
         $this->entityManager->flush();
 
         return $this->json(
-            [],
-            Response::HTTP_ACCEPTED,
+            ['success' => 'Tournament has been removed'],
+            Response::HTTP_OK,
             headers: ['Content-Type' => 'application/json;charset=UTF-8']
         );
     }
