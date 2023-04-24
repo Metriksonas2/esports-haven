@@ -22,7 +22,8 @@ const Edit = () => {
     const [tournament, setTournament] = useState(usePage().props.tournament);
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
     const gamesList = usePage().props.games;
-
+    console.log(tournament)
+    console.log(getStructuredTournamentMatches(tournament))
     const winnerChoiceHandler = async (matchId, winnerParticipant) => {
         try {
             setTournament((prevTournament) => {
@@ -63,7 +64,7 @@ const Edit = () => {
 
     const manageTabs = {
         "General": <GeneralSettings tournament={tournament}/>,
-        "Participants": <ParticipantSettings participants={tournament.participants}/>,
+        "Participants": <ParticipantSettings participants={tournament.participants} />,
         "Matches": <MatchesSettings
             structuredMatches={getStructuredTournamentMatches(tournament)}
             winnerChoiceHandler={winnerChoiceHandler}

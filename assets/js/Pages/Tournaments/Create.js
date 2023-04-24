@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {
     formatTournamentMatchesData,
     isPowerOfTwo,
-    getCorrectDateFormatFromDateObject
+    getCorrectDateFormatFromDateObject, participantsArrayIsValid
 } from "@/Services/functions";
 import Page from "@/Components/Page/Page";
 import Participant from "@/Components/Tournaments/Form/Create/Participant";
@@ -22,24 +22,34 @@ import TournamentPreview from "@/Components/Tournaments/Tournament/TournamentPre
 
 const Create = () => {
     const gamesList = usePage().props.games;
-    const [participants, setParticipants] = useState([
+
+    const initialParticipants = [
         {
             index: 1,
             name: 'Participant #1',
+            user: null,
         },
         {
             index: 2,
             name: 'Participant #2',
+            user: null,
         },
         {
             index: 3,
             name: 'Participant #3',
+            user: null,
         },
         {
             index: 4,
             name: 'Participant #4',
+            user: null,
         },
-    ]);
+    ];
+
+    const [participants, setParticipants] = useState(initialParticipants);
+
+    const [users, setUsers] = useState(usePage().props.users);
+
     const [loading, setLoading] = useState(false);
 
     // Form data
@@ -109,14 +119,14 @@ const Create = () => {
             "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
             "participants": [
                 {
-                    "id": '', // Unique identifier of any kind
+                    "id": 'TBD', // Unique identifier of any kind
                     "resultText": null, // Any string works
                     "isWinner": false,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
                     "name": "TBD"
                 },
                 {
-                    "id": '',
+                    "id": 'TBD',
                     "resultText": null,
                     "isWinner": false,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
@@ -132,7 +142,8 @@ const Create = () => {
             const newIndex = prevParticipants[prevParticipants.length - 1].index + 1;
             const newParticipant = {
                 index: newIndex,
-                name: `Participant #${newIndex}`
+                name: `Participant #${newIndex}`,
+                user: null,
             }
 
             const newParticipants = [...prevParticipants, newParticipant];
@@ -145,7 +156,7 @@ const Create = () => {
     const changeParticipantNameHandler = (participant) => {
         setParticipants((prevParticipants => {
             const newParticipants = [...prevParticipants];
-            newParticipants[participant.index - 1] = participant;
+            newParticipants[participant.index - 1].name = participant.name;
 
             formatTournamentPreview(newParticipants)
             return newParticipants;
@@ -159,31 +170,37 @@ const Create = () => {
     const formSubmitHandler = async (e) => {
         e.preventDefault();
 
-        try {
-            const body = {
-                name,
-                description,
-                game,
-                withThirdPlaceMatch: isThirdPlaceMatch,
-                rules,
-                startDate,
-                bracketType,
-                participants,
-                matches: singleMatches
-            };
+        if (participantsArrayIsValid(participants)) {
+            try {
+                const body = {
+                    name,
+                    description,
+                    game,
+                    withThirdPlaceMatch: isThirdPlaceMatch,
+                    rules,
+                    startDate,
+                    bracketType,
+                    participants,
+                    matches: singleMatches
+                };
+                const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
 
-            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
-
-            setLoading(true);
-            const response = await axios.post('/api/tournaments', body, {
-                headers: headers
-            });
-            toast.success('Tournament has been created!')
-            location.replace(route('tournaments?tournament=created'));
-        } catch (error) {
-            setLoading(false);
-            toast.error('Something went wrong... Please try again later')
-            console.log(error);
+                setLoading(true);
+                const response = await axios.post('/api/tournaments', body, {
+                    headers: headers
+                });
+                toast.success('Tournament has been created!')
+                location.replace(route('tournaments?tournament=created'));
+            } catch (error) {
+                setLoading(false);
+                toast.error('Something went wrong... Please try again later')
+                console.log(error);
+                setSingleMatches(singleMatchesArray);
+                setParticipants(initialParticipants)
+                setUsers(usePage().props.users)
+            }
+        } else {
+            toast.error("Participants aren't valid. Please check everything and try again...")
         }
     }
 
@@ -198,6 +215,25 @@ const Create = () => {
 
     const handleDateChange = (date) => {
         setStartDate(date);
+    }
+
+    const userChangeHandler = (user, participantIndex) => {
+        setUsers((prevUsers) => {
+            return prevUsers.filter(x => x.id !== user.id);
+        })
+
+        setParticipants((prevParticipants) => {
+            const newParticipants = [...prevParticipants];
+            newParticipants[participantIndex - 1].user = user.id;
+
+            return newParticipants;
+        })
+    }
+
+    const addBackUserHandler = (user) => {
+        setUsers((prevUsers) => {
+            return [...prevUsers, user];
+        })
     }
 
     return (
@@ -342,6 +378,9 @@ const Create = () => {
                                                 {participants.map((p, index) => (
                                                     <Participant key={index} index={p.index} name={p.name}
                                                                  changeParticipantName={changeParticipantNameHandler}
+                                                                 users={users}
+                                                                 userChangeHandler={userChangeHandler}
+                                                                 addBackUserHandler={addBackUserHandler}
                                                     />
                                                 ))}
                                                 <div

@@ -67,10 +67,10 @@ class TournamentsApiController extends AbstractController
         $matches = $requestData['matches'];
 
         // Add participants to the tournament
+
         $participantsArray = $participantService->saveParticipants(
             $participants,
             $tournament,
-            $user,
             'WON',
         );
 

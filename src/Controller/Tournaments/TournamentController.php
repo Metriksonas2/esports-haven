@@ -3,9 +3,11 @@
 namespace App\Controller\Tournaments;
 
 use App\Dto\TournamentDto;
+use App\Dto\UserDto;
 use App\Entity\Tournament;
 use App\Enum\GameType;
 use App\Repository\TournamentRepository;
+use App\Repository\UserRepository;
 use App\Service\JsonSerializer;
 use App\Service\TournamentMatchService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,17 +36,22 @@ class TournamentController extends AbstractController
 
         return $inertia->render("Tournaments/Tournaments", [
             'tournaments' => $jsonTournaments,
-            'hostedTournaments' => $jsonHostedTournaments
+            'hostedTournaments' => $jsonHostedTournaments,
         ]);
     }
 
     #[Route('/create', name: 'create')]
     public function create(
         InertiaInterface $inertia,
+        UserRepository $userRepository,
     ): Response
     {
+        $users = $userRepository->findAll();
+        $usersDto = UserDto::createFromUsers($users);
+
         return $inertia->render("Tournaments/Create", [
-            'games' => GameType::cases()
+            'games' => GameType::cases(),
+            'users' => $usersDto,
         ]);
     }
 

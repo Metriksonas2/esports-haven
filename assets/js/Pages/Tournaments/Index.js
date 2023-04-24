@@ -16,7 +16,7 @@ import {TournamentBracketTheme} from "@/Services/TournamentBracketTheme";
 const Index = () => {
     const [tournament, setTournament] = useState(usePage().props.tournament);
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
-
+    console.log(tournament)
     return (
         <Page pageIndex='tournaments' breadcrumbsPathArray={['Tournaments', 'View']}>
             <Heading title={tournament.name} />

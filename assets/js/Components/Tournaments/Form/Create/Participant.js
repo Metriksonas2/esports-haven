@@ -1,11 +1,11 @@
 import React from 'react';
 import UserPicker from "@/Components/UI/UserPicker/UserPicker";
 
-const Participant = ({ index, name, changeParticipantName }) => {
+const Participant = ({ index, name, changeParticipantName, users, userChangeHandler, addBackUserHandler, createPhase = true }) => {
     const setParticipantNameHandler = (e) => {
         const participantObject = {
             index,
-            name: e.target.value
+            name: e.target.value,
         };
 
         changeParticipantName(participantObject);
@@ -29,7 +29,9 @@ const Participant = ({ index, name, changeParticipantName }) => {
             <label className="block uppercase tracking-wide text-gray-600 text-xs font-semibold mb-2">
                 User
             </label>
-            <UserPicker />
+            {createPhase && (
+                <UserPicker users={users} participantIndex={index} onUserChangeHandler={userChangeHandler} addBackUserHandler={addBackUserHandler} />
+            )}
             <div className='pb-4 border-b'></div>
             <div className='pt-4'></div>
         </div>

@@ -20,7 +20,6 @@ class ParticipantService
     public function saveParticipants(
         array $participants,
         Tournament $tournament,
-        User $user,
         string $resultText,
         bool $flush = false
     ): bool|array
@@ -30,6 +29,7 @@ class ParticipantService
 
             foreach ($participants as $participant) {
                 $newParticipant = new Participant();
+                $user = $this->entityManager->getRepository(User::class)->find($participant['user']);
                 $newParticipant->setTournament($tournament);
                 $newParticipant->setUser($user);
                 $newParticipant->setTournamentName($participant['name']);

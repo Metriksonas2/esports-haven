@@ -5,7 +5,7 @@ const Participants = ({ participants }) => {
     return (
         <div className="flex flex-col mb-6">
             {participants.map((p, index) => (
-                <Participant key={index} index={p.id} name={p.tournamentName}/>
+                <Participant key={index} index={p.id} name={p.tournamentName} users={[]} userChangeHandler={()=>{}} addBackUserHandler={()=>{}} changeParticipantName={()=>{}} createPhase={false} />
             ))}
             <div
                 className="flex items-center justify-center cursor-pointer h-12 mt-2 mb-4 rounded bg-gray-200 hover:bg-gray-50"

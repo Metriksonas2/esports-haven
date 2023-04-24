@@ -373,7 +373,11 @@ const getMatchesCountForRound = (roundIndex, matchesCount) => {
 
 const getTwoRoundMatchIndexes = (participantsCount) => {
     if (isPowerOfTwo(participantsCount)) {
-        return null;
+        let firstRoundArray = [];
+        for (let i = 1; i <= participantsCount / 2; i++) {
+            firstRoundArray.push(i);
+        }
+        return firstRoundArray;
     }
 
     let firstTwoRoundMatchesCount = participantsCount;
@@ -477,6 +481,17 @@ const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ')
 }
 
+const participantsArrayIsValid = (participants) => {
+    let isValid = true;
+    participants.forEach((participant) => {
+        if (participant.name === '' || participant.name.length < 2 || participant.user === null) {
+            isValid = false;
+        }
+    })
+
+    return isValid;
+}
+
 export {
     formatTournamentMatchesData,
     renderTournamentView,
@@ -491,4 +506,5 @@ export {
     getTwoRoundMatchIndexes,
     classNames,
     getStructuredTournamentMatches,
+    participantsArrayIsValid,
 };
