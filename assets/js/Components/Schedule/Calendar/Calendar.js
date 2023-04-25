@@ -7,7 +7,7 @@ import {
 } from "@/Services/functions";
 import Cell from "@/Components/Schedule/Calendar/Cell/Cell";
 
-const Calendar = () => {
+const Calendar = ({ tournamentsForEachDay }) => {
     const calendar = generateMonthlyCalendar();
     const monthStartsAfterFriday = getFirstDayOfTheCurrentMonth() > 5;
     const emptyCellsCount = getEmptyCalendarCellsCount();
@@ -56,8 +56,8 @@ const Calendar = () => {
                             {[...Array(emptyCellsCount)].map((e) => (
                                 <Cell isEmpty={true} />
                             ))}
-                            {calendar.map(day => (
-                                <Cell day={day} />
+                            {calendar.map((day) => (
+                                <Cell day={day} tournaments={tournamentsForEachDay[day]}/>
                             ))}
                         </div>
                     </div>

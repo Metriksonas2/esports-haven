@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Tournament;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Func;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +39,46 @@ class TournamentRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByCurrentMonth(User $user): array
+    {
+        $startDate = new \DateTime('first day of this month');
+        $endDate = new \DateTime('last day of this month');
+
+        return $this->createQueryBuilder('t')
+            ->leftJoin('t.participants', 'p')
+            ->where('t.startDate BETWEEN :startDate AND :endDate')
+            ->andWhere('p.user = :userId')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->setParameter('userId', $user->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findTournamentsByDay(User $user): array
+    {
+        // Get the current year and month
+        $year = date('Y');
+        $month = date('n');
+
+        // Get the number of days in the current month
+        $numDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+        // Initialize the result array
+        $result = array_fill(1, $numDays, []);
+
+        // Get the tournaments for the current month
+        $tournaments = $this->findByCurrentMonth($user);
+
+        // Loop through the tournaments and add them to the result array
+        foreach ($tournaments as $tournament) {
+            $day = $tournament->getStartDate()->format('j');
+            $result[$day][] = $tournament;
+        }
+
+        return $result;
     }
 
 //    /**
