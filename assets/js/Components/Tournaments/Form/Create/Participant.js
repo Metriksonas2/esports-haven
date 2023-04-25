@@ -1,14 +1,23 @@
 import React from 'react';
 import UserPicker from "@/Components/UI/UserPicker/UserPicker";
 
-const Participant = ({ index, name, changeParticipantName, users, userChangeHandler, addBackUserHandler, createPhase = true }) => {
+const Participant = ({ index, name, changeParticipantName, changeParticipantNameEdit, users, userChangeHandler, addBackUserHandler, createPhase = true }) => {
     const setParticipantNameHandler = (e) => {
-        const participantObject = {
-            index,
-            name: e.target.value,
-        };
+        if (createPhase) {
+            const participantObject = {
+                index,
+                name: e.target.value,
+            };
 
-        changeParticipantName(participantObject);
+            changeParticipantName(participantObject);
+        } else {
+            const participantObject = {
+                index,
+                tournamentName: e.target.value,
+            };
+
+            changeParticipantNameEdit(participantObject);
+        }
     }
 
     return (

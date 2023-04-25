@@ -1,12 +1,6 @@
 import React, {useState} from 'react';
 import Page from "@/Components/Page/Page";
-import DatePicker from "@/Components/UI/DatePicker/DatePicker";
-import {Disclosure, Tab} from "@headlessui/react";
-import {ChevronUpIcon} from "@heroicons/react/24/solid";
-import {Button, Tooltip} from "flowbite-react";
-import Participant from "@/Components/Tournaments/Form/Create/Participant";
-import {Match, SingleEliminationBracket, SVGViewer} from "@g-loot/react-tournament-brackets";
-import {TournamentBracketTheme} from "@/Services/TournamentBracketTheme";
+import {Tab} from "@headlessui/react";
 import {classNames, getStructuredTournamentMatches, renderTournamentView} from "@/Services/functions";
 import {usePage} from "@inertiajs/inertia-react";
 import Heading from "@/Components/Page/Heading/Heading";
@@ -20,10 +14,10 @@ import toast from "react-hot-toast";
 
 const Edit = () => {
     const [tournament, setTournament] = useState(usePage().props.tournament);
+    const [participants, setParticipants] = useState(tournament.participants)
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
     const gamesList = usePage().props.games;
-    console.log(tournament)
-    console.log(getStructuredTournamentMatches(tournament))
+
     const winnerChoiceHandler = async (matchId, winnerParticipant) => {
         try {
             setTournament((prevTournament) => {
@@ -58,13 +52,30 @@ const Edit = () => {
         }
     }
 
-    const formSubmitHandler = () => {
-        console.log('form submitted')
+    const onGeneralEditHandler = (data) => {
+        console.log(data)
+    }
+
+    const submitNewParticipantNames = () => {
+        console.log(participants)
+    }
+
+    const changeParticipantNameHandler = (participant) => {
+        setParticipants((prevParticipants => {
+            const newParticipants = [...prevParticipants];
+            newParticipants[participant.index - 1].tournamentName = participant.tournamentName;
+
+            return newParticipants;
+        }));
     }
 
     const manageTabs = {
-        "General": <GeneralSettings tournament={tournament}/>,
-        "Participants": <ParticipantSettings participants={tournament.participants} />,
+        "General": <GeneralSettings tournament={tournament} onGeneralEdit={onGeneralEditHandler} />,
+        "Participants": <ParticipantSettings
+            participants={participants}
+            submitNewParticipantNames={submitNewParticipantNames}
+            changeParticipantNameHandler={changeParticipantNameHandler}
+        />,
         "Matches": <MatchesSettings
             structuredMatches={getStructuredTournamentMatches(tournament)}
             winnerChoiceHandler={winnerChoiceHandler}
@@ -116,10 +127,6 @@ const Edit = () => {
                         <TournamentPreview matches={matchesArray}/>
                     </div>
                 </div>
-                <button type="submit" form='create-tournament-form'
-                        className="align-end mt-2 w-24 focus:outline-none text-white bg-indigo-900 hover:bg-indigo-600 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">
-                    Edit
-                </button>
             </React.Fragment>
         </Page>
     );
