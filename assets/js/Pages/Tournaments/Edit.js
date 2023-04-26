@@ -52,12 +52,51 @@ const Edit = () => {
         }
     }
 
-    const onGeneralEditHandler = (data) => {
-        console.log(data)
+    const onGeneralEditHandler = async (data) => {
+        try {
+            const body = {
+                name: data.name,
+                startDate: data.startDate,
+                description: data.description,
+                rules: data.rules,
+            };
+
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/tournaments/edit/general/${tournament.id}`, body, {
+                headers: headers
+            });
+
+            toast.success('Tournament edited successfully!')
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
     }
 
-    const submitNewParticipantNames = () => {
-        console.log(participants)
+    const submitNewParticipantNames = async () => {
+        try {
+            const body = {
+                participants,
+            };
+
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/tournaments/edit/participants/${tournament.id}`, body, {
+                headers: headers
+            });
+
+            toast.success('Tournament participants edited successfully!')
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
     }
 
     const changeParticipantNameHandler = (participant) => {

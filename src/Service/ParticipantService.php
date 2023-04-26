@@ -47,4 +47,18 @@ class ParticipantService
             return false;
         }
     }
+
+    public function editParticipants(array $participants): bool
+    {
+        try {
+            foreach ($participants as $participant) {
+                $participantObj = $this->entityManager->getRepository(Participant::class)->find($participant['id']);
+                $participantObj->setTournamentName($participant['tournamentName']);
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

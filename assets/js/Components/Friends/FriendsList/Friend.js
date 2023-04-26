@@ -58,7 +58,7 @@ const Friend = ({ id, firstName, lastName, email, position, country, removeFrien
                 <ModalButton
                     className='text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg font-semibold text-xs inline-flex gap-2 items-center px-3 py-2 text-center'
                     title='Are you sure you want to remove this friend?'
-                    message='test'
+                    message=''
                     onYesClick={removeFriendApiCall}
                     onNoClick={() => console.log('declined')}
                 >

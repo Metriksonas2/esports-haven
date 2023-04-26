@@ -33,7 +33,8 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                             </tr>
                             </thead>
                             <tbody className="text-gray-600 text-sm font-light">
-                            {tournaments.map(({ id, name, game, bracketType, host }, index) => {
+                            {tournaments.map(({ id, name, game, bracketType, hostName, hostProfileImage, participants }, index) => {
+                                let firstThreeParticipants = participants.slice(0, 3);
                                 return (
                                     <tr key={id}
                                         className={`border-b border-gray-200 ${index % 2 === 0 && 'bg-gray-50'} 
@@ -47,10 +48,10 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                                             </div>
                                         </td>
                                         <td className="py-3 px-6 text-left">
-                                            <Host user={host} />
+                                            <Host name={hostName} profileImage={hostProfileImage}/>
                                         </td>
                                         <td className="py-3 px-6 text-center">
-                                            <Participants />
+                                            <Participants firstThreeParticipants={firstThreeParticipants}/>
                                         </td>
                                         <td className="py-3 px-6 text-center">
                                             <Status status='Active' />

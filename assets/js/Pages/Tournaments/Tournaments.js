@@ -8,10 +8,10 @@ import { Tab } from '@headlessui/react'
 import {classNames} from "@/Services/functions";
 
 const Tournaments = () => {
-    const [tournaments, setTournaments] = useState(JSON.parse(usePage().props.tournaments));
-    const [hostedTournaments, setHostedTournaments] = useState(JSON.parse(usePage().props.hostedTournaments));
-    const [wonTournaments, setWonTournaments] = useState(JSON.parse(usePage().props.tournaments));
-    const [inProgressTournaments, setInProgressTournaments] = useState(JSON.parse(usePage().props.tournaments));
+    const [tournaments, setTournaments] = useState(usePage().props.tournaments);
+    const [hostedTournaments, setHostedTournaments] = useState(usePage().props.hostedTournaments);
+    const [wonTournaments, setWonTournaments] = useState(usePage().props.tournaments);
+    const [inProgressTournaments, setInProgressTournaments] = useState(usePage().props.tournaments);
 
     const tournamentCategories = {
         "All": tournaments,

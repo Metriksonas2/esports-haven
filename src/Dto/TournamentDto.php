@@ -17,6 +17,8 @@ class TournamentDto
     public ?string $game = null;
     public ?string $bracketType = null;
     public ?int $host = null;
+    public ?string $hostProfileImage = null;
+    public ?string $hostName = null;
     public ?bool $matchesSynced = null;
     public ?array $participants = null;
     public ?array $tournamentMatches = null;
@@ -32,6 +34,8 @@ class TournamentDto
         ?string $game,
         ?string $bracketType,
         ?int $host,
+        ?string $hostProfileImage,
+        ?string $hostName,
         ?bool $matchesSynced,
         ?array $participants,
         ?array $tournamentMatches,
@@ -46,6 +50,8 @@ class TournamentDto
         $this->game = $game;
         $this->bracketType = $bracketType;
         $this->host = $host;
+        $this->hostProfileImage = $hostProfileImage;
+        $this->hostName = $hostName;
         $this->matchesSynced = $matchesSynced;
         $this->participants = $participants;
         $this->tournamentMatches = $tournamentMatches;
@@ -64,6 +70,8 @@ class TournamentDto
             $tournament->getGame()->value,
             $tournament->getBracketType()->value,
             $tournament->getHost()->getId(),
+            $tournament->getHost()->getProfileImage(),
+            $tournament->getHost()->getFirstName(),
             $tournament->isMatchesSynced(),
             self::formatParticipantsArray($tournament->getParticipants()),
             self::formatTournamentMatchesArray($tournament->getTournamentMatches()),
@@ -71,6 +79,17 @@ class TournamentDto
             $tournament->getCreatedAt(),
             $tournament->getStartDate(),
         );
+    }
+
+    public static function createFromTournaments(array $tournaments): array
+    {
+        $tournamentsArray = [];
+
+        foreach ($tournaments as $tournament) {
+            $tournamentsArray[] = self::createFromTournament($tournament);
+        }
+
+        return $tournamentsArray;
     }
 
     private static function formatParticipantsArray(Collection $participantsCollection): array
@@ -84,6 +103,7 @@ class TournamentDto
                 'resultText' => $item->getResultText(),
                 'tournamentName' => $item->getTournamentName(),
                 'user' => $item->getUser()->getId(),
+                'profileImage' => $item->getUser()->getProfileImage()
             ];
 
             $participants[] = $participant;

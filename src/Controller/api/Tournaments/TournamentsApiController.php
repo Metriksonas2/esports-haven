@@ -108,6 +108,82 @@ class TournamentsApiController extends AbstractController
         );
     }
 
+    #[Route('/tournaments/edit/general/{tournament}', name: 'edit_general', methods: ["POST"])]
+    public function editGeneral(
+        Request $request,
+        Tournament $tournament,
+    ): Response
+    {
+        $user = $this->getUser();
+        $isTournamentHostOrAdmin = ($tournament->getHost() === $user) || $this->isGranted('ROLE_ADMIN');
+
+        if (!$isTournamentHostOrAdmin) {
+            return $this->json(
+                ["error" => "Access denied."],
+                Response::HTTP_UNAUTHORIZED,
+                headers: ['Content-Type' => 'application/json;charset=UTF-8']
+            );
+        }
+
+        $requestData = json_decode($request->getContent(), true);
+
+        $tournamentName = $requestData['name'];
+        $startDate = $requestData['startDate'];
+        $description = $requestData['description'];
+        $rules = $requestData['rules'];
+
+        $tournament->setName($tournamentName);
+
+        try {
+            $tournament->setStartDate(new \DateTime($startDate));
+        } catch (\Exception $e) {
+        }
+
+        $tournament->setDescription($description);
+        $tournament->setRules($rules);
+
+        $this->entityManager->flush();
+
+        return $this->json(
+            ['message' => 'Tournament was successfully edited.'],
+            Response::HTTP_CREATED,
+            headers: ['Content-Type' => 'application/json;charset=UTF-8'],
+            context: [AbstractNormalizer::IGNORED_ATTRIBUTES => ['host']]
+        );
+    }
+
+    #[Route('/tournaments/edit/participants/{tournament}', name: 'edit_participants', methods: ["POST"])]
+    public function editParticipants(
+        Request $request,
+        Tournament $tournament,
+        ParticipantService $participantService,
+    ): Response
+    {
+        $user = $this->getUser();
+        $isTournamentHostOrAdmin = ($tournament->getHost() === $user) || $this->isGranted('ROLE_ADMIN');
+
+        if (!$isTournamentHostOrAdmin) {
+            return $this->json(
+                ["error" => "Access denied."],
+                Response::HTTP_UNAUTHORIZED,
+                headers: ['Content-Type' => 'application/json;charset=UTF-8']
+            );
+        }
+
+        $requestData = json_decode($request->getContent(), true);
+
+        $participantService->editParticipants($requestData['participants']);
+
+        $this->entityManager->flush();
+
+        return $this->json(
+            ['message' => 'Tournament participants were successfully edited.'],
+            Response::HTTP_CREATED,
+            headers: ['Content-Type' => 'application/json;charset=UTF-8'],
+            context: [AbstractNormalizer::IGNORED_ATTRIBUTES => ['host']]
+        );
+    }
+
     #[Route('/tournaments/{tournament}/winner', name: 'declare_winner', methods: ["POST"])]
     public function declareWinner(
         Request $request,

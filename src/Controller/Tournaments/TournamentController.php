@@ -22,21 +22,19 @@ class TournamentController extends AbstractController
     public function index(
         InertiaInterface $inertia,
         TournamentRepository $tournamentRepository,
-        JsonSerializer $jsonSerializer
     ): Response
     {
         $user = $this->getUser();
-        $serializationGroups = ['tournaments', 'users'];
 
         $tournaments = $tournamentRepository->findBy([], ['createdAt' => 'DESC']);
         $hostedTournaments = $tournamentRepository->findBy(['host' => $user], ['createdAt' => 'DESC']);
 
-        $jsonTournaments = $jsonSerializer->serializeToJson($tournaments, $serializationGroups);
-        $jsonHostedTournaments = $jsonSerializer->serializeToJson($hostedTournaments, $serializationGroups);
+        $tournamentsDto = TournamentDto::createFromTournaments($tournaments);
+        $hostedTournamentsDto = TournamentDto::createFromTournaments($hostedTournaments);
 
         return $inertia->render("Tournaments/Tournaments", [
-            'tournaments' => $jsonTournaments,
-            'hostedTournaments' => $jsonHostedTournaments,
+            'tournaments' => $tournamentsDto,
+            'hostedTournaments' => $hostedTournamentsDto,
         ]);
     }
 
