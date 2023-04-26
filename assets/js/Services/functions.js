@@ -18,6 +18,9 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
                 indexForNextMatch--;
             }
 
+            let firstParticipantId = firstRound ? participants[participantIndex].index : 'TBD';
+            let secondParticipantId = firstRound ? participants[participantIndex + 1].index : 'TBD';
+
             let firstParticipantName = firstRound ? participants[participantIndex].name : 'TBD';
             let secondParticipantName = firstRound ? participants[participantIndex + 1].name : 'TBD';
             nextMatchId = i + indexForNextMatch;
@@ -31,14 +34,14 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
                 "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
                 "participants": [
                     {
-                        "id": "3d2c1bdd-e61f-4fd6-8c4d-f4a750504119", // Unique identifier of any kind
+                        "id": firstParticipantId, // Unique identifier of any kind
                         "resultText": null, // Any string works
                         "isWinner": false,
                         "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | null
                         "name": firstParticipantName,
                     },
                     {
-                        "id": "5c8264cf-2dcb-4c51-9134-367eaf7885a4",
+                        "id": secondParticipantId,
                         "resultText": null,
                         "isWinner": false,
                         "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'

@@ -170,7 +170,11 @@ const Create = () => {
     const formSubmitHandler = async (e) => {
         e.preventDefault();
 
-        if (participantsArrayIsValid(participants)) {
+        if (!participantsArrayIsValid(participants)) {
+            toast.error("Participants aren't valid. Please check everything and try again...")
+        } else if (game === '') {
+            toast.error("Please select a game for the tournament")
+        } else {
             try {
                 const body = {
                     name,
@@ -199,8 +203,6 @@ const Create = () => {
                 setParticipants(initialParticipants)
                 setUsers(usePage().props.users)
             }
-        } else {
-            toast.error("Participants aren't valid. Please check everything and try again...")
         }
     }
 

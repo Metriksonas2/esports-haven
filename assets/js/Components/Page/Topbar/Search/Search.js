@@ -45,7 +45,7 @@ const Search = () => {
                        onFocus={() => setSearchBarFocus(true)}
                        onBlur={() => setTimeout(() => {
                            setSearchBarFocus(false);
-                       }, 100)}
+                       }, 160)}
                        className="block w-full p-4 pl-10 text-sm text-gray-900 border border-indigo-400 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Search users" required />
                 <div className='absolute left-0 top-[54px] w-full z-50'>
