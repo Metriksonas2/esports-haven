@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Enum\BracketType;
 use App\Enum\GameType;
+use App\Enum\TournamentStatusType;
 use App\Repository\TournamentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -70,11 +71,15 @@ class Tournament
     #[ORM\ManyToOne(inversedBy: 'wonTournaments')]
     private ?User $winner = null;
 
+    #[ORM\Column(type: "string", length: 255, enumType: TournamentStatusType::class)]
+    private ?TournamentStatusType $status = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->tournamentMatches = new ArrayCollection();
         $this->bracketType = BracketType::SINGLE_ELIMINATION;
+        $this->status = TournamentStatusType::NOT_STARTED;
         $this->participants = new ArrayCollection();
     }
 
@@ -271,6 +276,18 @@ class Tournament
     public function setWinner(?User $winner): self
     {
         $this->winner = $winner;
+
+        return $this;
+    }
+
+    public function getStatus(): TournamentStatusType
+    {
+        return $this->status;
+    }
+
+    public function setStatus(TournamentStatusType $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

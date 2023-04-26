@@ -19,6 +19,7 @@ class TournamentDto
     public ?int $host = null;
     public ?string $hostProfileImage = null;
     public ?string $hostName = null;
+    public ?string $status;
     public ?bool $matchesSynced = null;
     public ?array $participants = null;
     public ?array $tournamentMatches = null;
@@ -36,6 +37,7 @@ class TournamentDto
         ?int $host,
         ?string $hostProfileImage,
         ?string $hostName,
+        ?string $status,
         ?bool $matchesSynced,
         ?array $participants,
         ?array $tournamentMatches,
@@ -52,6 +54,7 @@ class TournamentDto
         $this->host = $host;
         $this->hostProfileImage = $hostProfileImage;
         $this->hostName = $hostName;
+        $this->status = $status;
         $this->matchesSynced = $matchesSynced;
         $this->participants = $participants;
         $this->tournamentMatches = $tournamentMatches;
@@ -72,6 +75,7 @@ class TournamentDto
             $tournament->getHost()->getId(),
             $tournament->getHost()->getProfileImage(),
             $tournament->getHost()->getFirstName(),
+            $tournament->getStatus()->value,
             $tournament->isMatchesSynced(),
             self::formatParticipantsArray($tournament->getParticipants()),
             self::formatTournamentMatchesArray($tournament->getTournamentMatches()),

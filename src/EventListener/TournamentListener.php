@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\TournamentMatch;
+use App\Enum\TournamentStatusType;
 use App\Event\AfterTournamentCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -21,7 +22,7 @@ class TournamentListener implements \Symfony\Component\EventDispatcher\EventSubs
     public static function getSubscribedEvents()
     {
         return [
-//            AfterTournamentCreatedEvent::class => 'setCorrectNextMatchIds',
+            AfterTournamentCreatedEvent::class => 'checkTournamentStatus',
         ];
     }
 
@@ -52,6 +53,17 @@ class TournamentListener implements \Symfony\Component\EventDispatcher\EventSubs
             $this->entityManager->flush();
         } catch (\Exception $e) {
             throw new \Exception('Something went wrong, when setting tournament next matches');
+        }
+    }
+
+    public function checkTournamentStatus(AfterTournamentCreatedEvent $event): void
+    {
+        $tournament = $event->getTournament();
+
+        if ($tournament->getStartDate() <= new \DateTime()) {
+            $tournament->setStatus(TournamentStatusType::IN_PROGRESS);
+
+            $this->entityManager->flush();
         }
     }
 }
