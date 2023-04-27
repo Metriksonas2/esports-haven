@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\UserDto;
+use App\Entity\Game;
 use App\Entity\Participant;
 use App\Entity\Tournament;
 use App\Entity\User;
@@ -31,5 +32,19 @@ class GameService
         }
 
         return $selectedGamesArray;
+    }
+
+    public function addNewSelectedGames(User $user, array $games, $flush = false): void
+    {
+        $user->getSelectedGames()->clear();
+
+        foreach ($games as $game) {
+            $game = $this->entityManager->getRepository(Game::class)->findOneBy(['name' => $game]);
+            $user->addSelectedGame($game);
+        }
+
+        if ($flush) {
+            $this->entityManager->flush();
+        }
     }
 }

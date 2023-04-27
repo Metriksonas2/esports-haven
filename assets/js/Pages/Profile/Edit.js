@@ -10,20 +10,68 @@ import CsgoBox from "../../Components/Games/GameBoxes/CsgoBox";
 import DotaBox from "../../Components/Games/GameBoxes/DotaBox";
 import RocketLeagueBox from "../../Components/Games/GameBoxes/RocketLeagueBox";
 import {getGameBox} from "../../Services/GameBoxComponentsSelector";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Edit = () => {
     const [user, setUser] = useState(usePage().props.user);
+    const [firstName, setFirstName] = useState(user.firstName);
+    const [lastName, setLastName] = useState(user.lastName);
+    const [email, setEmail] = useState(user.email);
+    const [username, setUsername] = useState(user.username);
+    const [position, setPosition] = useState(user.position);
+    const [country, setCountry] = useState(user.country);
+    const [description, setDescription] = useState(user.description);
+
     const games = usePage().props.games;
+    const [gameOptions, setGameOptions] = useState([]);
     const selectedGames = usePage().props.selectedGames;
-    let gameOptions = [];
+    const [gamesList, setGamesList] = useState(selectedGames.map(game => game.value));
+
+
+    const onSaveHandler = async () => {
+        try {
+            const body = {
+                firstName,
+                lastName,
+                email,
+                username,
+                position,
+                country,
+                description,
+                games: gamesList,
+            }
+
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/profile/edit/${user.id}`, body, {
+                headers: headers
+            });
+
+            toast.success('Profile was edited successfully!')
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
+    }
+
+    const onGameChangeHandler = (newGames) => {
+        const newGamesList = newGames.map(game => game.value);
+        setGamesList(newGamesList);
+    }
 
     useEffect(() => {
+        let gameOptionsArray = []
         games.forEach((game) => {
-            gameOptions.push({
+            gameOptionsArray.push({
                 value: game,
                 label: game,
             })
         });
+        setGameOptions(gameOptionsArray);
     }, [])
 
     return (
@@ -42,8 +90,7 @@ const Edit = () => {
                         <div className="flex-none w-auto max-w-full px-3 my-auto">
                             <div className="h-full">
                                 <h5 className="mb-1">{user.firstName} {user.lastName}</h5>
-                                <p className="mb-0 font-semibold leading-normal text-sm">Public
-                                    Relations</p>
+                                <p className="mb-0 font-semibold leading-normal text-sm">{user.position}</p>
                             </div>
                         </div>
                         <div
@@ -65,6 +112,7 @@ const Edit = () => {
                                 <div className="flex items-center">
                                     <p className="mb-0">Edit Profile</p>
                                     <button type="button"
+                                            onClick={onSaveHandler}
                                             className="inline-block px-8 py-2 mb-4 ml-auto font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-indigo-700 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs hover:-translate-y-px active:opacity-85">Save
                                     </button>
                                 </div>
@@ -77,7 +125,7 @@ const Edit = () => {
                                         <div className="mb-4">
                                             <label htmlFor="username"
                                                    className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Username</label>
-                                            <input type="text" name="username" value="lucky.jesse"
+                                            <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)}
                                                    className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
                                         </div>
                                     </div>
@@ -86,7 +134,7 @@ const Edit = () => {
                                             <label htmlFor="email"
                                                    className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Email
                                                 address</label>
-                                            <input type="email" name="email" value="jesse@example.com"
+                                            <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}
                                                    className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
                                         </div>
                                     </div>
@@ -95,7 +143,7 @@ const Edit = () => {
                                             <label htmlFor="first name"
                                                    className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">First
                                                 name</label>
-                                            <input type="text" name="first name" value="Jesse"
+                                            <input type="text" name="first name" value={firstName} onChange={(e) => setFirstName(e.target.value)}
                                                    className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
                                         </div>
                                     </div>
@@ -104,7 +152,7 @@ const Edit = () => {
                                             <label htmlFor="last name"
                                                    className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Last
                                                 name</label>
-                                            <input type="text" name="last name" value="Lucky"
+                                            <input type="text" name="last name" value={lastName} onChange={(e) => setLastName(e.target.value)}
                                                    className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
                                         </div>
                                     </div>
@@ -113,37 +161,19 @@ const Edit = () => {
                                 <p className="leading-normal uppercase text-sm">Contact
                                     Information</p>
                                 <div className="flex flex-wrap -mx-3">
-                                    <div className="w-full max-w-full px-3 shrink-0 md:w-full md:flex-0">
-                                        <div className="mb-4">
-                                            <label htmlFor="address"
-                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Address</label>
-                                            <input type="text" name="address"
-                                                   value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                                                   className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
-                                        </div>
-                                    </div>
-                                    <div className="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0">
-                                        <div className="mb-4">
-                                            <label htmlFor="city"
-                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">City</label>
-                                            <input type="text" name="city" value="New York"
-                                                   className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
-                                        </div>
-                                    </div>
-                                    <div className="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0">
+                                    <div className="w-full max-w-full px-3 shrink-0 md:w-1/2 md:flex-0">
                                         <div className="mb-4">
                                             <label htmlFor="country"
                                                    className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Country</label>
-                                            <input type="text" name="country" value="United States"
+                                            <input type="text" name="country" value={country} onChange={(e) => setCountry(e.target.value)}
                                                    className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
                                         </div>
                                     </div>
-                                    <div className="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0">
+                                    <div className="w-full max-w-full px-3 shrink-0 md:w-1/2 md:flex-0">
                                         <div className="mb-4">
                                             <label htmlFor="postal code"
-                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Postal
-                                                code</label>
-                                            <input type="text" name="postal code" value="437300"
+                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Position</label>
+                                            <input type="text" name="postal code" value={position} onChange={(e) => setPosition(e.target.value)}
                                                    className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
                                         </div>
                                     </div>
@@ -154,18 +184,17 @@ const Edit = () => {
                                     <div className="w-full max-w-full px-3 shrink-0 md:w-full md:flex-0">
                                         <div className="mb-4">
                                             <label htmlFor="about me"
-                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">About
-                                                me</label>
+                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Description</label>
                                             <input type="text" name="about me"
-                                                   value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source."
+                                                   value={description} onChange={(e) => setDescription(e.target.value)}
                                                    className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
                                         </div>
                                     </div>
                                     <div className="w-full max-w-full px-3 shrink-0 md:w-full md:flex-0">
                                         <div className="mb-4">
                                             <label htmlFor="about me"
-                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Games</label>
-                                            <GamesSelector games={gameOptions} selectedGames={selectedGames} />
+                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Your games</label>
+                                            <GamesSelector games={gameOptions} selectedGames={selectedGames} onChange={onGameChangeHandler}/>
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +223,7 @@ const Edit = () => {
                                     <div
                                         className="mb-2 font-semibold leading-relaxed text-base text-slate-700">
                                         <i className="mr-2 ni ni-pin-3"></i>
-                                        Bucharest, Romania
+                                        {user.country} | {user.position}
                                     </div>
                                     <div className="mb-2 text-blueGray-600 flex flex-col lg:flex-row justify-center items-center">
                                         <div className='flex justify-center flex-wrap gap-y-3 mt-4'>
@@ -210,11 +239,7 @@ const Edit = () => {
                                     <div
                                         className="mt-6 mb-2 font-semibold leading-relaxed text-base text-slate-700">
                                         <i className="mr-2 ni ni-briefcase-24"></i>
-                                        Solution Manager - Creative Tim Officer
-                                    </div>
-                                    <div>
-                                        <i className="mr-2 ni ni-hat-3"></i>
-                                        University of Computer Science
+                                        {user.description}
                                     </div>
                                 </div>
                             </div>
