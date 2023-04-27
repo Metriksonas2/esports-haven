@@ -6,17 +6,22 @@ use App\Entity\User;
 
 class UserDto
 {
-    private int $id;
-    private string $firstName;
-    private string $lastName;
-    private string $email;
-    private string $profileImage;
-    private string $coverImage;
+    public ?int $id;
+    public ?string $firstName;
+    public ?string $lastName;
+    public ?string $email;
+    public ?string $profileImage;
+    public ?string $coverImage;
+    public ?string $position;
+    public ?string $country;
+    public ?string $description;
 
     public function __construct(
-        int $id, string $firstName,
-        string $lastName, string $email,
-        string $profileImage, string $coverImage,
+        ?int $id, ?string $firstName,
+        ?string $lastName, ?string $email,
+        ?string $profileImage, ?string $coverImage,
+        ?string $position, ?string $country,
+        ?string $description,
     )
     {
         $this->id = $id;
@@ -25,6 +30,9 @@ class UserDto
         $this->email = $email;
         $this->profileImage = $profileImage;
         $this->coverImage = $coverImage;
+        $this->position = $position;
+        $this->country = $country;
+        $this->description = $description;
     }
 
     public static function createFromUser(User $user): UserDto
@@ -36,6 +44,9 @@ class UserDto
             $user->getEmail(),
             $user->getProfileImage(),
             $user->getCoverImage(),
+            $user->getPosition(),
+            $user->getCountry(),
+            $user->getDescription(),
         );
     }
 

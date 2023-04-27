@@ -43,6 +43,7 @@
         "react-dom": "^18.2.0",
         "react-hot-toast": "^2.4.0",
         "react-notifications-menu": "^1.0.6",
+        "react-select": "^5.7.2",
         "styled-components": "^5.3.8",
         "tailwind-datepicker-react": "^1.2.3"
     }

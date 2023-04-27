@@ -7,6 +7,8 @@ namespace App\Controller\Profile;
 
 use App\Dto\UserDto;
 use App\Entity\User;
+use App\Enum\GameType;
+use App\Service\GameService;
 use Rompetomp\InertiaBundle\Service\InertiaInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,12 +40,19 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/edit', name: 'edit')]
-    public function edit(InertiaInterface $inertia)
+    public function edit(InertiaInterface $inertia, GameService $gameService)
     {
         $user = $this->getUser();
+        $gamesList = GameType::cases();
+        $selectedGames = $user->getSelectedGames();
+        $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames);
+
+        array_shift($gamesList);
 
         return $inertia->render("Profile/Edit", [
             'user' => $user,
+            'games' => $gamesList,
+            'selectedGames' => $selectedGamesArray
         ]);
     }
 }

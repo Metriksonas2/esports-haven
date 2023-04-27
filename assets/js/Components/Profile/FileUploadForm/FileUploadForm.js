@@ -27,6 +27,10 @@ function FileUploadForm({ user, uploadedFileType, button }) {
                     },
                 });
                 toast.success('File has been uploaded successfully!');
+
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
             } catch (error) {
                 toast.error('Something went wrong... Please try again later');
                 console.error(error);

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Game;
 use App\Entity\Tournament;
 use App\Enum\BracketType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -11,18 +12,14 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Create 10 tournaments
-        for ($i = 1; $i <= 10; $i++) {
-            $tournament = new Tournament();
-            $tournament->setName("Tournament #" . $i);
-            $tournament->setDescription("Tournament description...");
-            $tournament->setGame("League of Legends");
-            $tournament->setWithThirdPlaceMatch(false);
-            $tournament->setRules("Tournament rules...");
-
-            $manager->persist($tournament);
-        }
-
-        $manager->flush();
+        // Add games
+//        foreach (GameType::cases() as $gameType) {
+//            $game = new Game();
+//            $game->setName($gameType->value);
+//
+//            $manager->persist($game);
+//        }
+//
+//        $manager->flush();
     }
 }

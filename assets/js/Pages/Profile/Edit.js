@@ -1,11 +1,30 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Page from "@/Components/Page/Page";
 import FileUploadForm from "@/Components/Profile/FileUploadForm/FileUploadForm";
 import ChangeButton from "@/Components/Profile/ChangeButton/ChangeButton";
 import {usePage} from "@inertiajs/inertia-react";
+import GamesSelector from "@/Components/Profile/GamesSelector/GamesSelector";
+import {getGameIcon} from "../../Services/GameIcons";
+import LeagueOfLegendsBox from "../../Components/Games/GameBoxes/LeagueOfLegendsBox";
+import CsgoBox from "../../Components/Games/GameBoxes/CsgoBox";
+import DotaBox from "../../Components/Games/GameBoxes/DotaBox";
+import RocketLeagueBox from "../../Components/Games/GameBoxes/RocketLeagueBox";
+import {getGameBox} from "../../Services/GameBoxComponentsSelector";
 
 const Edit = () => {
     const [user, setUser] = useState(usePage().props.user);
+    const games = usePage().props.games;
+    const selectedGames = usePage().props.selectedGames;
+    let gameOptions = [];
+
+    useEffect(() => {
+        games.forEach((game) => {
+            gameOptions.push({
+                value: game,
+                label: game,
+            })
+        });
+    }, [])
 
     return (
         <Page>
@@ -142,6 +161,13 @@ const Edit = () => {
                                                    className="focus:shadow-primary-outline text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-indigo-500 focus:outline-none"/>
                                         </div>
                                     </div>
+                                    <div className="w-full max-w-full px-3 shrink-0 md:w-full md:flex-0">
+                                        <div className="mb-4">
+                                            <label htmlFor="about me"
+                                                   className="inline-block mb-2 ml-1 font-bold text-xs text-slate-700">Games</label>
+                                            <GamesSelector games={gameOptions} selectedGames={selectedGames} />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -169,6 +195,17 @@ const Edit = () => {
                                         className="mb-2 font-semibold leading-relaxed text-base text-slate-700">
                                         <i className="mr-2 ni ni-pin-3"></i>
                                         Bucharest, Romania
+                                    </div>
+                                    <div className="mb-2 text-blueGray-600 flex flex-col lg:flex-row justify-center items-center">
+                                        <div className='flex justify-center flex-wrap gap-y-3 mt-4'>
+                                            {selectedGames.map((game) => {
+                                                return (
+                                                    <div className='w-[240px] mx-8 md:mx-0'>
+                                                        {getGameBox(game.value, 5)}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
                                     <div
                                         className="mt-6 mb-2 font-semibold leading-relaxed text-base text-slate-700">

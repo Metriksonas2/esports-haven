@@ -5,7 +5,7 @@ import route from "@/Services/route";
 import ModalButton from "@/Components/UI/Modal/ModalButton";
 import toast from "react-hot-toast";
 
-const Friend = ({ id, firstName, lastName, email, position, country, removeFriendHandler }) => {
+const Friend = ({ id, firstName, lastName, email, profileImage, position, country, removeFriendHandler }) => {
     const fullName = firstName + ' ' + lastName;
 
     const removeFriendApiCall = async () => {
@@ -32,7 +32,7 @@ const Friend = ({ id, firstName, lastName, email, position, country, removeFrien
             <td>
                 <a href={route('user', id)} className='flex items-center p-4 whitespace-nowrap space-x-6 mr-12 lg:mr-0'>
                     <img className="h-10 w-10 rounded-full"
-                         src="/assets/images/avatar.jpg"
+                         src={profileImage}
                          alt="Avatar" />
                     <div className="text-sm font-normal text-gray-500">
                         <div className="text-base font-semibold text-gray-900">{fullName}</div>

@@ -41,8 +41,9 @@ const FriendsList = ({ friends, removeFriendHandler }) => {
                                     firstName={friend.firstName}
                                     lastName={friend.lastName}
                                     email={friend.email}
-                                    position='PHP Developer'
-                                    country='Lithuania'
+                                    profileImage={friend.profileImage}
+                                    position={friend.position}
+                                    country={friend.country}
                                     removeFriendHandler={removeFriendHandler}
                                 />
                             ))}

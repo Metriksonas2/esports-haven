@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -77,6 +78,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $coverImage = '/assets/images/cover.jpg';
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $position = '';
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $country = '';
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = '';
+
+    #[ORM\ManyToMany(targetEntity: Game::class)]
+    private Collection $selectedGames;
+
     public function __construct()
     {
         $this->hostedTournaments = new ArrayCollection();
@@ -84,6 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->friendRequests = new ArrayCollection();
         $this->friends = new ArrayCollection();
         $this->wonTournaments = new ArrayCollection();
+        $this->selectedGames = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -362,6 +376,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCoverImage(string $coverImage): self
     {
         $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getSelectedGames(): Collection
+    {
+        return $this->selectedGames;
+    }
+
+    public function addSelectedGame(Game $selectedGame): self
+    {
+        if (!$this->selectedGames->contains($selectedGame)) {
+            $this->selectedGames->add($selectedGame);
+        }
+
+        return $this;
+    }
+
+    public function removeSelectedGame(Game $selectedGame): self
+    {
+        $this->selectedGames->removeElement($selectedGame);
 
         return $this;
     }

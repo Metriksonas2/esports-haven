@@ -25,11 +25,12 @@ class Endorsement
     #[ORM\JoinColumn(nullable: false)]
     private ?User $endorserUser = null;
 
-    #[ORM\Column(type: "string", length: 255, enumType: GameType::class)]
-    private ?GameType $game = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'endorsements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Game $game = null;
 
     public function __construct()
     {
@@ -65,20 +66,20 @@ class Endorsement
         return $this;
     }
 
-    public function getGame(): ?GameType
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function getGame(): ?Game
     {
         return $this->game;
     }
 
-    public function setGame(GameType $game): self
+    public function setGame(?Game $game): self
     {
         $this->game = $game;
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
     }
 }
