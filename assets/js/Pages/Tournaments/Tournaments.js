@@ -10,9 +10,9 @@ import {classNames} from "@/Services/functions";
 const Tournaments = () => {
     const [tournaments, setTournaments] = useState(usePage().props.tournaments);
     const [hostedTournaments, setHostedTournaments] = useState(usePage().props.hostedTournaments);
-    const [wonTournaments, setWonTournaments] = useState(usePage().props.tournaments);
-    const [inProgressTournaments, setInProgressTournaments] = useState(usePage().props.tournaments);
-
+    const [wonTournaments, setWonTournaments] = useState(usePage().props.wonTournaments);
+    const [inProgressTournaments, setInProgressTournaments] = useState(tournaments.filter(x => x.status === 'In progress'));
+    console.log(wonTournaments)
     const tournamentCategories = {
         "All": tournaments,
         "Hosted": hostedTournaments,

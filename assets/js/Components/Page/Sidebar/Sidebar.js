@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import route from "@/Services/route";
 import {InertiaLink} from "@inertiajs/inertia-react";
 import {
-    ChartBarSquareIcon, Cog8ToothIcon, DocumentIcon,
     NewspaperIcon,
-    RocketLaunchIcon, TableCellsIcon,
-    TrophyIcon, UsersIcon
+    RocketLaunchIcon, StarIcon, TableCellsIcon,
+    TrophyIcon, UserGroupIcon, UsersIcon
 } from "@heroicons/react/24/solid";
 import {isSidebarOpen} from "@/Services/functions";
 
@@ -15,11 +14,10 @@ const Sidebar = ({ pageIndex, minimizeHandler }) => {
         { key: 'dashboard', title: "Dashboard", src: "", icon: <TableCellsIcon className='w-6' /> },
         { key: 'tournaments', title: "Tournaments", src: "tournaments", icon: <TrophyIcon className='w-6' /> },
         { key: 'games', title: "Games", src: "games", gap: true, icon: <RocketLaunchIcon className='w-6' /> },
-        { key: 'schedule', title: "Schedule ", src: "schedule", icon: <NewspaperIcon className='w-6' /> },
         { key: 'friends', title: "Friends", src: "friends", icon: <UsersIcon className='w-6' /> },
-        { key: 'analytics', title: "Analytics", src: "", icon: <ChartBarSquareIcon className='w-6' /> },
-        { key: 'files', title: "Files", src: "", gap: true, icon: <DocumentIcon className='w-6' /> },
-        { key: 'settings', title: "Settings", src: "", icon: <Cog8ToothIcon className='w-6' /> },
+        { key: 'teams', title: "Teams", src: "teams", icon: <UserGroupIcon className='w-6' /> },
+        { key: 'achievements', title: "Achievements", src: "achievements", gap: true, icon: <StarIcon className='w-6' /> },
+        { key: 'schedule', title: "Schedule ", src: "schedule", icon: <NewspaperIcon className='w-6' /> },
     ];
 
     const onButtonClick = () => {
