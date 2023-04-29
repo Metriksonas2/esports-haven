@@ -17,14 +17,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(InertiaInterface $inertia)
+    public function index(InertiaInterface $inertia, GameService $gameService)
     {
         /** @var User $user */
         $user = $this->getUser();
         $friendsCount = count($user->getFriends());
         $hostedTournamentsCount = count($user->getHostedTournaments());
         $wonTournamentsCount = count($user->getWonTournaments());
-
+        $selectedGames = $user->getSelectedGames();
+        $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames);
         $userDto = UserDto::createFromUser($user);
 
         return $inertia->render("Profile/View", [
@@ -32,6 +33,7 @@ class ProfileController extends AbstractController
             'friends' => $friendsCount,
             'hostedTournaments' => $hostedTournamentsCount,
             'wonTournaments' => $wonTournamentsCount,
+            'selectedGames' => $selectedGamesArray,
             'isMe' => true,
             'isFriend' => false,
             'isRequestSent' => false,

@@ -10,6 +10,9 @@ import {CheckBadgeIcon, PaperAirplaneIcon} from "@heroicons/react/24/solid";
 import axios from "axios";
 import toast from "react-hot-toast";
 import route from "@/Services/route";
+import Endorsement from "@/Components/Profile/Endorsement/Endorsement";
+import {getGameBox} from "../../Services/GameBoxComponentsSelector";
+import {getGameIcon} from "../../Services/GameIcons";
 
 const Index = () => {
     const user = usePage().props.user;
@@ -21,6 +24,8 @@ const Index = () => {
     const [isFriend, setIsFriend] = useState(usePage().props.isFriend);
     const [isRequestSent, setIsRequestSent] = useState(usePage().props.isRequestSent);
     const isRequestingToBeFriend = usePage().props.isRequestingToBeFriend;
+
+    const selectedGames = usePage().props.selectedGames;
 
     const fullName = user.firstName + ' ' + user.lastName;
     const userProgression = {
@@ -144,7 +149,7 @@ const Index = () => {
                                                 <CircularProgressbar value={userProgression.percentage}
                                                                      text={`${userProgression.level}`}
                                                                      background='true'
-                                                />;
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -181,27 +186,29 @@ const Index = () => {
                                     <div
                                         className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                                         <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                                        Kaunas, Lithuania
+                                        {user.country}
                                     </div>
                                     <div className="mb-4 text-blueGray-600 mt-10">
                                         <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                        Solution Manager - Creative Tim Officer
+                                        {user.position}
                                     </div>
-                                    <div className="mb-2 text-blueGray-600 flex flex-col lg:flex-row justify-center items-center">
+                                    <div className="mb-6 text-blueGray-600 flex flex-col lg:flex-row justify-center items-center">
                                         {/*<i className="fas fa-gamepad mr-2 text-lg text-blueGray-400"></i>*/}
                                         <div className='flex flex-wrap gap-y-3 mt-4'>
-                                            <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
-                                                <LeagueOfLegendsBox endorsements='12' />
-                                            </div>
-                                            <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
-                                                <CsgoBox />
-                                            </div>
-                                            <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
-                                                <DotaBox endorsements='4' />
-                                            </div>
-                                            <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
-                                                <RocketLeagueBox />
-                                            </div>
+                                            {selectedGames.map((game) => {
+                                                return (
+                                                    <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
+                                                        {getGameBox(game.value, 5)}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                    <div className='mb-2 w-1/2 flex flex-col mx-auto justify-center items-center'>
+                                        <div className='w-full flex flex-col items-center'>
+                                            {selectedGames.map(game => (
+                                                <Endorsement game={game.value} gameIcon={getGameIcon(game.value)} endorsements={true}/>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -209,11 +216,7 @@ const Index = () => {
                                     <div className="flex flex-wrap justify-center">
                                         <div className="w-full lg:w-9/12 px-4">
                                             <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                                An artist of considerable range, Jenna the name taken by
-                                                Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                                                performs and records all of his own music, giving it a
-                                                warm, intimate feel with a solid groove structure. An
-                                                artist of considerable range.
+                                                {user.description}
                                             </p>
                                         </div>
                                     </div>
