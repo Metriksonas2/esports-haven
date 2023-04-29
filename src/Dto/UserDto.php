@@ -9,6 +9,7 @@ class UserDto
     public ?int $id;
     public ?string $firstName;
     public ?string $lastName;
+    public ?string $username;
     public ?string $email;
     public ?string $profileImage;
     public ?string $coverImage;
@@ -18,15 +19,16 @@ class UserDto
 
     public function __construct(
         ?int $id, ?string $firstName,
-        ?string $lastName, ?string $email,
-        ?string $profileImage, ?string $coverImage,
-        ?string $position, ?string $country,
-        ?string $description,
+        ?string $lastName, ?string $username,
+        ?string $email, ?string $profileImage,
+        ?string $coverImage, ?string $position,
+        ?string $country, ?string $description,
     )
     {
         $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        $this->username = $username;
         $this->email = $email;
         $this->profileImage = $profileImage;
         $this->coverImage = $coverImage;
@@ -41,6 +43,7 @@ class UserDto
             $user->getId(),
             $user->getFirstName(),
             $user->getLastName(),
+            $user->getUsername(),
             $user->getEmail(),
             $user->getProfileImage(),
             $user->getCoverImage(),

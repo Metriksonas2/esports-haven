@@ -49,8 +49,10 @@ class ProfileController extends AbstractController
 
         array_shift($gamesList);
 
+        $userDto = UserDto::createFromUser($user);
+
         return $inertia->render("Profile/Edit", [
-            'user' => $user,
+            'user' => $userDto,
             'games' => $gamesList,
             'selectedGames' => $selectedGamesArray
         ]);
