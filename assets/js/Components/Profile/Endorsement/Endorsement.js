@@ -1,7 +1,11 @@
 import React from 'react'
 import { HandThumbUpIcon } from "@heroicons/react/24/solid";
 
-const Endorsement = ({ game, gameIcon, endorsed }) => {
+const Endorsement = ({ game, gameIcon, endorsed, endorseHandler }) => {
+    const onEndorseClickHandler = () => {
+        endorseHandler(game);
+    }
+
     return (
         <div className='w-3/4 flex justify-between items-center px-10 py-4 my-2 border'>
             <div className='flex items-center'>
@@ -11,6 +15,7 @@ const Endorsement = ({ game, gameIcon, endorsed }) => {
             {!endorsed && (
                 <button
                     className="w-40 h-10 btn-indigo uppercase text-white font-semibold hover:shadow-md shadow text-xs px-6 py-4 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    onClick={onEndorseClickHandler}
                     type="button">
                     Endorse
                 </button>

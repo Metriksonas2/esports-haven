@@ -230,7 +230,7 @@ const Edit = () => {
                                             {selectedGames.map((game) => {
                                                 return (
                                                     <div className='w-[240px] mx-8 md:mx-0'>
-                                                        {getGameBox(game.value, 5)}
+                                                        {getGameBox(game.value, game.endorsements)}
                                                     </div>
                                                 );
                                             })}

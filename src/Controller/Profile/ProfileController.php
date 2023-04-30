@@ -25,7 +25,7 @@ class ProfileController extends AbstractController
         $hostedTournamentsCount = count($user->getHostedTournaments());
         $wonTournamentsCount = count($user->getWonTournaments());
         $selectedGames = $user->getSelectedGames();
-        $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames);
+        $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames, $user);
         $userDto = UserDto::createFromUser($user);
 
         return $inertia->render("Profile/View", [
@@ -47,10 +47,9 @@ class ProfileController extends AbstractController
         $user = $this->getUser();
         $gamesList = GameType::cases();
         $selectedGames = $user->getSelectedGames();
-        $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames);
+        $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames, $user);
 
         array_shift($gamesList);
-
         $userDto = UserDto::createFromUser($user);
 
         return $inertia->render("Profile/Edit", [

@@ -7,6 +7,7 @@ namespace App\Controller\Users;
 
 use App\Dto\UserDto;
 use App\Entity\User;
+use App\Service\EndorsementService;
 use App\Service\FriendService;
 use App\Service\GameService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +28,10 @@ class UserController extends AbstractController
     }
 
     #[Route('/{user}', name: 'index')]
-    public function index(User $user, InertiaInterface $inertia, FriendService $friendService, GameService $gameService)
+    public function index(
+        User $user, InertiaInterface $inertia, FriendService $friendService,
+        GameService $gameService, EndorsementService $endorsementService
+    )
     {
         /** @var User $me */
         $me = $this->getUser();
@@ -42,7 +46,10 @@ class UserController extends AbstractController
         $isRequestingToBeFriend = $friendService->isUserRequestingToBeMyFriend($me, $user);
 
         $selectedGames = $user->getSelectedGames();
-        $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames);
+        $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames, $user);
+
+        $endorsements = $user->getEndorsements();
+        $myEndorsementsArray = $endorsementService->getMyEndorsementsFromEndorsements($endorsements, $me);
 
         $userDto = UserDto::createFromUser($user);
 
@@ -52,6 +59,7 @@ class UserController extends AbstractController
             'hostedTournaments' => $hostedTournamentsCount,
             'wonTournaments' => $wonTournamentsCount,
             'selectedGames' => $selectedGamesArray,
+            'myEndorsements' => $myEndorsementsArray,
             'isMe' => $isMe,
             'isFriend' => $isFriend,
             'isRequestSent' => $isRequestSent,

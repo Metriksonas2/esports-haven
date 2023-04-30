@@ -26,6 +26,7 @@ const Index = () => {
     const isRequestingToBeFriend = usePage().props.isRequestingToBeFriend;
 
     const selectedGames = usePage().props.selectedGames;
+    const [myEndorsements, setMyEndorsements] = useState(usePage().props.myEndorsements);
 
     const fullName = user.firstName + ' ' + user.lastName;
     const userProgression = {
@@ -63,6 +64,25 @@ const Index = () => {
 
             toast.success(`You're now friends with ${user.firstName}!`)
             setIsFriend(true);
+        } catch (error) {
+            toast.error('Something went wrong... Please try again later')
+            console.log(error);
+        }
+    }
+
+    const endorseUserHandler = async (game) => {
+        const body = {
+            game
+        }
+
+        try {
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/endorse/${user.id}`, body, {
+                headers: headers
+            });
+
+            toast.success(`User has been successfully endorsed!`)
         } catch (error) {
             toast.error('Something went wrong... Please try again later')
             console.log(error);
@@ -197,20 +217,27 @@ const Index = () => {
                                         <div className='flex flex-wrap gap-y-3 mt-4'>
                                             {selectedGames.map((game) => {
                                                 return (
-                                                    <div className='basis-full md:basis-1/2 lg:basis-1/3 mx-8 md:mx-0'>
-                                                        {getGameBox(game.value, 5)}
+                                                    <div className='basis-full md:basis-1/2 lg:basis-1/2 mx-8 md:mx-0'>
+                                                        {getGameBox(game.value, game.endorsements)}
                                                     </div>
                                                 );
                                             })}
                                         </div>
                                     </div>
-                                    <div className='mb-2 w-1/2 flex flex-col mx-auto justify-center items-center'>
-                                        <div className='w-full flex flex-col items-center'>
-                                            {selectedGames.map(game => (
-                                                <Endorsement game={game.value} gameIcon={getGameIcon(game.value)} endorsements={true}/>
-                                            ))}
+                                    {!isMe && (
+                                        <div className='mb-2 w-1/2 flex flex-col mx-auto justify-center items-center'>
+                                            <div className='w-full flex flex-col items-center'>
+                                                {selectedGames.map(game => (
+                                                    <Endorsement
+                                                        game={game.value}
+                                                        gameIcon={getGameIcon(game.value)}
+                                                        endorsed={myEndorsements.includes(game.value)}
+                                                        endorseHandler={endorseUserHandler}
+                                                    />
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
                                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                                     <div className="flex flex-wrap justify-center">

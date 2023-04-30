@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\UserDto;
+use App\Entity\Endorsement;
 use App\Entity\Game;
 use App\Entity\Participant;
 use App\Entity\Tournament;
@@ -20,14 +21,20 @@ class GameService
         $this->entityManager = $entityManager;
     }
 
-    public function generateSelectedGamesArray(Collection $selectedGames): array
+    public function generateSelectedGamesArray(Collection $selectedGames, User $user): array
     {
         $selectedGamesArray = [];
 
         foreach ($selectedGames as $game) {
+            $endorsements = $this->entityManager->getRepository(Endorsement::class)->findBy([
+                'endorsedUser' => $user, 'game' => $game
+            ]);
+            $endorsementCount = count($endorsements);
+
             $selectedGamesArray[] = [
                 'value' => $game->getName(),
                 'label' => $game->getName(),
+                'endorsements' => $endorsementCount,
             ];
         }
 
