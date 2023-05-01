@@ -3,34 +3,21 @@ import React, { useEffect, useState } from 'react';
 const Status = ({ status }) => {
   const [styles, setStyles] = useState('');
 
-  const statuses = {
-    'Not started': {
-      bgColor: 'yellow-200',
-      textColor: 'yellow-600'
-    },
-    'In progress': {
-      bgColor: 'red-200',
-      textColor: 'red-600'
-    },
-    'Completed': {
-      bgColor: 'green-200',
-      textColor: 'green-600'
-    }
-  };
-
   const getStylesForStatus = () => {
-    return {
-      background: statuses[status].bgColor,
-      text: statuses[status].textColor,
+    const styleEnd = ' py-1 px-3 rounded-full text-xs';
+    switch (status) {
+      case 'Not started':
+        return 'bg-yellow-200 text-yellow-600' + styleEnd;
+      case 'In progress':
+        return 'bg-indigo-200 text-indigo-600' + styleEnd;
+      case 'Finished':
+        return 'bg-red-200 text-red-600' + styleEnd;
     }
   }
 
-  useEffect(() => {
-    setStyles(`bg-${getStylesForStatus().background} text-${getStylesForStatus().text} py-1 px-3 rounded-full text-xs`);
-  }, [status])
 
   return (
-      <span className={styles}>
+      <span className={getStylesForStatus()}>
         {status}
       </span>
   );
