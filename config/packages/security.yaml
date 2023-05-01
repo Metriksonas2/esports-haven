@@ -32,6 +32,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/tournaments, roles: ROLE_USER }
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/achievements, roles: ROLE_USER }
+        - { path: ^/schedule, roles: ROLE_USER }
+        - { path: ^/friends, roles: ROLE_USER }
 
 when@test:
     security:

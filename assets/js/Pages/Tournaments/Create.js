@@ -174,6 +174,8 @@ const Create = () => {
             toast.error("Participants aren't valid. Please check everything and try again...")
         } else if (game === '') {
             toast.error("Please select a game for the tournament")
+        } else if (name === '') {
+            toast.error("Please enter the name of the tournament")
         } else {
             try {
                 const body = {
@@ -311,7 +313,7 @@ const Create = () => {
                                                 className="bg-gray-200 border border-gray-200 text-gray-700 text-sm rounded-lg focus:bg-white focus:outline-none focus:border-gray-500 block w-full p-2.5"
                                                 onChange={(e) => setBracketType(e.target.value) }>
                                             <option value="Single Elimination" defaultValue>Single Elimination</option>
-                                            <option value="Double Elimination">Double Elimination</option>
+                                            <option value="Double Elimination" disabled>Double Elimination (Coming Soon)</option>
                                         </select>
                                     </div>
                                 </div>

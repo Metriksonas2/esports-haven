@@ -217,7 +217,7 @@ const Index = () => {
                                         <div className='flex flex-wrap gap-y-3 mt-4'>
                                             {selectedGames.map((game) => {
                                                 return (
-                                                    <div className='basis-full md:basis-1/2 lg:basis-1/2 mx-8 md:mx-0'>
+                                                    <div className='min-w-[250px] basis-full md:basis-1/2 lg:basis-1/2 mx-8 md:mx-0'>
                                                         {getGameBox(game.value, game.endorsements)}
                                                     </div>
                                                 );

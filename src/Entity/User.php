@@ -90,6 +90,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Game::class)]
     private Collection $selectedGames;
 
+    #[ORM\ManyToMany(targetEntity: Achievement::class, inversedBy: 'earnedUsers')]
+    private Collection $achievements;
+
     public function __construct()
     {
         $this->hostedTournaments = new ArrayCollection();
@@ -98,6 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->friends = new ArrayCollection();
         $this->wonTournaments = new ArrayCollection();
         $this->selectedGames = new ArrayCollection();
+        $this->achievements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -436,6 +440,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSelectedGame(Game $selectedGame): self
     {
         $this->selectedGames->removeElement($selectedGame);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Achievement>
+     */
+    public function getAchievements(): Collection
+    {
+        return $this->achievements;
+    }
+
+    public function addAchievement(Achievement $achievement): self
+    {
+        if (!$this->achievements->contains($achievement)) {
+            $this->achievements->add($achievement);
+        }
+
+        return $this;
+    }
+
+    public function removeAchievement(Achievement $achievement): self
+    {
+        $this->achievements->removeElement($achievement);
 
         return $this;
     }
