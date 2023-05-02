@@ -12,12 +12,14 @@ const Tournaments = () => {
     const [hostedTournaments, setHostedTournaments] = useState(usePage().props.hostedTournaments);
     const [wonTournaments, setWonTournaments] = useState(usePage().props.wonTournaments);
     const [inProgressTournaments, setInProgressTournaments] = useState(tournaments.filter(x => x.status === 'In progress'));
-    console.log(wonTournaments)
+    const [finishedTournaments, setFinishedTournaments] = useState(tournaments.filter(x => x.status === 'Finished'));
+
     const tournamentCategories = {
         "All": tournaments,
         "Hosted": hostedTournaments,
         "Won": wonTournaments,
         "In Progress": inProgressTournaments,
+        "Finished": finishedTournaments,
     };
 
     const deleteTournamentHandler = (id) => {
@@ -34,6 +36,10 @@ const Tournaments = () => {
         });
 
         setInProgressTournaments((prevTournaments) => {
+            return prevTournaments.filter(x => x.id !== id);
+        });
+
+        setFinishedTournaments((prevTournaments) => {
             return prevTournaments.filter(x => x.id !== id);
         });
     }

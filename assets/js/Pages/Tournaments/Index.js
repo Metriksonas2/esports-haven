@@ -3,11 +3,8 @@ import {usePage} from "@inertiajs/inertia-react";
 import Page from "@/Components/Page/Page";
 import {
     SingleEliminationBracket,
-    DoubleEliminationBracket,
     Match,
-    MATCH_STATES,
     SVGViewer,
-    createTheme
 } from '@g-loot/react-tournament-brackets';
 import Heading from "@/Components/Page/Heading/Heading";
 import {renderTournamentView} from "@/Services/functions";
@@ -17,7 +14,7 @@ import ParticipantsList from "@/Components/Tournaments/Participants/Participants
 const Index = () => {
     const [tournament, setTournament] = useState(usePage().props.tournament);
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
-    console.log(tournament)
+
     return (
         <Page pageIndex='tournaments' breadcrumbsPathArray={['Tournaments', 'View']}>
             <Heading title={tournament.name} />
@@ -44,7 +41,7 @@ const Index = () => {
                     />
                 </div>
                 <div className='ml-6'>
-                    <ParticipantsList participants={tournament.participants}/>
+                    <ParticipantsList participants={tournament.participants} winner={tournament.winner}/>
                 </div>
             </div>
         </Page>

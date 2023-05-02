@@ -28,11 +28,11 @@ class TournamentController extends AbstractController
 
         $tournaments = $tournamentRepository->findBy([], ['createdAt' => 'DESC']);
         $hostedTournaments = $tournamentRepository->findBy(['host' => $user], ['createdAt' => 'DESC']);
-        $wonTournamentsDto = $tournamentRepository->findBy(['winner' => $user], ['createdAt' => 'DESC']);
+        $wonTournaments = $tournamentRepository->findBy(['winner' => $user], ['createdAt' => 'DESC']);
 
         $tournamentsDto = TournamentDto::createFromTournaments($tournaments);
         $hostedTournamentsDto = TournamentDto::createFromTournaments($hostedTournaments);
-        $hostedTournamentsDto = TournamentDto::createFromTournaments($hostedTournaments);
+        $wonTournamentsDto = TournamentDto::createFromTournaments($wonTournaments);
 
         return $inertia->render("Tournaments/Tournaments", [
             'tournaments' => $tournamentsDto,

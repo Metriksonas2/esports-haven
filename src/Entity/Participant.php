@@ -35,6 +35,9 @@ class Participant
     #[ORM\JoinColumn(nullable: false)]
     private ?Tournament $tournament = null;
 
+    #[ORM\Column]
+    private ?bool $eliminated = false;
+
     public function __construct()
     {
         $this->matches = new ArrayCollection();
@@ -147,6 +150,18 @@ class Participant
     public function setTournament(?Tournament $tournament): self
     {
         $this->tournament = $tournament;
+
+        return $this;
+    }
+
+    public function isEliminated(): ?bool
+    {
+        return $this->eliminated;
+    }
+
+    public function setEliminated(bool $eliminated): self
+    {
+        $this->eliminated = $eliminated;
 
         return $this;
     }

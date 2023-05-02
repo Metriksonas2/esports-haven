@@ -28,10 +28,12 @@ const Index = () => {
     const selectedGames = usePage().props.selectedGames;
     const [myEndorsements, setMyEndorsements] = useState(usePage().props.myEndorsements);
 
+    const levelPercentage = usePage().props.levelPercentage;
+
     const fullName = user.firstName + ' ' + user.lastName;
     const userProgression = {
-        level: 5,
-        percentage: 70
+        level: user.level,
+        percentage: levelPercentage
     }
 
     const addFriendHandler = async (e) => {

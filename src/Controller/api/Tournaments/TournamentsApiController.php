@@ -9,6 +9,7 @@ use App\Enum\BracketType;
 use App\Enum\GameType;
 use App\Event\AfterTournamentCreatedEvent;
 use App\Repository\TournamentRepository;
+use App\Service\ObjectService;
 use App\Service\ParticipantService;
 use App\Service\TournamentMatchService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -188,6 +189,7 @@ class TournamentsApiController extends AbstractController
     public function declareWinner(
         Request $request,
         Tournament $tournament,
+        ObjectService $objectService,
     ): Response
     {
         $user = $this->getUser();
@@ -209,11 +211,20 @@ class TournamentsApiController extends AbstractController
         /** @var Participant $winnerParticipant */
         $winnerParticipant = $this->entityManager->getRepository(Participant::class)->find($requestData['winnerParticipantId']);
 
+        /** @var Participant $loserParticipant */
+        $loserParticipant = $objectService->getFirstObjectWithoutId(
+            $match->getParticipants()->toArray(), $winnerParticipant->getId()
+        );
+
+        // TODO: Add experience for winning
+
         $match->setWinnerParticipant($winnerParticipant);
 
         $nextMatch = $match->getNextMatch();
 
         $nextMatch?->addParticipant($winnerParticipant);
+
+        $loserParticipant->setEliminated(true);
 
         $this->entityManager->flush();
 

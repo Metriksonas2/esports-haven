@@ -16,6 +16,8 @@ class UserDto
     public ?string $position;
     public ?string $country;
     public ?string $description;
+    public ?int $level;
+    public ?int $experiencePoints;
 
     public function __construct(
         ?int $id, ?string $firstName,
@@ -23,6 +25,7 @@ class UserDto
         ?string $email, ?string $profileImage,
         ?string $coverImage, ?string $position,
         ?string $country, ?string $description,
+        ?int $level, ?int $experiencePoints,
     )
     {
         $this->id = $id;
@@ -35,6 +38,8 @@ class UserDto
         $this->position = $position;
         $this->country = $country;
         $this->description = $description;
+        $this->level = $level;
+        $this->experiencePoints = $experiencePoints;
     }
 
     public static function createFromUser(User $user): UserDto
@@ -50,6 +55,8 @@ class UserDto
             $user->getPosition(),
             $user->getCountry(),
             $user->getDescription(),
+            $user->getLevel(),
+            $user->getExperiencePoints(),
         );
     }
 

@@ -93,6 +93,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Achievement::class, inversedBy: 'earnedUsers')]
     private Collection $achievements;
 
+    #[ORM\Column]
+    private ?int $level = 1;
+
+    #[ORM\Column]
+    private ?int $experiencePoints = 0;
+
     public function __construct()
     {
         $this->hostedTournaments = new ArrayCollection();
@@ -464,6 +470,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeAchievement(Achievement $achievement): self
     {
         $this->achievements->removeElement($achievement);
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function getExperiencePoints(): ?int
+    {
+        return $this->experiencePoints;
+    }
+
+    public function setExperiencePoints(int $experiencePoints): self
+    {
+        $this->experiencePoints = $experiencePoints;
 
         return $this;
     }

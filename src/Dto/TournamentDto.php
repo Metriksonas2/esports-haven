@@ -79,7 +79,7 @@ class TournamentDto
             $tournament->isMatchesSynced(),
             self::formatParticipantsArray($tournament->getParticipants()),
             self::formatTournamentMatchesArray($tournament->getTournamentMatches()),
-            $tournament->getWinner(),
+            $tournament->getWinner()?->getId(),
             $tournament->getCreatedAt(),
             $tournament->getStartDate(),
         );
@@ -106,6 +106,7 @@ class TournamentDto
                 'id' => $item->getId(),
                 'resultText' => $item->getResultText(),
                 'tournamentName' => $item->getTournamentName(),
+                'eliminated' => $item->isEliminated(),
                 'user' => $item->getUser()->getId(),
                 'profileImage' => $item->getUser()->getProfileImage(),
                 'firstName' => $item->getUser()->getFirstName(),

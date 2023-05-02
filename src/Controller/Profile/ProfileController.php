@@ -9,6 +9,7 @@ use App\Dto\UserDto;
 use App\Entity\User;
 use App\Enum\GameType;
 use App\Service\GameService;
+use App\Service\LevelingService;
 use Rompetomp\InertiaBundle\Service\InertiaInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(InertiaInterface $inertia, GameService $gameService)
+    public function index(InertiaInterface $inertia, GameService $gameService, LevelingService $levelingService)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -27,6 +28,7 @@ class ProfileController extends AbstractController
         $selectedGames = $user->getSelectedGames();
         $selectedGamesArray = $gameService->generateSelectedGamesArray($selectedGames, $user);
         $userDto = UserDto::createFromUser($user);
+        $levelPercentage = $levelingService->getUserPercentage($user);
 
         return $inertia->render("Profile/View", [
             'user' => $userDto,
@@ -34,6 +36,7 @@ class ProfileController extends AbstractController
             'hostedTournaments' => $hostedTournamentsCount,
             'wonTournaments' => $wonTournamentsCount,
             'selectedGames' => $selectedGamesArray,
+            'levelPercentage' => $levelPercentage,
             'isMe' => true,
             'isFriend' => false,
             'isRequestSent' => false,

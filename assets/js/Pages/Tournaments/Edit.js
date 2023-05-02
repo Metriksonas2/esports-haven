@@ -16,10 +16,20 @@ const Edit = () => {
     const [tournament, setTournament] = useState(usePage().props.tournament);
     const [participants, setParticipants] = useState(tournament.participants)
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
-    const gamesList = usePage().props.games;
 
     const winnerChoiceHandler = async (matchId, winnerParticipant) => {
         try {
+            const body = {
+                matchId: matchId,
+                winnerParticipantId: winnerParticipant,
+            };
+
+            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
+
+            const response = await axios.post(`/api/tournaments/${tournament.id}/winner`, body, {
+                headers: headers
+            });
+
             setTournament((prevTournament) => {
                 let newTournament = {...prevTournament};
                 let match = newTournament.tournamentMatches.find(x => x.id === matchId);
@@ -33,17 +43,6 @@ const Edit = () => {
 
                 return newTournament;
             })
-
-            const body = {
-                matchId: matchId,
-                winnerParticipantId: winnerParticipant
-            };
-
-            const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
-
-            const response = await axios.post(`/api/tournaments/${tournament.id}/winner`, body, {
-                headers: headers
-            });
 
             toast.success('Winner declared successfully!')
         } catch (error) {

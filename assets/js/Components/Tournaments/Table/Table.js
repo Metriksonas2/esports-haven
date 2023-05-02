@@ -34,7 +34,7 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                             </thead>
                             <tbody className="text-gray-600 text-sm font-light">
                                 {tournaments.length !== 0 && (
-                                    tournaments.map(({ id, name, game, bracketType, hostName, hostProfileImage, status, participants }, index) => {
+                                    tournaments.map(({ id, name, game, bracketType, hostName, hostProfileImage, status, participants, winner }, index) => {
                                         let firstThreeParticipants = participants.slice(0, 3);
                                         return (
                                             <tr key={id}

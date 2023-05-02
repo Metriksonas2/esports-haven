@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Service\EndorsementService;
 use App\Service\FriendService;
 use App\Service\GameService;
+use App\Service\LevelingService;
 use Doctrine\ORM\EntityManagerInterface;
 use Rompetomp\InertiaBundle\Service\InertiaInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +31,8 @@ class UserController extends AbstractController
     #[Route('/{user}', name: 'index')]
     public function index(
         User $user, InertiaInterface $inertia, FriendService $friendService,
-        GameService $gameService, EndorsementService $endorsementService
+        GameService $gameService, EndorsementService $endorsementService,
+        LevelingService $levelingService,
     )
     {
         /** @var User $me */
@@ -51,6 +53,8 @@ class UserController extends AbstractController
         $endorsements = $user->getEndorsements();
         $myEndorsementsArray = $endorsementService->getMyEndorsementsFromEndorsements($endorsements, $me);
 
+        $levelPercentage = $levelingService->getUserPercentage($user);
+
         $userDto = UserDto::createFromUser($user);
 
         return $inertia->render("Profile/View", [
@@ -60,6 +64,7 @@ class UserController extends AbstractController
             'wonTournaments' => $wonTournamentsCount,
             'selectedGames' => $selectedGamesArray,
             'myEndorsements' => $myEndorsementsArray,
+            'levelPercentage' => $levelPercentage,
             'isMe' => $isMe,
             'isFriend' => $isFriend,
             'isRequestSent' => $isRequestSent,
