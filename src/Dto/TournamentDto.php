@@ -107,7 +107,9 @@ class TournamentDto
                 'resultText' => $item->getResultText(),
                 'tournamentName' => $item->getTournamentName(),
                 'user' => $item->getUser()->getId(),
-                'profileImage' => $item->getUser()->getProfileImage()
+                'profileImage' => $item->getUser()->getProfileImage(),
+                'firstName' => $item->getUser()->getFirstName(),
+                'lastName' => $item->getUser()->getLastName(),
             ];
 
             $participants[] = $participant;

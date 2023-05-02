@@ -24,11 +24,21 @@ const Participants = ({ participants }) => {
                                             {participant.tournamentName}
                                         </p>
                                         <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                                            email@windster.com
+                                            {participant.firstName} {participant.lastName}
                                         </p>
                                     </div>
                                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                        $3467
+                                        {/*<div className='text-sm uppercase text-red-600'>*/}
+                                        {/*    eliminated*/}
+                                        {/*</div>*/}
+
+                                        <div className='text-sm uppercase text-indigo-600'>
+                                            in competition
+                                        </div>
+
+                                        {/*<div className='text-sm uppercase text-green-600'>*/}
+                                        {/*    winner*/}
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                             </li>

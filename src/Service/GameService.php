@@ -54,4 +54,24 @@ class GameService
             $this->entityManager->flush();
         }
     }
+
+    public function getSelectedGamesForUsersDto(array $users): array
+    {
+        $selectedGamesForUsers = [];
+
+        foreach ($users as $user) {
+            $userObj = $this->entityManager->getRepository(User::class)->find($user->getId());
+            $selectedGames = $userObj->getSelectedGames();
+            $selectedGamesArray = $this->generateSelectedGamesArray($selectedGames, $userObj);
+
+            $selectedGamesForUser = [];
+            foreach ($selectedGamesArray as $game) {
+                $selectedGamesForUser[] = $game['value'];
+            }
+
+            $selectedGamesForUsers[] = $selectedGamesForUser;
+        }
+
+        return $selectedGamesForUsers;
+    }
 }

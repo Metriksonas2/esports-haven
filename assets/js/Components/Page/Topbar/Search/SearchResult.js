@@ -14,7 +14,7 @@ const SearchResult = ({ user, loading }) => {
                       <div className="flex-none w-auto max-w-full px-3 my-auto">
                           <div className="h-full">
                               <h5 className="mb-1">{user.firstName} {user.lastName}</h5>
-                              <p className="mb-0 font-semibold leading-normal text-sm">Public Relations</p>
+                              <p className="mb-0 font-semibold leading-normal text-sm">{user.position}</p>
                           </div>
                       </div>
                   </React.Fragment>

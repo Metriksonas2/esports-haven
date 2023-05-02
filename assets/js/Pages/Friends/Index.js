@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
 import Page from "@/Components/Page/Page";
-import FriendsListSmall from "@/Components/Friends/FriendsList/FriendsListSmall";
 import FriendsList from "@/Components/Friends/FriendsList/FriendsList";
-import Heading from "@/Components/Page/Heading/Heading";
 import {usePage} from "@inertiajs/inertia-react";
 import {Tab} from "@headlessui/react";
-import Table from "@/Components/Tournaments/Table/Table";
 import {classNames} from "@/Services/functions";
 import FriendRequestsList from "@/Components/Friends/FriendRequestsList/FriendRequestsList";
 
 const Index = () => {
     const [friends, setFriends] = useState(usePage().props.friends);
     const [friendRequests, setFriendRequests] = useState(usePage().props.friendRequests);
+    const friendsSelectedGames = usePage().props.friendsSelectedGames;
+    const friendRequestsSelectedGames = usePage().props.friendRequestsSelectedGames;
 
+    console.log(friendRequestsSelectedGames)
     const removeFriendHandler = (id) => {
         setFriends((prevFriends) => {
             return prevFriends.filter(x => x.id !== id);
@@ -36,9 +36,10 @@ const Index = () => {
     }
 
     const friendsTabs = {
-        "Friends List": <FriendsList friends={friends} removeFriendHandler={removeFriendHandler}/>,
+        "Friends List": <FriendsList friends={friends} selectedGames={friendsSelectedGames} removeFriendHandler={removeFriendHandler}/>,
         "Friend Requests": <FriendRequestsList
             friendRequests={friendRequests}
+            selectedGames={friendRequestsSelectedGames}
             acceptHandler={acceptFriendRequestHandler}
             declineHandler={removeFriendRequestHandler}
         />,
