@@ -3,7 +3,7 @@ import route from "@/Services/route";
 import {CheckIcon, XMarkIcon} from "@heroicons/react/24/solid";
 import axios from "axios";
 import toast from "react-hot-toast";
-import {getGameIcon} from "@/Services/GameIcons";
+import {getGameIcon} from "@/Services/GameData";
 
 const FriendRequest = ({ index, friendRequest, selectedGames, acceptHandler, declineHandler }) => {
     const id = friendRequest.id;

@@ -500,6 +500,16 @@ const participantsArrayIsValid = (participants) => {
     return isValid;
 }
 
+const generateMonthNamesForChart = () => {
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const prevMonth = (currentMonth + 11) % 12;
+    const nextMonth = (currentMonth + 1) % 12;
+    const months = [monthNames[prevMonth], monthNames[currentMonth], monthNames[nextMonth]];
+    return months;
+}
+
 export {
     formatTournamentMatchesData,
     renderTournamentView,
@@ -515,4 +525,5 @@ export {
     classNames,
     getStructuredTournamentMatches,
     participantsArrayIsValid,
+    generateMonthNamesForChart,
 };

@@ -4,7 +4,7 @@ import {UserMinusIcon} from "@heroicons/react/24/solid";
 import route from "@/Services/route";
 import ModalButton from "@/Components/UI/Modal/ModalButton";
 import toast from "react-hot-toast";
-import {getGameIcon} from "../../../Services/GameIcons";
+import {getGameIcon} from "../../../Services/GameData";
 
 const Friend = ({ index, friend, selectedGames, removeFriendHandler }) => {
     const fullName = friend.firstName + ' ' + friend.lastName;

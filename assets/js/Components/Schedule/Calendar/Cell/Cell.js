@@ -1,5 +1,5 @@
 import React from 'react';
-import {getGameIcon} from "@/Services/GameIcons";
+import {getGameIcon} from "@/Services/GameData";
 import route from "@/Services/route";
 import {InertiaLink} from "@inertiajs/inertia-react";
 

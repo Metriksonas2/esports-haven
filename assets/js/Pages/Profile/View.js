@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import route from "@/Services/route";
 import Endorsement from "@/Components/Profile/Endorsement/Endorsement";
 import {getGameBox} from "../../Services/GameBoxComponentsSelector";
-import {getGameIcon} from "../../Services/GameIcons";
+import {getGameIcon} from "../../Services/GameData";
 
 const Index = () => {
     const user = usePage().props.user;

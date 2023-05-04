@@ -5,7 +5,7 @@ import Host from "@/Components/Tournaments/Table/Host";
 import Actions from "@/Components/Tournaments/Table/Actions/Actions";
 import route from "@/Services/route";
 import {getQueryParam} from "@/Services/functions";
-import {getGameIcon} from "../../../Services/GameIcons";
+import {getGameIcon} from "../../../Services/GameData";
 
 const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
     const [tournamentCreated, setTournamentCreated] = useState(false);

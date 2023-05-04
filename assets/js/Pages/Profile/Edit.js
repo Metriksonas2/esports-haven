@@ -4,7 +4,7 @@ import FileUploadForm from "@/Components/Profile/FileUploadForm/FileUploadForm";
 import ChangeButton from "@/Components/Profile/ChangeButton/ChangeButton";
 import {usePage} from "@inertiajs/inertia-react";
 import GamesSelector from "@/Components/Profile/GamesSelector/GamesSelector";
-import {getGameIcon} from "../../Services/GameIcons";
+import {getGameIcon} from "../../Services/GameData";
 import LeagueOfLegendsBox from "../../Components/Games/GameBoxes/LeagueOfLegendsBox";
 import CsgoBox from "../../Components/Games/GameBoxes/CsgoBox";
 import DotaBox from "../../Components/Games/GameBoxes/DotaBox";

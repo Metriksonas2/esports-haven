@@ -8,6 +8,7 @@ use App\Entity\Game;
 use App\Entity\Participant;
 use App\Entity\Tournament;
 use App\Entity\User;
+use App\Enum\GameType;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

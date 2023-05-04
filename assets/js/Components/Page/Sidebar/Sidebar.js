@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import route from "@/Services/route";
 import {InertiaLink} from "@inertiajs/inertia-react";
 import {
+    ChartBarIcon,
     NewspaperIcon,
     RocketLaunchIcon, StarIcon, TableCellsIcon,
     TrophyIcon, UserGroupIcon, UsersIcon
@@ -11,7 +12,7 @@ import {isSidebarOpen} from "@/Services/functions";
 const Sidebar = ({ pageIndex, minimizeHandler }) => {
     const [open, setOpen] = useState(isSidebarOpen());
     const Tabs = [
-        { key: 'dashboard', title: "Dashboard", src: "", icon: <TableCellsIcon className='w-6' /> },
+        { key: 'dashboard', title: "Dashboard", src: "", icon: <ChartBarIcon className='w-6' /> },
         { key: 'tournaments', title: "Tournaments", src: "tournaments", icon: <TrophyIcon className='w-6' /> },
         { key: 'games', title: "Games", src: "games", gap: true, icon: <RocketLaunchIcon className='w-6' /> },
         { key: 'friends', title: "Friends", src: "friends", icon: <UsersIcon className='w-6' /> },
