@@ -5,6 +5,7 @@ import Host from "@/Components/Tournaments/Table/Host";
 import Actions from "@/Components/Tournaments/Table/Actions/Actions";
 import route from "@/Services/route";
 import {getQueryParam} from "@/Services/functions";
+import {getGameIcon} from "../../../Services/GameIcons";
 
 const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
     const [tournamentCreated, setTournamentCreated] = useState(false);
@@ -42,8 +43,8 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                                                 hover:bg-gray-100 ${tournamentCreated && index === 0 ? 'animate-bounce new-tournament' : ''}`}>
                                                 <td className="py-3 px-6 text-left whitespace-nowrap">
                                                     <div className="flex items-center">
-                                                        <div className="mr-2">
-                                                            <img className="w-8 h-8 rounded-full" src="/assets/images/default-tournament-icon.png" alt="Default tournament icon" />
+                                                        <div className="mr-4">
+                                                            <img className="w-8 h-8" src={getGameIcon(game)} alt="Default tournament icon" />
                                                         </div>
                                                         <span className="font-medium">{name}</span>
                                                     </div>
@@ -52,7 +53,9 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                                                     <Host name={hostName} profileImage={hostProfileImage}/>
                                                 </td>
                                                 <td className="py-3 px-6 text-center">
-                                                    <Participants firstThreeParticipants={firstThreeParticipants}/>
+                                                    <Participants
+                                                        firstThreeParticipants={firstThreeParticipants}
+                                                        participantsCount={participants.length} />
                                                 </td>
                                                 <td className="py-3 px-6 text-center">
                                                     <Status status={status} />
