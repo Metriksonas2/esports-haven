@@ -12,7 +12,7 @@ const Index = () => {
             <Heading title='Achievements' subtitle='Your hardly earned achievements'/>
             <div className='flex flex-col justify-center items-center gap-y-4'>
                 {achievements.map(achievement => (
-                    <Achievement earned={false} achievement={achievement} />
+                    <Achievement achievement={achievement} />
                 ))}
             </div>
         </Page>
