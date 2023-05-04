@@ -7,7 +7,9 @@ use App\Entity\Tournament;
 use App\Entity\TournamentMatch;
 use App\Enum\BracketType;
 use App\Enum\GameType;
+use App\Event\AfterMatchPlayedEvent;
 use App\Event\AfterTournamentCreatedEvent;
+use App\Event\AfterTournamentEndedEvent;
 use App\Repository\TournamentRepository;
 use App\Service\ObjectService;
 use App\Service\ParticipantService;
@@ -27,14 +29,17 @@ class TournamentsApiController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
     private SerializerInterface $serializer;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        EventDispatcherInterface $eventDispatcher
     )
     {
         $this->entityManager = $entityManager;
         $this->serializer = $serializer;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     #[Route('/tournaments', name: 'create', methods: ["POST"])]
@@ -42,7 +47,6 @@ class TournamentsApiController extends AbstractController
         Request $request,
         ParticipantService $participantService,
         TournamentMatchService $tournamentMatchService,
-        EventDispatcherInterface $eventDispatcher,
     ): Response
     {
         $user = $this->getUser();
@@ -99,7 +103,7 @@ class TournamentsApiController extends AbstractController
 
         // Dispatch an event - "AfterTournamentCreatedEvent"
         $afterTournamentCreatedEvent = new AfterTournamentCreatedEvent($tournament);
-        $eventDispatcher->dispatch($afterTournamentCreatedEvent);
+        $this->eventDispatcher->dispatch($afterTournamentCreatedEvent);
 
         return $this->json(
             $tournament,
@@ -216,15 +220,24 @@ class TournamentsApiController extends AbstractController
             $match->getParticipants()->toArray(), $winnerParticipant->getId()
         );
 
-        // TODO: Add experience for winning
-
         $match->setWinnerParticipant($winnerParticipant);
+        $loserParticipant->setEliminated(true);
 
         $nextMatch = $match->getNextMatch();
 
-        $nextMatch?->addParticipant($winnerParticipant);
+        // If it was final match
+        if ($nextMatch === null) {
+            // Dispatch an event - "AfterTournamentEnded"
+            $afterMatchPlayedEvent = new AfterMatchPlayedEvent($winnerParticipant, $loserParticipant, true);
+            $afterTournamentEndedEvent = new AfterTournamentEndedEvent($tournament);
 
-        $loserParticipant->setEliminated(true);
+            $this->eventDispatcher->dispatch($afterMatchPlayedEvent);
+            $this->eventDispatcher->dispatch($afterTournamentEndedEvent);
+        } else {
+            $nextMatch->addParticipant($winnerParticipant);
+            $afterMatchPlayedEvent = new AfterMatchPlayedEvent($winnerParticipant, $loserParticipant);
+            $this->eventDispatcher->dispatch($afterMatchPlayedEvent);
+        }
 
         $this->entityManager->flush();
 

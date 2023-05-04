@@ -3,23 +3,14 @@
 namespace App\Controller\api\Friends;
 
 use App\Entity\FriendRequest;
-use App\Entity\Participant;
-use App\Entity\Tournament;
-use App\Entity\TournamentMatch;
 use App\Entity\User;
-use App\Enum\BracketType;
-use App\Enum\GameType;
-use App\Repository\TournamentRepository;
-use App\Service\FriendService;
-use App\Service\ParticipantService;
-use App\Service\TournamentMatchService;
+use App\Event\AfterFriendAddedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api', name: 'app_api_friends_')]
@@ -73,6 +64,7 @@ class FriendsApiController extends AbstractController
     public function acceptFriendRequest(
         User $fromUser,
         Request $request,
+        EventDispatcherInterface $eventDispatcher,
     ): Response
     {
         $user = $this->getUser();
@@ -94,6 +86,9 @@ class FriendsApiController extends AbstractController
 
         $user->addFriend($fromUser);
         $user->removeFriendRequest($friendRequestToRemove);
+
+        $afterFriendAddedEvent = new AfterFriendAddedEvent($user, $fromUser);
+        $eventDispatcher->dispatch($afterFriendAddedEvent);
 
         $this->entityManager->flush();
 

@@ -5,55 +5,49 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Achievement\UnstoppableForceAchievement;
 use App\Entity\TournamentMatch;
+use App\Enum\AchievementType;
+use App\Enum\ExperiencePointsType;
 use App\Enum\TournamentStatusType;
+use App\Event\AfterMatchPlayedEvent;
 use App\Event\AfterTournamentCreatedEvent;
+use App\Event\AfterTournamentEndedEvent;
+use App\Service\AchievementService;
+use App\Service\LevelingService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TournamentListener implements \Symfony\Component\EventDispatcher\EventSubscriberInterface
 {
     private EntityManagerInterface $entityManager;
+    private LevelingService $levelingService;
+    private AchievementService $achievementService;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        LevelingService $levelingService,
+        AchievementService $achievementService,
+    )
     {
         $this->entityManager = $entityManager;
+        $this->levelingService = $levelingService;
+        $this->achievementService= $achievementService;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
-            AfterTournamentCreatedEvent::class => 'checkTournamentStatus',
+            AfterTournamentCreatedEvent::class => [
+                ['checkTournamentStatus', 0],
+                ['addExperienceToHost', 0],
+            ],
+            AfterTournamentEndedEvent::class => [
+                ['changeTournamentStatusAfterFinal', 0],
+            ],
+            AfterMatchPlayedEvent::class => [
+                ['setAfterMatchTournamentData', 0]
+            ],
         ];
-    }
-
-    public function setCorrectNextMatchIds(AfterTournamentCreatedEvent $event): void
-    {
-        try {
-            $tournament = $event->getTournament();
-            $matches = $tournament->getTournamentMatches();
-            $indexForNextMatch = (count($matches) + 1) / 2;
-            $iterator = 1;
-
-            for ($i = $matches[0]->getId(); $i < $matches[count($matches) - 1]->getId(); $i++) {
-                if ($iterator % 2 === 0) {
-                    $indexForNextMatch--;
-                }
-
-                $nextMatch = $this->entityManager->getRepository(TournamentMatch::class)->find($indexForNextMatch);
-
-                $matches[$i]->setNextMatch($nextMatch);
-                $this->entityManager->persist($matches[$i]);
-
-                $iterator++;
-            }
-
-            // Set final match's next match = 'null'
-            $matches[count($matches) - 1]->setNextMatch(null);
-            $this->entityManager->persist($matches[count($matches) - 1]);
-            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            throw new \Exception('Something went wrong, when setting tournament next matches');
-        }
     }
 
     public function checkTournamentStatus(AfterTournamentCreatedEvent $event): void
@@ -65,5 +59,49 @@ class TournamentListener implements \Symfony\Component\EventDispatcher\EventSubs
 
             $this->entityManager->flush();
         }
+    }
+
+    public function addExperienceToHost(AfterTournamentCreatedEvent $event): void
+    {
+        $tournament = $event->getTournament();
+        $host = $tournament->getHost();
+        $this->levelingService->addExperiencePoints($host, ExperiencePointsType::TOURNAMENT_HOST);
+
+        $this->entityManager->flush();
+    }
+
+    public function changeTournamentStatusAfterFinal(AfterTournamentEndedEvent $event): void
+    {
+        $tournament = $event->getTournament();
+        $tournament->setStatus(TournamentStatusType::FINISHED);
+
+        $this->entityManager->flush();
+    }
+
+    public function setAfterMatchTournamentData(AfterMatchPlayedEvent $event)
+    {
+        $winner = $event->getWinnerParticipant()->getUser();
+        $loser = $event->getLoserParticipant()->getUser();
+        $isFinal = $event->isFinalMatch();
+        $tournament = $event->getWinnerParticipant()->getTournament();
+
+        $this->levelingService->addExperiencePoints($loser, ExperiencePointsType::MATCH_LOSS);
+
+        if ($isFinal) {
+            $this->levelingService->addExperiencePoints($winner, ExperiencePointsType::TOURNAMENT_WIN);
+            $tournament->setWinner($winner);
+
+            if (!$this->achievementService->hasAchievement($winner, AchievementType::FIRST_TASTE)) {
+                $this->achievementService->unlockAchievement($winner, AchievementType::FIRST_TASTE);
+            }
+        } else {
+            $this->levelingService->addExperiencePoints($winner, ExperiencePointsType::MATCH_WIN);
+
+//            if ($this->achievementService->checkForAchievement($winner, new UnstoppableForceAchievement())) {
+//                $this->achievementService->unlockAchievement($winner, AchievementType::UNSTOPPABLE_FORCE);
+//            }
+        }
+
+        $this->entityManager->flush();
     }
 }

@@ -41,7 +41,7 @@ class LevelingService
         $currentXp = $user->getExperiencePoints();
         $newXp = $currentXp + $type->value;
         $user->setExperiencePoints($newXp);
-        $this->checkLevelUp($user, $newXp);
+        $this->checkLevelUp($user, false, $newXp);
     }
 
     public function getUserPercentage(User $user): int

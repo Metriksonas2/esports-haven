@@ -9,7 +9,7 @@ use App\Entity\Tournament;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class AfterTournamentCreatedEvent extends Event
+class AfterTournamentEndedEvent extends Event
 {
     protected Tournament $tournament;
 
