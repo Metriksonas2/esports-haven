@@ -63,7 +63,10 @@ const NotificationBell = () => {
 
     return (
         <Notifications
-            data={data}
+            data={[{
+                image: '/assets/images/logo.png',
+                message: 'Notifications coming soon!',
+            }]}
             header={{
                 title: "Notifications",
                 option: { text: "View All", onClick: () => console.log("Clicked") }

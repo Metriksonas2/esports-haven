@@ -9,14 +9,20 @@ import FriendRequestsList from "@/Components/Friends/FriendRequestsList/FriendRe
 const Index = () => {
     const [friends, setFriends] = useState(usePage().props.friends);
     const [friendRequests, setFriendRequests] = useState(usePage().props.friendRequests);
-    const friendsSelectedGames = usePage().props.friendsSelectedGames;
-    const friendRequestsSelectedGames = usePage().props.friendRequestsSelectedGames;
+    const [friendsSelectedGames, setFriendSelectedGames] = useState(usePage().props.friendsSelectedGames);
+    const [friendRequestsSelectedGames, setFriendRequestsSelectedGames] = useState(usePage().props.friendRequestsSelectedGames);
 
-    console.log(friendRequestsSelectedGames)
-    const removeFriendHandler = (id) => {
+    const removeFriendHandler = (id, index) => {
         setFriends((prevFriends) => {
             return prevFriends.filter(x => x.id !== id);
         });
+
+        setFriendSelectedGames((prevGames) => {
+            let newGames = [...prevGames];
+            newGames.splice(index, 1);
+
+            return newGames;
+        })
     }
 
     const acceptFriendRequestHandler = (friend) => {
@@ -27,12 +33,23 @@ const Index = () => {
         setFriendRequests((prevFriendRequests) => {
             return prevFriendRequests.filter(x => x.id !== friend.id);
         });
+
+        setFriendSelectedGames((prevGames) => {
+            return [[], ...prevGames];
+        })
     }
 
-    const removeFriendRequestHandler = (id) => {
+    const removeFriendRequestHandler = (id, index) => {
         setFriendRequests((prevFriendRequests) => {
             return prevFriendRequests.filter(x => x.id !== id);
         });
+
+        setFriendRequestsSelectedGames((prevGames) => {
+            let newGames = [...prevGames];
+            newGames.splice(index, 1);
+
+            return newGames;
+        })
     }
 
     const friendsTabs = {

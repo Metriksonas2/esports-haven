@@ -21,6 +21,9 @@ const FriendsList = ({ friends, selectedGames, removeFriendHandler }) => {
                                     Name
                                 </th>
                                 <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase">
+                                    Level
+                                </th>
+                                <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase">
                                     Position
                                 </th>
                                 <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase">
@@ -37,6 +40,7 @@ const FriendsList = ({ friends, selectedGames, removeFriendHandler }) => {
                             {friends.map((friend, index) => (
                                 <Friend
                                     key={index}
+                                    index={index}
                                     friend={friend}
                                     selectedGames={selectedGames[index]}
                                     removeFriendHandler={removeFriendHandler}

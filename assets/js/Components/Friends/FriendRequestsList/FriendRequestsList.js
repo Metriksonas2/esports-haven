@@ -34,6 +34,7 @@ const FriendRequestsList = ({ friendRequests, selectedGames, acceptHandler, decl
                             {friendRequests.map((friendRequest, index) => (
                                 <FriendRequest
                                     key={index}
+                                    index={index}
                                     friendRequest={friendRequest}
                                     selectedGames={selectedGames[index]}
                                     acceptHandler={acceptHandler}

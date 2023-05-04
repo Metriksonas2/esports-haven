@@ -237,11 +237,13 @@ const formatTournamentMatchesData = (participants, isThirdPlaceMatch = false) =>
 
 const renderTournamentView = (matches) => {
     const matchesArray = [];
+    let matchCounter = 1;
 
     matches.forEach(match => {
         let participantOneId, participantTwoId;
         let participantOneName, participantTwoName;
         const participants = match.participants;
+        let matchName = null;
 
         if (match.isGhostMatch) {
             participantOneId = participantTwoId = '-';
@@ -260,27 +262,30 @@ const renderTournamentView = (matches) => {
 
             participantTwoId = participants[1].id;
             participantTwoName = participants[1].tournamentName;
+
+            matchName = `Match ${matchCounter++}`;
         }
+
 
         matchesArray.push({
             "id": match.id,
-            "name": match.name,
+            "name": matchName,
             "nextMatchId": match.nextMatch !== null ? match.nextMatch : null, // Id for the nextMatch in the bracket, if it's final match it must be null OR undefined
-            "tournamentRoundText": "4", // Text for Round Header
-            "startTime": match.startDate,
+            "tournamentRoundText": "3", // Text for Round Header
+            "startTime": null,
             "state": "DONE", // 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY' | 'DONE' | 'SCORE_DONE' Only needed to decide walkovers and if teamNames are TBD (to be decided)
             "participants": [
                 {
                     "id": participantOneId,
-                    "resultText": null,
-                    "isWinner": false,
+                    "resultText": match.winnerParticipant !== null && participantOneId === match.winnerParticipant ? 'WON' : null,
+                    "isWinner": match.winnerParticipant !== null && participantOneId === match.winnerParticipant,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
                     "name": participantOneName,
                 },
                 {
                     "id": participantTwoId,
-                    "resultText": null,
-                    "isWinner": false,
+                    "resultText": match.winnerParticipant !== null && participantTwoId === match.winnerParticipant ? 'WON' : null,
+                    "isWinner": match.winnerParticipant !== null && participantTwoId === match.winnerParticipant,
                     "status": null, // 'PLAYED' | 'NO_SHOW' | 'WALK_OVER' | 'NO_PARTY'
                     "name": participantTwoName,
                 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\DefaultType;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -79,13 +80,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $coverImage = '/assets/images/cover.jpg';
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $position = '';
+    private ?string $position = 'eSports Haven user';
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $country = '';
+    private ?string $country = 'Unknown';
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = '';
+    private ?string $description = DefaultType::DEFAULT_USER_DESCRIPTION->value;
 
     #[ORM\ManyToMany(targetEntity: Game::class)]
     private Collection $selectedGames;

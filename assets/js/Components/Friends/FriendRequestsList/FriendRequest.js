@@ -5,7 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import {getGameIcon} from "@/Services/GameIcons";
 
-const FriendRequest = ({ friendRequest, selectedGames, acceptHandler, declineHandler }) => {
+const FriendRequest = ({ index, friendRequest, selectedGames, acceptHandler, declineHandler }) => {
     const id = friendRequest.id;
     const firstName = friendRequest.firstName;
     const lastName = friendRequest.lastName;
@@ -48,7 +48,7 @@ const FriendRequest = ({ friendRequest, selectedGames, acceptHandler, declineHan
 
             toast.success(`Successfully declined!`)
 
-            declineHandler(id);
+            declineHandler(id, index);
         } catch (error) {
             toast.error('Something went wrong... Please try again later')
             console.log(error);

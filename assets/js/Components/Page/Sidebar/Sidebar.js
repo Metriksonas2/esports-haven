@@ -15,7 +15,6 @@ const Sidebar = ({ pageIndex, minimizeHandler }) => {
         { key: 'tournaments', title: "Tournaments", src: "tournaments", icon: <TrophyIcon className='w-6' /> },
         { key: 'games', title: "Games", src: "games", gap: true, icon: <RocketLaunchIcon className='w-6' /> },
         { key: 'friends', title: "Friends", src: "friends", icon: <UsersIcon className='w-6' /> },
-        { key: 'teams', title: "Teams", src: "teams", icon: <UserGroupIcon className='w-6' /> },
         { key: 'achievements', title: "Achievements", src: "achievements", gap: true, icon: <StarIcon className='w-6' /> },
         { key: 'schedule', title: "Schedule ", src: "schedule", icon: <NewspaperIcon className='w-6' /> },
     ];
@@ -39,10 +38,10 @@ const Sidebar = ({ pageIndex, minimizeHandler }) => {
               className={`absolute cursor-pointer z-50 -right-3 top-9 w-7 border-indigo-900 border-2 rounded-full ${!open && "rotate-180"}`}
               onClick={() => onButtonClick()}
           />
-          <div className='flex gap-x-4 h-14 items-center align-center'>
+          <div className='flex h-20 items-center align-center'>
               <img
                   src="/assets/images/logo.png"
-                  className={`w-10 cursor-pointer duration-500 
+                  className={`w-20 cursor-pointer duration-500 
                             ${open && "rotate-[360deg]"}
                         `}
               />

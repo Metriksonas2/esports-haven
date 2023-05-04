@@ -6,7 +6,7 @@ import ModalButton from "@/Components/UI/Modal/ModalButton";
 import toast from "react-hot-toast";
 import {getGameIcon} from "../../../Services/GameIcons";
 
-const Friend = ({ friend, selectedGames, removeFriendHandler }) => {
+const Friend = ({ index, friend, selectedGames, removeFriendHandler }) => {
     const fullName = friend.firstName + ' ' + friend.lastName;
 
     const removeFriendApiCall = async () => {
@@ -14,7 +14,7 @@ const Friend = ({ friend, selectedGames, removeFriendHandler }) => {
             await axios.delete(`/api/friends/${friend.id}`);
             toast.success('Friend has been removed!');
 
-            removeFriendHandler(friend.id);
+            removeFriendHandler(friend.id, index);
         } catch (error) {
             toast.error('Something went wrong... Please try again later');
             console.error(error); // log any errors
@@ -44,6 +44,13 @@ const Friend = ({ friend, selectedGames, removeFriendHandler }) => {
                 </a>
             </td>
             <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">
+                <div className='w-8 h-8 rounded-full border border-indigo-800 bg-gray-50 flex justify-center items-center'>
+                    <div className='font-semibold'>
+                        {friend.level}
+                    </div>
+                </div>
+            </td>
+            <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">
                 {friend.position}
             </td>
             <td className="p-4 whitespace-nowrap text-base font-medium text-gray-900">
@@ -51,9 +58,11 @@ const Friend = ({ friend, selectedGames, removeFriendHandler }) => {
             </td>
             <td className="p-4 whitespace-nowrap text-base font-normal text-gray-900">
                 <div className="flex items-center gap-x-2">
-                    {selectedGames.map(game => (
-                        <img className='w-6 h-6' src={getGameIcon(game)} alt=""/>
-                    ))}
+                    {selectedGames !== undefined && (
+                        selectedGames.map(game => (
+                            <img className='w-6 h-6' src={getGameIcon(game)} alt=""/>
+                        ))
+                    )}
                 </div>
             </td>
             <td className="p-4 whitespace-nowrap space-x-2">

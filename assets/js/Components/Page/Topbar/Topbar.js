@@ -96,62 +96,6 @@ const Topbar = ({ open }) => {
                               <div className="py-1">
                                   <Menu.Item>
                                       {({ active }) => (
-                                          <a
-                                              href="#"
-                                              className={classNames(
-                                                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                  'block px-4 py-2 text-sm'
-                                              )}
-                                          >
-                                              Archive
-                                          </a>
-                                      )}
-                                  </Menu.Item>
-                                  <Menu.Item>
-                                      {({ active }) => (
-                                          <a
-                                              href="#"
-                                              className={classNames(
-                                                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                  'block px-4 py-2 text-sm'
-                                              )}
-                                          >
-                                              Move
-                                          </a>
-                                      )}
-                                  </Menu.Item>
-                              </div>
-                              <div className="py-1">
-                                  <Menu.Item>
-                                      {({ active }) => (
-                                          <a
-                                              href="#"
-                                              className={classNames(
-                                                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                  'block px-4 py-2 text-sm'
-                                              )}
-                                          >
-                                              Share
-                                          </a>
-                                      )}
-                                  </Menu.Item>
-                                  <Menu.Item>
-                                      {({ active }) => (
-                                          <a
-                                              href="#"
-                                              className={classNames(
-                                                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                  'block px-4 py-2 text-sm'
-                                              )}
-                                          >
-                                              Add to favorites
-                                          </a>
-                                      )}
-                                  </Menu.Item>
-                              </div>
-                              <div className="py-1">
-                                  <Menu.Item>
-                                      {({ active }) => (
                                           <InertiaLink
                                               href={route('logout')}
                                               className={classNames(

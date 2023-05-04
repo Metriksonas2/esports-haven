@@ -84,6 +84,9 @@ const Index = () => {
                 headers: headers
             });
 
+            setMyEndorsements((prevEndorsements) => {
+               return [game, ...prevEndorsements];
+            });
             toast.success(`User has been successfully endorsed!`)
         } catch (error) {
             toast.error('Something went wrong... Please try again later')
