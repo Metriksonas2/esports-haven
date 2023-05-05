@@ -10,7 +10,7 @@ const Achievement = ({ achievement }) => {
                     <LockClosedIcon className='w-7 p-1 bg-black text-white absolute top-[29px] left-[26px]' />
                 )}
             </div>
-            <div className='pl-4 grow flex flex-col border-l justify-center'>
+            <div className='pl-4 bg-white grow flex flex-col border-l justify-center'>
                 <div className='text-lg'>{achievement.title}</div>
                 <div className='text-sm'>{achievement.description}</div>
             </div>

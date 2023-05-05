@@ -86,7 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $country = 'Unknown';
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = DefaultType::DEFAULT_USER_DESCRIPTION->value;
+    private ?string $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget magna quis sapien fermentum sodales. Nam at metus ultricies, cursus magna eu, tempus enim. Mauris quis sapien eu risus tincidunt viverra.';
 
     #[ORM\ManyToMany(targetEntity: Game::class)]
     private Collection $selectedGames;

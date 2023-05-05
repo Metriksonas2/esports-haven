@@ -296,6 +296,47 @@ const renderTournamentView = (matches) => {
     return matchesArray;
 }
 
+const getTournamentDataForCsv = (matches, tournamentName) => {
+    const matchesArray = [
+        ['Tournament name', 'Match', 'Participant #1 name', 'Participant #2 name', 'Winner'],
+    ];
+    let matchCounter = 1;
+    let firstRow = true;
+
+    matches.forEach((match) => {
+        let participantOneName, participantTwoName;
+        const participants = match.participants;
+        let matchName = null;
+        let name = '';
+
+        if (!match.isGhostMatch) {
+            if (Array.isArray(participants) && participants.length === 0) {
+                participantOneName = participantTwoName = 'TBD';
+            } else if (Array.isArray(participants) && participants.length === 1) {
+                participantOneName = participants[0].tournamentName;
+                participantTwoName = 'TBD';
+            } else {
+                participantOneName = participants[0].tournamentName;
+                participantTwoName = participants[1].tournamentName;
+            }
+            matchName = `Match ${matchCounter++}`;
+
+            let winnerName = '-';
+            if (match.winnerParticipant !== null) {
+                winnerName = participants.find(x => x.id === match.winnerParticipant).tournamentName;
+            }
+
+            if (firstRow) {
+                name = tournamentName;
+                firstRow = false;
+            }
+
+            matchesArray.push([name, matchName, participantOneName, participantTwoName, winnerName])
+        }
+    });
+
+    return matchesArray;
+}
 const getStructuredTournamentMatches = (tournament) => {
     const roundCount = Math.ceil(Math.log2(tournament.participants.length));
     let tournamentMatches = tournament.tournamentMatches.slice();
@@ -513,6 +554,7 @@ const generateMonthNamesForChart = () => {
 export {
     formatTournamentMatchesData,
     renderTournamentView,
+    getTournamentDataForCsv,
     isPowerOfTwo,
     getQueryParam,
     isSidebarOpen,
