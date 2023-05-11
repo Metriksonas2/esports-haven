@@ -6,7 +6,7 @@ import {isSidebarOpen} from "@/Services/functions";
 import Breadcrumbs from "@/Components/Page/Breadcrumbs/Breadcrumbs";
 
 const Page = ({ pageIndex, breadcrumbsPathArray = [], children }) => {
-    let socket = new WebSocket('ws://localhost:8080');
+    // let socket = new WebSocket('ws://localhost:8080');
     const [open, setOpen] = useState(isSidebarOpen());
 
     const minimizeHandler = (value) => {
@@ -14,38 +14,38 @@ const Page = ({ pageIndex, breadcrumbsPathArray = [], children }) => {
         window.localStorage.setItem('sidebar-open', value ? 'true' : 'false');
     }
 
-    useEffect(() => {
-        socket.addEventListener('open', function (event) {
-            console.log('WebSocket connection opened');
-        });
-
-        socket.addEventListener('message', function (event) {
-            const dataObject = JSON.parse(event.data);
-            if ('message' in dataObject) {
-                toast.success(dataObject.message)
-            }
-        });
-
-        return () => {
-            socket.close();
-        };
-    }, []);
-
-    const notificationHandler = async () => {
-        if (socket.readyState === 3) {
-            socket.close();
-            socket = new WebSocket('ws://localhost:8080');
-
-            // wait until new connection is open
-            while (socket.readyState !== 1) {
-                await new Promise(r => setTimeout(r, 250));
-            }
-        }
-
-        socket.send(JSON.stringify({
-            message: 'New follower request!'
-        }));
-    }
+    // useEffect(() => {
+    //     socket.addEventListener('open', function (event) {
+    //         console.log('WebSocket connection opened');
+    //     });
+    //
+    //     socket.addEventListener('message', function (event) {
+    //         const dataObject = JSON.parse(event.data);
+    //         if ('message' in dataObject) {
+    //             toast.success(dataObject.message)
+    //         }
+    //     });
+    //
+    //     return () => {
+    //         socket.close();
+    //     };
+    // }, []);
+    //
+    // const notificationHandler = async () => {
+    //     if (socket.readyState === 3) {
+    //         socket.close();
+    //         socket = new WebSocket('ws://localhost:8080');
+    //
+    //         // wait until new connection is open
+    //         while (socket.readyState !== 1) {
+    //             await new Promise(r => setTimeout(r, 250));
+    //         }
+    //     }
+    //
+    //     socket.send(JSON.stringify({
+    //         message: 'New follower request!'
+    //     }));
+    // }
 
     return (
         <div className='h-full flex'>

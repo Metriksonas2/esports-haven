@@ -41,19 +41,22 @@
                                value="{{ csrf_token('authenticate') }}"
                         >
                     </div>
-                    <label class="flex items-center mt-6 select-none" htmlFor="remember">
-                        <input
-                                name="remember"
-                                id="remember"
-                                class="mr-1"
-                                type="checkbox"
-                        />
-                        <span class="text-sm">Remember Me</span>
-                    </label>
+{#                    <label class="flex items-center mt-6 select-none" htmlFor="remember">#}
+{#                        <input#}
+{#                                name="remember"#}
+{#                                id="remember"#}
+{#                                class="mr-1"#}
+{#                                type="checkbox"#}
+{#                        />#}
+{#                        <span class="text-sm">Remember Me</span>#}
+{#                    </label>#}
                 </div>
                 <div class="flex items-center justify-between px-10 py-4 bg-gray-100 border-t border-gray-200">
-                    <a class="hover:underline" tabIndex="-1" href="#reset-password">
-                        Forgot password?
+{#                    <a class="hover:underline" tabIndex="-1" href="#reset-password">#}
+{#                        Forgot password?#}
+{#                    </a>#}
+                    <a class="hover:underline" tabIndex="-1" href="{{ path('app_register') }}">
+                        New here? Sign up!
                     </a>
                     <button class="bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Login
