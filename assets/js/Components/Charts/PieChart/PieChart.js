@@ -7,7 +7,6 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = (dataArray) => {
     const labels = getGamesList();
-    console.log(dataArray)
     const getColors = (forBackground = false) => {
         let colors = [];
 

@@ -16,7 +16,7 @@ const Edit = () => {
     const [tournament, setTournament] = useState(usePage().props.tournament);
     const [participants, setParticipants] = useState(tournament.participants)
     const matchesArray = renderTournamentView(tournament.tournamentMatches);
-    console.log(matchesArray)
+
     const winnerChoiceHandler = async (matchId, winnerParticipant) => {
         try {
             const body = {

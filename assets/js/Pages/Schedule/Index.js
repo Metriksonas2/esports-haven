@@ -5,7 +5,6 @@ import {usePage} from "@inertiajs/inertia-react";
 
 const Index = () => {
     const tournamentsForEachDay = usePage().props.tournamentsForEachDay;
-    console.log(tournamentsForEachDay)
     return (
         <Page pageIndex='schedule' breadcrumbsPathArray={['Schedule']}>
             <Calendar tournamentsForEachDay={tournamentsForEachDay}/>
