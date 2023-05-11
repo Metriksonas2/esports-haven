@@ -2,12 +2,14 @@ import React from 'react';
 import Participant from "@/Components/Tournaments/Form/Create/Participant";
 
 const Participants = ({ participants, submitNewParticipantNames, changeParticipantNameHandler }) => {
+    console.log(participants)
     return (
         <div className="flex flex-col mb-6">
             {participants.map((p, index) => (
                 <Participant
                     key={index} index={index + 1}
                     name={p.tournamentName} users={[]}
+                    fullName={p.firstName + ' ' + p.lastName}
                     userChangeHandler={()=>{}} addBackUserHandler={()=>{}}
                     changeParticipantName={()=>{}}
                     changeParticipantNameEdit={changeParticipantNameHandler}

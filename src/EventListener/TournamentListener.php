@@ -40,6 +40,7 @@ class TournamentListener implements \Symfony\Component\EventDispatcher\EventSubs
             AfterTournamentCreatedEvent::class => [
                 ['checkTournamentStatus', 0],
                 ['addExperienceToHost', 0],
+                ['addHostAchievement', 0]
             ],
             AfterTournamentEndedEvent::class => [
                 ['changeTournamentStatusAfterFinal', 0],
@@ -68,6 +69,16 @@ class TournamentListener implements \Symfony\Component\EventDispatcher\EventSubs
         $this->levelingService->addExperiencePoints($host, ExperiencePointsType::TOURNAMENT_HOST);
 
         $this->entityManager->flush();
+    }
+
+    public function addHostAchievement(AfterTournamentCreatedEvent $event)
+    {
+        $tournament = $event->getTournament();
+        $host = $tournament->getHost();
+
+        if (!$this->achievementService->hasAchievement($host, AchievementType::FUTURE_PLANS)) {
+            $this->achievementService->unlockAchievement($host, AchievementType::FUTURE_PLANS);
+        }
     }
 
     public function changeTournamentStatusAfterFinal(AfterTournamentEndedEvent $event): void
