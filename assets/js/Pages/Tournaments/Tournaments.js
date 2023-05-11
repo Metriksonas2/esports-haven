@@ -13,7 +13,7 @@ const Tournaments = () => {
     const [wonTournaments, setWonTournaments] = useState(usePage().props.wonTournaments);
     const [inProgressTournaments, setInProgressTournaments] = useState(tournaments.filter(x => x.status === 'In progress'));
     const [finishedTournaments, setFinishedTournaments] = useState(tournaments.filter(x => x.status === 'Finished'));
-
+    console.log(tournaments)
     const tournamentCategories = {
         "All": tournaments,
         "Hosted": hostedTournaments,

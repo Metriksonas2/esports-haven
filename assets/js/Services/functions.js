@@ -337,6 +337,7 @@ const getTournamentDataForCsv = (matches, tournamentName) => {
 
     return matchesArray;
 }
+
 const getStructuredTournamentMatches = (tournament) => {
     const roundCount = Math.ceil(Math.log2(tournament.participants.length));
     let tournamentMatches = tournament.tournamentMatches.slice();

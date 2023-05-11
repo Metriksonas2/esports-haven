@@ -27,7 +27,8 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                             <thead>
                             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th className="py-3 px-6 text-left">Tournament</th>
-                                <th className="py-3 px-6 text-left">Host</th>
+                                <th className="py-3 px-6 text-left">Start date</th>
+                                <th className="py-3 px-6 text-center">Host</th>
                                 <th className="py-3 px-6 text-center">Participants</th>
                                 <th className="py-3 px-6 text-center">Status</th>
                                 <th className="py-3 px-6 text-center">Actions</th>
@@ -35,8 +36,15 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                             </thead>
                             <tbody className="text-gray-600 text-sm font-light">
                                 {tournaments.length !== 0 && (
-                                    tournaments.map(({ id, name, game, bracketType, hostName, hostProfileImage, status, participants, winner }, index) => {
+                                    tournaments.map(({ id, name, game, bracketType, hostName, startDate, hostProfileImage, status, participants, winner }, index) => {
                                         let firstThreeParticipants = participants.slice(0, 3);
+                                        startDate = new Date(startDate);
+                                        let year = startDate.getUTCFullYear();
+                                        let month = startDate.getUTCMonth() + 1;
+                                        let day = startDate.getUTCDate();
+                                        startDate.getUTCDay();
+                                        let startDateString = year + "/" + month + "/" + day;
+
                                         return (
                                             <tr key={id}
                                                 className={`border-b border-gray-200 ${index % 2 === 0 && 'bg-gray-50'} 
@@ -49,7 +57,10 @@ const Table = ({ tournaments, isHosted, deleteTournamentHandler }) => {
                                                         <span className="font-medium">{name}</span>
                                                     </div>
                                                 </td>
-                                                <td className="py-3 px-6 text-left">
+                                                <td className='py-3 px-6 text-left text-xs font-semibold'>
+                                                    {startDateString}
+                                                </td>
+                                                <td className="py-3 px-6 text-center">
                                                     <Host name={hostName} profileImage={hostProfileImage}/>
                                                 </td>
                                                 <td className="py-3 px-6 text-center">
