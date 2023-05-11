@@ -172,7 +172,7 @@ const Create = () => {
 
         if (!participantsArrayIsValid(participants)) {
             toast.error("Participants aren't valid. Please check everything and try again...")
-        } else if (game === '') {
+        } else if (game === '' || game === 'none') {
             toast.error("Please select a game for the tournament")
         } else if (name === '') {
             toast.error("Please enter the name of the tournament")

@@ -13,7 +13,7 @@ const Dashboard = () => {
         <Page pageIndex='dashboard'>
             <section className="bg-[#F0F4F9]">
                 <div className="pb-8 px-4 mx-auto max-w-screen-xl lg:pb-16 lg:px-6">
-                    <Heading title='Dashboard' subtitle='We use an agile approach to test assumptions and connect with the needs of your audience early and often.' />
+                    <Heading title='Dashboard' subtitle='Effortlessly manage and monitor your e-sports tournaments and activities from a centralized and intuitive dashboard.' />
                     <div className="flex flex-wrap -mx-3 mb-4">
                         <div className="flex-none w-2/3 max-w-full px-3">
                             <div

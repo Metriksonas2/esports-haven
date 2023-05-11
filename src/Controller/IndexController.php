@@ -25,7 +25,7 @@ class IndexController extends AbstractController
             ]);
         }
 
-        return $inertia->render("Index/Index", [
+        return $inertia->render("Index/IndexNew", [
             'isLoggedIn' => $isLoggedIn
         ]);
     }
