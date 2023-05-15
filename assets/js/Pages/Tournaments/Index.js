@@ -24,7 +24,12 @@ const Index = () => {
                 <div className='whitespace-nowrap'>Export data to CSV</div>
                 <ArrowUpOnSquareIcon className='w-6 text-white' />
             </CSVLink>
-            <Heading title={tournament.name} />
+            <Heading title={tournament.name} subtitle={tournament.description}/>
+            <div className="mx-auto max-w-screen-sm text-center -mt-6 mb-4">
+                <p className="font-light text-gray-500 sm:text-xl">
+                    <span className="font-semibold">Rules:</span> {tournament.rules}
+                </p>
+            </div>
             <div className='flex gap-2'>
                 <div>
                     <SingleEliminationBracket

@@ -428,18 +428,18 @@ const Create = () => {
                                         </Disclosure.Button>
                                         <Disclosure.Panel className="pt-4 pb-2 text-sm text-gray-500 flex flex-col gap-y-5">
                                             <label className="relative inline-flex items-center cursor-pointer">
-                                                <input type="checkbox" onChange={thirdPlaceMatchHandler} value="" className="sr-only peer" />
+                                                <input type="checkbox" disabled={true} onChange={thirdPlaceMatchHandler} value="" className="sr-only peer" />
                                                 <div
                                                     className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all focus:outline-none focus:border-gray-500 peer-checked:bg-indigo-900"></div>
                                                 <span
-                                                    className="ml-3 text-sm font-medium text-gray-700">3rd place match</span>
+                                                    className="ml-3 text-sm font-medium text-gray-700">3rd place match (Coming soon)</span>
                                             </label>
                                             <label className="relative inline-flex items-center cursor-pointer">
-                                                <input type="checkbox" value="" className="sr-only peer" />
+                                                <input type="checkbox" disabled={true} value="" className="sr-only peer" />
                                                 <div
                                                     className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all focus:outline-none focus:border-gray-500 peer-checked:bg-indigo-900"></div>
                                                 <span
-                                                    className="ml-3 text-sm font-medium text-gray-700">Show title</span>
+                                                    className="ml-3 text-sm font-medium text-gray-700">Show title (Coming soon)</span>
                                             </label>
                                         </Disclosure.Panel>
                                     </>

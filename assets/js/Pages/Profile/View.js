@@ -219,10 +219,10 @@ const Index = () => {
                                     </div>
                                     <div className="mb-6 text-blueGray-600 flex flex-col lg:flex-row justify-center items-center">
                                         {/*<i className="fas fa-gamepad mr-2 text-lg text-blueGray-400"></i>*/}
-                                        <div className='flex flex-wrap gap-y-3 mt-4'>
+                                        <div className='flex flex-wrap gap-y-3 mt-4 md:w-[560px]'>
                                             {selectedGames.map((game) => {
                                                 return (
-                                                    <div className='min-w-[250px] basis-full md:basis-1/2 lg:basis-1/2 mx-8 md:mx-0'>
+                                                    <div className='min-w-[275px] basis-full md:basis-1/2 lg:basis-1/2 mx-8 md:mx-0'>
                                                         {getGameBox(game.value, game.endorsements)}
                                                     </div>
                                                 );

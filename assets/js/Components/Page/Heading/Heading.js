@@ -6,7 +6,7 @@ const Heading = ({ title, subtitle }) => {
             <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900">
                 {title}
             </h2>
-            <p className="font-light text-gray-500 sm:text-xl">
+            <p className="font-light text-gray-500 sm:text-xl break-words">
                 {subtitle}
             </p>
         </div>

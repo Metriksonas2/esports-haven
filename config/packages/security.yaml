@@ -33,6 +33,7 @@ security:
     access_control:
         - { path: ^/tournaments, roles: ROLE_USER }
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/games, roles: ROLE_USER }
         - { path: ^/achievements, roles: ROLE_USER }
         - { path: ^/schedule, roles: ROLE_USER }
         - { path: ^/friends, roles: ROLE_USER }
