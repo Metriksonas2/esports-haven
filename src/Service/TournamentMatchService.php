@@ -59,7 +59,7 @@ class TournamentMatchService
         }
     }
 
-    private function tryAddParticipant(
+    public function tryAddParticipant(
         int $participantNumber, array $matchArrayObject,
         TournamentMatch $newTournamentMatch, int &$participantsIndex,
         array $participants,
@@ -73,7 +73,7 @@ class TournamentMatchService
         }
     }
 
-    private function checkIfGhostMatch(array $matchArrayObject, TournamentMatch $newTournamentMatch): bool
+    public function checkIfGhostMatch(array $matchArrayObject, TournamentMatch $newTournamentMatch): bool
     {
         $isGhostMatch = false;
 
